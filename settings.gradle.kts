@@ -17,3 +17,4 @@ dependencyResolutionManagement {
 }
 rootProject.name = "SpeedrunDomain"
 include (":app")
+include (":networking:api:runs")

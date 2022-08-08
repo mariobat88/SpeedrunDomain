@@ -8,8 +8,12 @@ androidxCompose = "1.2.0"
 androidxComposeCompiler = "1.2.0"
 androidxComposeMaterial3 = "1.0.0-alpha15"
 androidxHiltNavigationCompose = "1.0.0"
+hilt = "2.42"
 kotlin = "1.7.0"
+kotlinxCoroutines = "1.6.3"
 material3 = "1.6.1"
+moshi = "1.13.0"
+retrofit = "2.9.0"
 splashscreen = "1.0.0"
 
 [libraries]
@@ -25,6 +29,14 @@ androidx-compose-material3 = { group = "androidx.compose.material3", name = "mat
 androidx-compose-runtime = { group = "androidx.compose.runtime", name = "runtime", version.ref = "androidxCompose" }
 androidx-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling", version.ref = "androidxCompose" }
 androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview", version.ref = "androidxCompose" }
-androidx-core-splashscreen= { group = "androidx.core", name = "core-splashscreen", version.ref = "splashscreen" }
+androidx-core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "splashscreen" }
+hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
+hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
+hilt-gradlePlugin = { group = "com.google.dagger", name = "hilt-android-gradle-plugin", version.ref = "hilt" }
 kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
+kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlinxCoroutines" }
 material3 = { group = "com.google.android.material", name = "material", version.ref = "material3" }
+moshi-core = { group = "com.squareup.moshi", name = "moshi", version.ref = "moshi" }
+moshi-kotlinCodegen = { group = "com.squareup.moshi", name = ":moshi-kotlin-codegen", version.ref = "moshi" }
+retrofit-core = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
+retrofit-converterMoshi = { group = "com.squareup.retrofit2", name = "converter-moshi", version.ref = "retrofit" }

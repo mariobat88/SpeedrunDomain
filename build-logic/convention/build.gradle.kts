@@ -18,10 +18,10 @@ gradlePlugin {
             id = "speedrun.domain.java.library"
             implementationClass = "JavaLibraryConventionPlugin"
         }
-//        register("androidLibrary") {
-//            id = "speedrun.domain.android.library"
-//            implementationClass = "AndroidLibraryConventionPlugin"
-//        }
+        register("androidLibrary") {
+            id = "speedrun.domain.android.library"
+            implementationClass = "AndroidLibraryConventionPlugin"
+        }
 //        register("androidLibraryCompose") {
 //            id = "speedrun.domain.android.library.compose"
 //            implementationClass = "AndroidLibraryComposeConventionPlugin"
@@ -34,18 +34,18 @@ gradlePlugin {
             id = "speedrun.domain.android.application.compose"
             implementationClass = "AndroidApplicationComposeConventionPlugin"
         }
-//        register("androidHilt") {
-//            id = "speedrun.domain.android.hilt"
-//            implementationClass = "AndroidHiltConventionPlugin"
-//        }
+        register("androidHilt") {
+            id = "speedrun.domain.android.hilt"
+            implementationClass = "AndroidHiltConventionPlugin"
+        }
 //        register("speedrunDomainFeature") {
 //            id = "speedrun.domain.android.feature"
 //            implementationClass = "DomainFeatureConventionPlugin"
 //        }
-//        register("speedrunDomainApi") {
-//            id = "speedrun.domain.android.api"
-//            implementationClass = "DomainApiConventionPlugin"
-//        }
+        register("speedrunDomainApi") {
+            id = "speedrun.domain.android.api"
+            implementationClass = "DomainApiConventionPlugin"
+        }
 //        register("speedrunDomainRepo") {
 //            id = "speedrun.domain.android.repo"
 //            implementationClass = "DomainRepoConventionPlugin"
