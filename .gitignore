@@ -1,0 +1,22 @@
+# Android Studio files
+*.iml
+/.idea/*
+
+# Keep fileTemplates, codeStyles, inspectionProfiles
+!/.idea/fileTemplates
+!/.idea/file.template.settings.xml
+!/.idea/codeStyles
+!/.idea/inspectionProfiles
+
+# Gradle files
+.gradle
+local.properties
+
+# Build folders
+build/
+
+# Misc
+.DS_Store
+/captures
+.externalNativeBuild
+.cxx

@@ -1,0 +1,30 @@
+[versions]
+accompanist = "0.25.0"
+androidDesugarJdkLibs = "1.1.5"
+androidGradlePlugin = "7.2.2"
+androidxActivity = "1.5.1"
+androidxAppCompat = "1.4.2"
+androidxCompose = "1.2.0"
+androidxComposeCompiler = "1.2.0"
+androidxComposeMaterial3 = "1.0.0-alpha15"
+androidxHiltNavigationCompose = "1.0.0"
+kotlin = "1.7.0"
+material3 = "1.6.1"
+splashscreen = "1.0.0"
+
+[libraries]
+accompanist-systemuicontroller = { group = "com.google.accompanist", name = "accompanist-systemuicontroller", version.ref = "accompanist" }
+android-desugarJdkLibs = { group = "com.android.tools", name = "desugar_jdk_libs", version.ref = "androidDesugarJdkLibs" }
+android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
+androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "androidxActivity" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "androidxAppCompat" }
+androidx-compose-foundation = { group = "androidx.compose.foundation", name = "foundation", version.ref = "androidxCompose" }
+androidx-compose-foundation-layout = { group = "androidx.compose.foundation", name = "foundation-layout", version.ref = "androidxCompose" }
+androidx-compose-material = { module = "androidx.compose.material:material", version.ref = "androidxCompose" }
+androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "androidxComposeMaterial3" }
+androidx-compose-runtime = { group = "androidx.compose.runtime", name = "runtime", version.ref = "androidxCompose" }
+androidx-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling", version.ref = "androidxCompose" }
+androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview", version.ref = "androidxCompose" }
+androidx-core-splashscreen= { group = "androidx.core", name = "core-splashscreen", version.ref = "splashscreen" }
+kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
+material3 = { group = "com.google.android.material", name = "material", version.ref = "material3" }
