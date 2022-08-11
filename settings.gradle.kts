@@ -16,7 +16,9 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "SpeedrunDomain"
-include (":app")
-include("common:annotations")
-include (":networking:api:runs")
+include(":app")
+include(":common:annotations")
+include(":common:designsystem")
+include(":feature:dashboard")
+include(":networking:api:runs")
 include(":networking:core")

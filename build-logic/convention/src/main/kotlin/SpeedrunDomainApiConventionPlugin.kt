@@ -5,7 +5,7 @@ import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.getByType
 
 @Suppress("unused", "UnstableApiUsage")
-class DomainApiConventionPlugin : Plugin<Project> {
+class SpeedrunDomainApiConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             with(pluginManager) {
@@ -16,12 +16,12 @@ class DomainApiConventionPlugin : Plugin<Project> {
             val libs = extensions.getByType(VersionCatalogsExtension::class).named("libs")
 
             dependencies {
-                add("implementation", libs.findDependency("moshi.core").get())
-                add("implementation", libs.findDependency("retrofit.converterMoshi").get())
-                add("implementation", libs.findDependency("retrofit.core").get())
+                add("implementation", libs.findLibrary("moshi.core").get())
+                add("implementation", libs.findLibrary("retrofit.converterMoshi").get())
+                add("implementation", libs.findLibrary("retrofit.core").get())
 //                add("implementation", project(":data:common"))
 //                add("implementation", project(":networking:core"))
-                add("kapt", libs.findDependency("moshi.kotlinCodegen").get())
+                add("kapt", libs.findLibrary("moshi.kotlinCodegen").get())
             }
         }
     }

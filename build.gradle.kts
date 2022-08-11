@@ -11,3 +11,7 @@ buildscript {
         classpath(libs.hilt.gradlePlugin)
     }
 }
+
+plugins {
+    id ("com.google.devtools.ksp") version("1.7.0-1.0.6")
+}

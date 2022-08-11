@@ -42,11 +42,15 @@ dependencies {
     implementation(libs.androidx.compose.ui.tooling)
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.core.splashscreen)
+    implementation(libs.compose.destinations.core)
     implementation(libs.hilt.android)
     implementation(libs.material3)
 
     implementation(projects.common.annotations)
+    implementation(projects.common.designsystem)
+    implementation(projects.feature.dashboard)
     implementation(projects.networking.core)
 
     kapt(libs.hilt.compiler)
+    ksp(libs.compose.destinations.ksp)
 }
