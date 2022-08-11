@@ -1,7 +1,8 @@
 import com.speedrun.domain.app
 
 plugins {
-    id ("speedrun.domain.android.application.compose")
+    id("speedrun.domain.android.application.compose")
+    kotlin("kapt")
 }
 
 android {
@@ -18,9 +19,13 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+
+            buildConfigField("String", "API_URL", "\"https://www.speedrun.com/api/v1\"")
         }
         debug {
             isDebuggable = true
+
+            buildConfigField("String", "API_URL", "\"https://www.speedrun.com/api/v1\"")
         }
     }
 }
@@ -37,5 +42,11 @@ dependencies {
     implementation(libs.androidx.compose.ui.tooling)
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.core.splashscreen)
+    implementation(libs.hilt.android)
     implementation(libs.material3)
+
+    implementation(projects.common.annotations)
+    implementation(projects.networking.core)
+
+    kapt(libs.hilt.compiler)
 }
