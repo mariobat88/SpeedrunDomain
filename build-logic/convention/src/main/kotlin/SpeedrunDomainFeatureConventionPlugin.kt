@@ -1,7 +1,4 @@
 import com.android.build.gradle.LibraryExtension
-import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
-import com.speedrun.domain.configureAndroidCompose
-import com.speedrun.domain.configureComposeDestinations
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.artifacts.VersionCatalogsExtension
@@ -20,7 +17,13 @@ class SpeedrunDomainFeatureConventionPlugin : Plugin<Project> {
             }
 
             extensions.configure<LibraryExtension> {
-                configureComposeDestinations()
+                libraryVariants.all {
+                    sourceSets {
+                        getByName(name) {
+                            kotlin.srcDir("build/generated/ksp/$name/kotlin")
+                        }
+                    }
+                }
             }
 
             val libs = extensions.getByType(VersionCatalogsExtension::class).named("libs")

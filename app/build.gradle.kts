@@ -28,6 +28,14 @@ android {
             buildConfigField("String", "API_URL", "\"https://www.speedrun.com/api/v1\"")
         }
     }
+
+    applicationVariants.all {
+        sourceSets {
+            getByName(name) {
+                kotlin.srcDir("build/generated/ksp/$name/kotlin")
+            }
+        }
+    }
 }
 
 dependencies {
