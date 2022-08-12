@@ -21,6 +21,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 fun DashboardScreen(
     destinationsNavigator: DestinationsNavigator,
 ){
+    val viewModel = DashboardViewModel.create()
     Box(
         modifier = Modifier
             .fillMaxSize()
