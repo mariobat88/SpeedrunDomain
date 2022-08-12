@@ -2,6 +2,7 @@ import com.speedrun.domain.app
 
 plugins {
     id("speedrun.domain.android.application.compose")
+    id("dagger.hilt.android.plugin")
     kotlin("kapt")
 }
 
@@ -20,12 +21,12 @@ android {
                 "proguard-rules.pro"
             )
 
-            buildConfigField("String", "API_URL", "\"https://www.speedrun.com/api/v1\"")
+            buildConfigField("String", "API_URL", "\"https://www.speedrun.com/api/v1/\"")
         }
         debug {
             isDebuggable = true
 
-            buildConfigField("String", "API_URL", "\"https://www.speedrun.com/api/v1\"")
+            buildConfigField("String", "API_URL", "\"https://www.speedrun.com/api/v1/\"")
         }
     }
 
@@ -56,6 +57,7 @@ dependencies {
 
     implementation(projects.common.annotations)
     implementation(projects.common.designsystem)
+    implementation(projects.data.datasource.runs)
     implementation(projects.feature.dashboard)
     implementation(projects.networking.core)
 

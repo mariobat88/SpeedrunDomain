@@ -26,8 +26,6 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
 
             dependencies {
                 add("implementation", libs.findLibrary("kotlinx.coroutines.android").get())
-                //add("implementation", libs.findDependency("timber").get())
-                add("implementation", project(":common:annotations"))
             }
         }
     }

@@ -10,6 +10,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
@@ -21,7 +23,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 fun DashboardScreen(
     destinationsNavigator: DestinationsNavigator,
 ){
-    val viewModel = DashboardViewModel.create()
+    val viewModel = hiltViewModel<DashboardViewModel>()
     Box(
         modifier = Modifier
             .fillMaxSize()

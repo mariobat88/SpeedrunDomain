@@ -46,14 +46,14 @@ gradlePlugin {
             id = "speedrun.domain.android.api"
             implementationClass = "SpeedrunDomainApiConventionPlugin"
         }
-//        register("speedrunDomainRepo") {
-//            id = "speedrun.domain.android.repo"
-//            implementationClass = "DomainRepoConventionPlugin"
-//        }
-//        register("speedrunDomainDatasource") {
-//            id = "speedrun.domain.android.datasource"
-//            implementationClass = "DomainDatasourceConventionPlugin"
-//        }
+        register("speedrunDomainRepo") {
+            id = "speedrun.domain.android.repo"
+            implementationClass = "SpeedrunDomainRepoConventionPlugin"
+        }
+        register("speedrunDomainDatasource") {
+            id = "speedrun.domain.android.datasource"
+            implementationClass = "SpeedrunDomainDatasourceConventionPlugin"
+        }
 //        register("test") {
 //            id = "speedrun.domain.android.test"
 //            implementationClass = "DomainTestConventionPlugin"

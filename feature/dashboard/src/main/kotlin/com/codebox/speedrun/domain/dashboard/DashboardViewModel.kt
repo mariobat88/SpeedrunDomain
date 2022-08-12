@@ -1,23 +1,22 @@
 package com.codebox.speedrun.domain.dashboard
 
-import android.util.Log
-import androidx.compose.runtime.Composable
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewmodel.CreationExtras
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
+import androidx.lifecycle.viewModelScope
+import com.codebox.speedrun.domain.repo.runs.RunsRepository
+import com.codebox.speedrun.domain.wrapper.dispatchers.DispatcherProvider
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class DashboardViewModel : ViewModel() {
-
-    companion object {
-        @Composable
-        fun create(): DashboardViewModel {
-            val factory = viewModelFactory { initializer { DashboardViewModel() } }
-            return factory.create(DashboardViewModel::class.java, CreationExtras.Empty)
-        }
-    }
+@HiltViewModel
+class DashboardViewModel @Inject constructor(
+    private val runsRepository: RunsRepository,
+    dispatcherProvider: DispatcherProvider,
+) : ViewModel() {
 
     init {
-        Log.d("BATBAT", "DashboardViewModel")
+        viewModelScope.launch(dispatcherProvider.main()) {
+            val unit = runsRepository.getLatestVerifiedRuns()
+        }
     }
 }
