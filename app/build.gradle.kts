@@ -9,6 +9,7 @@ plugins {
 android {
     defaultConfig {
         applicationId = app.applicationId
+        versionName = app.versionName
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

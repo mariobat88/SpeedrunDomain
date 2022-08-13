@@ -9,5 +9,5 @@ object app {
     const val minSdk = 23
     const val targetSdk = compileSdk
 
-    const val versionName = "1.0.0-development"
+    const val versionName = "1.0.0-dev"
 }

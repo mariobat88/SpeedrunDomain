@@ -4,6 +4,6 @@ import retrofit2.http.GET
 
 interface RunsApiService {
 
-    @GET("runs?status=verified&orderby=verify-date&direction=desc")
+    @GET("runs?status=verified&orderby=verify-date&direction=desc&embed=game")
     suspend fun getLatestVerifiedRuns()
 }

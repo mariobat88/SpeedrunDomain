@@ -6,4 +6,7 @@ import javax.inject.Qualifier
 annotation class ApiUrl
 
 @Qualifier
+annotation class AppVersionName
+
+@Qualifier
 annotation class DebugBuild

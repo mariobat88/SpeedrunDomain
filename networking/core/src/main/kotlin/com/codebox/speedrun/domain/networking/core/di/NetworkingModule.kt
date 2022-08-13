@@ -1,6 +1,7 @@
 package com.codebox.speedrun.domain.networking.core.di
 
 import com.codebox.speedrun.domain.annotations.ApiUrl
+import com.codebox.speedrun.domain.annotations.AppVersionName
 import com.codebox.speedrun.domain.annotations.DebugBuild
 import com.squareup.moshi.Moshi
 import dagger.Lazy
@@ -29,12 +30,20 @@ class NetworkingModule {
     @Singleton
     @Provides
     fun provideOkHttpClient(
+        @AppVersionName versionName: String,
         httpLoggingInterceptor: HttpLoggingInterceptor?,
     ): OkHttpClient = OkHttpClient.Builder()
         .apply {
-            if(httpLoggingInterceptor != null){
+            if (httpLoggingInterceptor != null) {
                 addInterceptor(httpLoggingInterceptor)
             }
+        }
+        .addNetworkInterceptor { chain ->
+            val request = chain.request().newBuilder()
+                .removeHeader("user-agent")
+                .addHeader("user-agent", "SpeedrunDomain/$versionName")
+                .build()
+            chain.proceed(request)
         }
         .build()
 
