@@ -13,6 +13,6 @@ class RunsRepositoryImpl @Inject constructor(
     private val dispatcherProvider: DispatcherProvider
 ) : RunsRepository {
     override suspend fun getLatestVerifiedRuns() = withContext(dispatcherProvider.io()) {
-        runsApiService.getLatestVerifiedRuns()
+        return runsApiService.getLatestVerifiedRuns()
     }
 }
