@@ -13,8 +13,12 @@ class SpeedrunDomainDatasourceConventionPlugin : Plugin<Project> {
                 apply("speedrun.domain.android.hilt")
             }
 
+            val libs = extensions.getByType(VersionCatalogsExtension::class).named("libs")
+
             dependencies {
+                add("implementation", libs.findLibrary("kotlinx.coroutines.android").get())
                 add("implementation", project(":common:wrapper:dispatchers"))
+                add("implementation", project(":data:datasource:common"))
             }
         }
     }

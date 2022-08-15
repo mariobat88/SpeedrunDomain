@@ -21,12 +21,6 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
                 configureKotlinAndroid(this)
                 defaultConfig.targetSdk = app.targetSdk
             }
-
-            val libs = extensions.getByType(VersionCatalogsExtension::class).named("libs")
-
-            dependencies {
-                add("implementation", libs.findLibrary("kotlinx.coroutines.android").get())
-            }
         }
     }
 }

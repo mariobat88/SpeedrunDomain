@@ -3,6 +3,7 @@ plugins {
 }
 
 dependencies{
-    implementation(projects.data.repo.runs)
-    implementation(projects.networking.api.runs)
+    implementation(projects.data.datasource.games)
+    api(projects.data.repo.runs)
+    api(projects.networking.api.runs)
 }

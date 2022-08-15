@@ -19,6 +19,7 @@ class SpeedrunDomainApiConventionPlugin : Plugin<Project> {
                 add("implementation", libs.findLibrary("moshi.core").get())
                 add("implementation", libs.findLibrary("retrofit.converterMoshi").get())
                 add("implementation", libs.findLibrary("retrofit.core").get())
+                add("implementation", project(":networking:api:common"))
                 add("kapt", libs.findLibrary("moshi.kotlinCodegen").get())
             }
         }
