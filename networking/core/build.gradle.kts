@@ -9,6 +9,6 @@ dependencies {
     implementation(libs.okhttp.core)
     implementation(libs.okhttp.loggingInterceptor)
     implementation(libs.retrofit.converterMoshi)
-    implementation(projects.common.annotations)
+    implementation(projects.core.annotations)
     kapt(libs.moshi.kotlinCodegen)
 }

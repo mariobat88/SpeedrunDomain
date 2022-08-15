@@ -38,8 +38,8 @@ class SpeedrunDomainFeatureConventionPlugin : Plugin<Project> {
                 add("implementation", libs.findLibrary("androidx.compose.ui.tooling").get())
                 add("implementation", libs.findLibrary("androidx.compose.ui.tooling.preview").get())
                 add("implementation", libs.findLibrary("androidx.hilt.navigation.compose").get())
-                add("implementation", project(":common:designsystem"))
-                add("implementation", project(":common:wrapper:dispatchers"))
+                add("implementation", project(":core:designsystem"))
+                add("implementation", project(":core:wrapper:dispatchers"))
                 add("ksp", libs.findLibrary("compose.destinations.ksp").get())
             }
         }

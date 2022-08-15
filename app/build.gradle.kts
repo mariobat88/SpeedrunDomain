@@ -56,8 +56,8 @@ dependencies {
     implementation(libs.hilt.android)
     implementation(libs.material3)
 
-    implementation(projects.common.annotations)
-    implementation(projects.common.designsystem)
+    implementation(projects.core.annotations)
+    implementation(projects.core.designsystem)
     implementation(projects.data.datasource.runs)
     implementation(projects.feature.dashboard)
     implementation(projects.networking.core)

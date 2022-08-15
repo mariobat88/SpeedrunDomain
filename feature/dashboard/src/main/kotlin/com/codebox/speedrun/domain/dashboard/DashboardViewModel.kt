@@ -16,7 +16,7 @@ class DashboardViewModel @Inject constructor(
 
     init {
         viewModelScope.launch(dispatcherProvider.main()) {
-            val unit = runsRepository.getLatestVerifiedRuns()
+            val latestRuns = runsRepository.getLatestVerifiedRuns()
         }
     }
 }

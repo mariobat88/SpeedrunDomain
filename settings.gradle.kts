@@ -17,9 +17,9 @@ dependencyResolutionManagement {
 }
 rootProject.name = "SpeedrunDomain"
 include(":app")
-include(":common:annotations")
-include(":common:designsystem")
-include(":common:wrapper:dispatchers")
+include(":core:annotations")
+include(":core:designsystem")
+include(":core:wrapper:dispatchers")
 include(":data:datasource:common")
 include(":data:datasource:games")
 include(":data:datasource:runs")
