@@ -19,6 +19,7 @@ rootProject.name = "SpeedrunDomain"
 include(":app")
 include(":core:annotations")
 include(":core:designsystem")
+include(":core:framework")
 include(":core:wrapper:dispatchers")
 include(":data:datasource:common")
 include(":data:datasource:games")

@@ -18,6 +18,12 @@ class AndroidLibraryComposeConventionPlugin : Plugin<Project> {
             extensions.configure<LibraryExtension> {
                 configureAndroidCompose(this)
             }
+
+            val libs = extensions.getByType(VersionCatalogsExtension::class).named("libs")
+
+            dependencies {
+                add("implementation", libs.findLibrary("androidx.compose.runtime").get())
+            }
         }
     }
 }

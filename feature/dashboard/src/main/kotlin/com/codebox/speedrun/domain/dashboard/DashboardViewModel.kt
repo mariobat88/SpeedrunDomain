@@ -1,7 +1,7 @@
 package com.codebox.speedrun.domain.dashboard
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.codebox.speedrun.domain.core.framework.SpeedrunViewModel
 import com.codebox.speedrun.domain.repo.runs.RunsRepository
 import com.codebox.speedrun.domain.wrapper.dispatchers.DispatcherProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -12,11 +12,14 @@ import javax.inject.Inject
 class DashboardViewModel @Inject constructor(
     private val runsRepository: RunsRepository,
     dispatcherProvider: DispatcherProvider,
-) : ViewModel() {
+) : SpeedrunViewModel<ViewState, Intent, Unit>(
+    viewState = ViewState()
+) {
 
     init {
         viewModelScope.launch(dispatcherProvider.main()) {
             val latestRuns = runsRepository.getLatestVerifiedRuns()
+            reduce { it.copy(latestRuns = latestRuns) }
         }
     }
 }

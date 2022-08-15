@@ -39,6 +39,7 @@ fun Project.configureKotlinAndroid(
                 "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
                 "-opt-in=kotlinx.coroutines.FlowPreview",
                 "-opt-in=kotlin.Experimental",
+                "-opt-in=androidx.lifecycle.compose.ExperimentalLifecycleComposeApi",
             )
 
             // Set JVM target to 11

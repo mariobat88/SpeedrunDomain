@@ -3,5 +3,6 @@ plugins {
 }
 
 dependencies{
+    implementation(libs.coil)
     implementation(projects.data.repo.runs)
 }

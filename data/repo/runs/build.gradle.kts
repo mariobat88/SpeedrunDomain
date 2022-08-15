@@ -3,5 +3,5 @@ plugins {
 }
 
 dependencies{
-    implementation(projects.data.repo.games)
+    api(projects.data.repo.games)
 }
