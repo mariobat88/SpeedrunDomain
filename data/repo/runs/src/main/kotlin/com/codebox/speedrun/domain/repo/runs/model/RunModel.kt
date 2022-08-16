@@ -41,17 +41,17 @@ data class RunModel(
 
     data class Times(
         val primary: String,
-        val primaryT: Double,
+        val primaryT: Float,
         val realtime: String?,
-        val realtimeT: Double,
-        val realtimeNoLoads: Any?,
-        val realtimeNoLoadsT: Int,
+        val realtimeT: Float,
+        val realtimeNoLoads: String?,
+        val realtimeNoLoadsT: Float,
         val ingame: String?,
-        val ingameT: Double
+        val ingameT: Float
     )
 
     data class System(
-        val platform: String,
+        val platform: String?,
         val emulated: Boolean,
         val region: String?
     )

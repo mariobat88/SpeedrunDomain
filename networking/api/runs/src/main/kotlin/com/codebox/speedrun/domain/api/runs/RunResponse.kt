@@ -53,18 +53,18 @@ data class RunResponse(
         @JsonClass(generateAdapter = true)
         data class Times(
             @Json(name = "primary") val primary: String,
-            @Json(name = "primary_t") val primaryT: Double,
+            @Json(name = "primary_t") val primaryT: Float,
             @Json(name = "realtime") val realtime: String?,
-            @Json(name = "realtime_t") val realtimeT: Double,
-            @Json(name = "realtime_noloads") val realtimeNoLoads: Any?,
-            @Json(name = "realtime_noloads_t") val realtimeNoLoadsT: Int,
+            @Json(name = "realtime_t") val realtimeT: Float,
+            @Json(name = "realtime_noloads") val realtimeNoLoads: String?,
+            @Json(name = "realtime_noloads_t") val realtimeNoLoadsT: Float,
             @Json(name = "ingame") val ingame: String?,
-            @Json(name = "ingame_t") val ingameT: Double
+            @Json(name = "ingame_t") val ingameT: Float
         )
 
         @JsonClass(generateAdapter = true)
         data class System(
-            @Json(name = "platform") val platform: String,
+            @Json(name = "platform") val platform: String?,
             @Json(name = "emulated") val emulated: Boolean,
             @Json(name = "region") val region: String?
         )
