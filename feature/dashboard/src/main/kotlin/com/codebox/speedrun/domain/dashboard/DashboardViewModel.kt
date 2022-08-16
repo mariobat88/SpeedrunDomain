@@ -19,7 +19,10 @@ class DashboardViewModel @Inject constructor(
     init {
         viewModelScope.launch(dispatcherProvider.main()) {
             val latestRuns = runsRepository.getLatestVerifiedRuns()
-            reduce { it.copy(latestRuns = latestRuns) }
+            val groupedRuns = latestRuns.groupBy { it.game.id }.map { (gameId, runs) ->
+                LatestRun(runs.find { it.game.id == gameId }!!.game, runs)
+            }
+            reduce { it.copy(latestRuns = groupedRuns) }
         }
     }
 }

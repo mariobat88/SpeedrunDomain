@@ -3,5 +3,6 @@ plugins {
 }
 
 dependencies{
+    api(projects.data.repo.categories)
     api(projects.data.repo.games)
 }

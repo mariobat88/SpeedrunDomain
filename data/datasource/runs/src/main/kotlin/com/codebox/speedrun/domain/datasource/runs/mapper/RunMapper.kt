@@ -1,8 +1,9 @@
 package com.codebox.speedrun.domain.datasource.runs.mapper
 
-import com.codebox.speedrun.data.datasource.common.mapper.toModel
-import com.codebox.speedrun.data.datasource.games.mapper.toModel
+import com.codebox.speedrun.domain.data.datasource.common.mapper.toModel
+import com.codebox.speedrun.domain.data.datasource.games.mapper.toModel
 import com.codebox.speedrun.domain.api.runs.RunResponse
+import com.codebox.speedrun.domain.data.datasource.categories.mapper.toModel
 import com.codebox.speedrun.domain.repo.runs.model.RunModel
 
 fun RunResponse.Data.toModel() = RunModel(
@@ -10,7 +11,7 @@ fun RunResponse.Data.toModel() = RunModel(
     weblink = weblink,
     game = game.data.toModel(),
     level = level,
-    category = category,
+    category = category.data.toModel(),
     videos = videos?.toModel(),
     comment = comment,
     status = status.toModel(),

@@ -3,5 +3,6 @@ plugins {
 }
 
 dependencies{
+    implementation(projects.networking.api.categories)
     implementation(projects.networking.api.games)
 }

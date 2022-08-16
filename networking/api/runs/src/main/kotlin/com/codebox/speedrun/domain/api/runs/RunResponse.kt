@@ -2,6 +2,7 @@ package com.codebox.speedrun.domain.api.runs
 
 import com.codebox.speedrun.domain.networking.api.common.LinkResponse
 import com.codebox.speedrun.domain.networking.api.games.GameResponse
+import com.codebox.speedrun.networking.api.categories.CategoryResponse
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
@@ -16,13 +17,13 @@ data class RunResponse(
         @Json(name = "weblink") val weblink: String,
         @Json(name = "game") val game: GameResponse,
         @Json(name = "level") val level: String?,
-        @Json(name = "category") val category: String,
+        @Json(name = "category") val category: CategoryResponse,
         @Json(name = "videos") val videos: Videos?,
         @Json(name = "comment") val comment: String?,
         @Json(name = "status") val status: Status,
         @Json(name = "players") val players: List<Player>,
-        @Json(name = "date") val date: String,
-        @Json(name = "submitted") val submitted: String,
+        @Json(name = "date") val date: String?,
+        @Json(name = "submitted") val submitted: String?,
         @Json(name = "times") val times: Times,
         @Json(name = "system") val system: System,
         @Json(name = "splits") val splits: Any?,
@@ -38,8 +39,8 @@ data class RunResponse(
         @JsonClass(generateAdapter = true)
         data class Status(
             @Json(name = "status") val status: String,
-            @Json(name = "examiner") val examiner: String,
-            @Json(name = "verify-date") val verifyDate: String
+            @Json(name = "examiner") val examiner: String?,
+            @Json(name = "verify-date") val verifyDate: String?
         )
 
         @JsonClass(generateAdapter = true)

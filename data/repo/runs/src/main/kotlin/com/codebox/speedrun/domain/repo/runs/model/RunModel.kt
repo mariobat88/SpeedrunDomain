@@ -1,20 +1,21 @@
 package com.codebox.speedrun.domain.repo.runs.model
 
-import com.codebox.speedrun.data.repo.common.model.LinkModel
-import com.codebox.speedrundomain.data.repo.games.model.GameModel
+import com.codebox.speedrun.domain.data.repo.categories.model.CategoryModel
+import com.codebox.speedrun.domain.data.repo.common.model.LinkModel
+import com.codebox.speedrun.domain.data.repo.games.model.GameModel
 
 data class RunModel(
     val id: String,
     val weblink: String,
     val game: GameModel,
     val level: String?,
-    val category: String,
+    val category: CategoryModel,
     val videos: Videos?,
     val comment: String?,
     val status: Status,
     val players: List<Player>,
-    val date: String,
-    val submitted: String,
+    val date: String?,
+    val submitted: String?,
     val times: Times,
     val system: System,
     val splits: Any?,
@@ -28,8 +29,8 @@ data class RunModel(
 
     data class Status(
         val status: String,
-        val examiner: String,
-        val verifyDate: String
+        val examiner: String?,
+        val verifyDate: String?
     )
 
     data class Player(

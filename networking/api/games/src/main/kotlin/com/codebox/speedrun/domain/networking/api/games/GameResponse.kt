@@ -16,7 +16,7 @@ data class GameResponse(
         @Json(name = "boostDistinctDonors") val boostDistinctDonors: Int,
         @Json(name = "abbreviation") val abbreviation: String,
         @Json(name = "weblink") val weblink: String,
-        @Json(name = "discord") val discord: String,
+        @Json(name = "discord") val discord: String?,
         @Json(name = "released") val released: Int,
         @Json(name = "release-date") val releaseDate: String,
         @Json(name = "ruleset") val ruleset: Ruleset,
