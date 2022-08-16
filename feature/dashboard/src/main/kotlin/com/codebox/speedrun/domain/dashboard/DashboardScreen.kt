@@ -70,7 +70,7 @@ fun DashboardScreen() {
                     }
                 }
             }
-            items(viewState.latestRuns) { run ->
+            items(viewState.latestRuns) { latestRun ->
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -78,21 +78,57 @@ fun DashboardScreen() {
                         .padding(horizontal = 16.dp)
                 ) {
                     AsyncImage(
-                        model = run.game.assets.coverMedium.uri,
+                        model = latestRun.game.assets.coverMedium.uri,
                         contentDescription = "",
                         modifier = Modifier.width(60.dp),
                         contentScale = ContentScale.FillWidth
                     )
                     Spacer(modifier = Modifier.width(10.dp))
-                    Text(
-                        text = run.game.names.international,
-                        modifier = Modifier.fillMaxWidth()
-                            .wrapContentHeight(),
-                        color = Color.White,
-                        fontSize = 12.sp,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
-                    )
+                    Column {
+                        Text(
+                            text = latestRun.game.names.international,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .wrapContentHeight(),
+                            color = Color.White,
+                            fontSize = 16.sp,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis
+                        )
+
+                        latestRun.runs.forEach { run ->
+                            Row {
+                                Text(
+                                    text = run.category.name,
+                                    modifier = Modifier.wrapContentSize(),
+                                    color = Color.White,
+                                    fontSize = 12.sp,
+                                    maxLines = 1,
+                                    overflow = TextOverflow.Ellipsis
+                                )
+                                Column {
+                                    Text(
+                                        text = run.players.getOrNull(0)?.name ?: run.players.getOrNull(0)?.id ?: "",
+                                        modifier = Modifier.wrapContentSize(),
+                                        color = Color.White,
+                                        fontSize = 10.sp,
+                                        maxLines = 1,
+                                        overflow = TextOverflow.Ellipsis
+                                    )
+                                    Text(
+                                        text = run.times.primaryT.toString(),
+                                        modifier = Modifier.wrapContentSize(),
+                                        color = Color.White,
+                                        fontSize = 10.sp,
+                                        maxLines = 1,
+                                        overflow = TextOverflow.Ellipsis
+                                    )
+                                }
+                            }
+
+                        }
+                    }
+
                 }
             }
         }
