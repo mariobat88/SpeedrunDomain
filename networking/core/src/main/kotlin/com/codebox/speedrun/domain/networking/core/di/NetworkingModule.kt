@@ -3,7 +3,10 @@ package com.codebox.speedrun.domain.networking.core.di
 import com.codebox.speedrun.domain.annotations.ApiUrl
 import com.codebox.speedrun.domain.annotations.AppVersionName
 import com.codebox.speedrun.domain.annotations.DebugBuild
+import com.codebox.speedrun.domain.networking.api.players.PlayerResponse
+import com.codebox.speedrun.domain.networking.api.players.PlayerType
 import com.squareup.moshi.Moshi
+import com.squareup.moshi.adapters.PolymorphicJsonAdapterFactory
 import dagger.Lazy
 import dagger.Module
 import dagger.Provides
@@ -49,7 +52,13 @@ class NetworkingModule {
 
     @Singleton
     @Provides
-    fun provideMoshi(): Moshi = Moshi.Builder().build()
+    fun provideMoshi(): Moshi = Moshi.Builder()
+        .add(PolymorphicJsonAdapterFactory.of(
+            PlayerResponse::class.java, "rel")
+            .withSubtype(PlayerResponse.UserResponse::class.java, PlayerType.user.name)
+            .withSubtype(PlayerResponse.GuestResponse::class.java, PlayerType.guest.name)
+        )
+        .build()
 
     @Singleton
     @Provides

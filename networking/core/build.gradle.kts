@@ -5,10 +5,12 @@ plugins {
 
 dependencies {
     implementation(libs.retrofit.core)
+    implementation(libs.moshi.adapters)
     implementation(libs.moshi.core)
     implementation(libs.okhttp.core)
     implementation(libs.okhttp.loggingInterceptor)
     implementation(libs.retrofit.converterMoshi)
     implementation(projects.core.annotations)
+    implementation(projects.networking.api.players)
     kapt(libs.moshi.kotlinCodegen)
 }

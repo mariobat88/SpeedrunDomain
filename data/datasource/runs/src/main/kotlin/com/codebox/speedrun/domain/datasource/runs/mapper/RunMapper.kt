@@ -15,7 +15,7 @@ fun RunResponse.Data.toModel() = RunModel(
     videos = videos?.toModel(),
     comment = comment,
     status = status.toModel(),
-    players = players.map { it.toModel() },
+    players = emptyList(),//players.map { it.toModel() },
     date = date,
     submitted = submitted,
     times = times.toModel(),
@@ -35,12 +35,12 @@ fun RunResponse.Data.Status.toModel() = RunModel.Status(
     verifyDate = verifyDate,
 )
 
-fun RunResponse.Data.Player.toModel() = RunModel.Player(
-    rel = rel,
-    id = id,
-    name = name,
-    uri = uri,
-)
+//fun RunResponse.Data.Player.toModel() = RunModel.Player(
+//    rel = rel,
+//    id = id,
+//    name = name,
+//    uri = uri,
+//)
 
 fun RunResponse.Data.Times.toModel() = RunModel.Times(
     primary = primary,
