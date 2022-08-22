@@ -26,19 +26,18 @@ sealed class PlayerResponse(@Json(name = "rel") val rel: PlayerType) {
         @Json(name = "location")
         val location: Location?,
         @Json(name = "twitch")
-        val twitch: Twitch?,
+        val twitch: LinkResponse?,
         @Json(name = "hitbox")
-        val hitbox: Hitbox?,
+        val hitbox: LinkResponse?,
         @Json(name = "youtube")
-        val youtube: Youtube?,
+        val youtube: LinkResponse?,
         @Json(name = "twitter")
-        val twitter: Twitter?,
+        val twitter: LinkResponse?,
         @Json(name = "speedrunslive")
-        val speedrunslive: Speedrunslive?,
+        val speedrunslive: LinkResponse?,
         @Json(name = "links")
         val links: List<LinkResponse>
     ) : PlayerResponse(PlayerType.user) {
-
 
         @JsonClass(generateAdapter = true)
         data class NameStyle(
@@ -83,36 +82,6 @@ sealed class PlayerResponse(@Json(name = "rel") val rel: PlayerType) {
                 val names: NamesResponse
             )
         }
-
-        @JsonClass(generateAdapter = true)
-        data class Twitch(
-            @Json(name = "uri")
-            val uri: String
-        )
-
-        @JsonClass(generateAdapter = true)
-        data class Hitbox(
-            @Json(name = "uri")
-            val uri: String
-        )
-
-        @JsonClass(generateAdapter = true)
-        data class Youtube(
-            @Json(name = "uri")
-            val uri: String
-        )
-
-        @JsonClass(generateAdapter = true)
-        data class Twitter(
-            @Json(name = "uri")
-            val uri: String
-        )
-
-        @JsonClass(generateAdapter = true)
-        data class Speedrunslive(
-            @Json(name = "uri")
-            val uri: String
-        )
     }
 
     @JsonClass(generateAdapter = true)
