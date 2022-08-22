@@ -1,6 +1,5 @@
 package com.codebox.speedrun.domain.dashboard
 
-import android.widget.Space
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -14,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -49,7 +49,8 @@ fun DashboardScreen() {
         )
 
         LazyColumn(
-            state = rememberLazyListState()
+            state = rememberLazyListState(),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             item {
                 Column {
@@ -71,64 +72,74 @@ fun DashboardScreen() {
                 }
             }
             items(viewState.latestRuns) { latestRun ->
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(100.dp)
-                        .padding(horizontal = 16.dp)
+                Column(
+                    modifier = Modifier.padding(horizontal = dimensionResource(com.codebox.speedrun.domain.core.designsystem.R.dimen.side_padding))
                 ) {
-                    AsyncImage(
-                        model = latestRun.game.assets.coverMedium.uri,
-                        contentDescription = "",
-                        modifier = Modifier.width(60.dp),
-                        contentScale = ContentScale.FillWidth
-                    )
-                    Spacer(modifier = Modifier.width(10.dp))
-                    Column {
-                        Text(
-                            text = latestRun.game.names.international,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .wrapContentHeight(),
-                            color = Color.White,
-                            fontSize = 16.sp,
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .wrapContentHeight()
+                    ) {
+                        AsyncImage(
+                            model = latestRun.game.assets.coverMedium.uri,
+                            contentDescription = "",
+                            modifier = Modifier.width(60.dp),
+                            contentScale = ContentScale.FillWidth
                         )
-
-                        latestRun.runs.forEach { run ->
-                            Row {
-                                Text(
-                                    text = run.category.name,
-                                    modifier = Modifier.wrapContentSize(),
-                                    color = Color.White,
-                                    fontSize = 12.sp,
-                                    maxLines = 1,
-                                    overflow = TextOverflow.Ellipsis
-                                )
-                                Column {
+                        Spacer(modifier = Modifier.width(10.dp))
+                        Column {
+                            Text(
+                                text = latestRun.game.names.international,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .wrapContentHeight(),
+                                color = Color.White,
+                                fontSize = 16.sp,
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis
+                            )
+                            latestRun.runs.forEach { run ->
+                                Row(
+                                    modifier = Modifier.fillMaxWidth()
+                                        .padding(vertical = 4.dp),
+                                    horizontalArrangement = Arrangement.SpaceBetween,
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
                                     Text(
-                                        text = run.players.getOrNull(0)?.name ?: run.players.getOrNull(0)?.id ?: "",
+                                        text = run.category.name,
                                         modifier = Modifier.wrapContentSize(),
                                         color = Color.White,
-                                        fontSize = 10.sp,
+                                        fontSize = 12.sp,
                                         maxLines = 1,
                                         overflow = TextOverflow.Ellipsis
                                     )
-                                    Text(
-                                        text = run.times.primaryT.toString(),
-                                        modifier = Modifier.wrapContentSize(),
-                                        color = Color.White,
-                                        fontSize = 10.sp,
-                                        maxLines = 1,
-                                        overflow = TextOverflow.Ellipsis
-                                    )
+                                    Column(
+                                        modifier = Modifier.wrapContentWidth(),
+                                        horizontalAlignment = Alignment.Start
+                                    ) {
+                                        Text(
+                                            text = run.players.getOrNull(0)?.name
+                                                ?: run.players.getOrNull(0)?.id ?: "",
+                                            modifier = Modifier.wrapContentSize(),
+                                            color = Color.White,
+                                            fontSize = 10.sp,
+                                            maxLines = 1,
+                                            overflow = TextOverflow.Ellipsis
+                                        )
+                                        Text(
+                                            text = run.times.primaryT.toString(),
+                                            modifier = Modifier.wrapContentSize(),
+                                            color = Color.White,
+                                            fontSize = 10.sp,
+                                            maxLines = 1,
+                                            overflow = TextOverflow.Ellipsis
+                                        )
+                                    }
                                 }
                             }
-
                         }
                     }
-
+                    Divider()
                 }
             }
         }
