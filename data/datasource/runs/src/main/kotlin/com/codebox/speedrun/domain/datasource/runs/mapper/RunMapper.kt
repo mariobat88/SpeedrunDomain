@@ -4,6 +4,7 @@ import com.codebox.speedrun.domain.data.datasource.common.mapper.toModel
 import com.codebox.speedrun.domain.data.datasource.games.mapper.toModel
 import com.codebox.speedrun.domain.api.runs.RunResponse
 import com.codebox.speedrun.domain.data.datasource.categories.mapper.toModel
+import com.codebox.speedrun.domain.data.datasource.players.mapper.toModel
 import com.codebox.speedrun.domain.repo.runs.model.RunModel
 
 fun RunResponse.Data.toModel() = RunModel(
@@ -15,7 +16,7 @@ fun RunResponse.Data.toModel() = RunModel(
     videos = videos?.toModel(),
     comment = comment,
     status = status.toModel(),
-    players = emptyList(),//players.map { it.toModel() },
+    players = players.data.map { it.toModel() },
     date = date,
     submitted = submitted,
     times = times.toModel(),
@@ -34,13 +35,6 @@ fun RunResponse.Data.Status.toModel() = RunModel.Status(
     examiner = examiner,
     verifyDate = verifyDate,
 )
-
-//fun RunResponse.Data.Player.toModel() = RunModel.Player(
-//    rel = rel,
-//    id = id,
-//    name = name,
-//    uri = uri,
-//)
 
 fun RunResponse.Data.Times.toModel() = RunModel.Times(
     primary = primary,

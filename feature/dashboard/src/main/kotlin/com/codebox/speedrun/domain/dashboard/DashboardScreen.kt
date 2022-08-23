@@ -118,8 +118,7 @@ fun DashboardScreen() {
                                         horizontalAlignment = Alignment.Start
                                     ) {
                                         Text(
-                                            text = run.players.getOrNull(0)?.name
-                                                ?: run.players.getOrNull(0)?.id ?: "",
+                                            text = run.players.getOrNull(0)?.name ?: "",
                                             modifier = Modifier.wrapContentSize(),
                                             color = Color.White,
                                             fontSize = 10.sp,

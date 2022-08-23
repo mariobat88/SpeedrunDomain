@@ -2,7 +2,9 @@ package com.codebox.speedrun.domain.data.repo.players.model
 
 import com.codebox.speedrun.domain.data.repo.common.model.LinkModel
 
-sealed class PlayerModel {
+sealed class PlayerModel(
+    open val name: String
+) {
 
     data class UserModel(
         val id: String,
@@ -18,7 +20,9 @@ sealed class PlayerModel {
         val twitter: LinkModel?,
         val speedrunslive: LinkModel?,
         val links: List<LinkModel>
-    ) : PlayerModel() {
+    ) : PlayerModel(
+        name = names.international
+    ) {
         data class NameStyle(
             val style: String,
             val color: Color?,
@@ -47,8 +51,8 @@ sealed class PlayerModel {
         }
     }
 
-    data class GuestResponse(
-        val names: String,
+    data class GuestModel(
+        override val name: String,
         val links: List<LinkModel>
-    ) : PlayerModel()
+    ) : PlayerModel(name = name)
 }

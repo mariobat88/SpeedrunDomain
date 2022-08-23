@@ -8,7 +8,7 @@ enum class PlayerType {
     user, guest
 }
 
-sealed class PlayerResponse(@Json(name = "rel") val rel: PlayerType) {
+sealed class PlayerResponse(@Json(name = "rel") val playerType: PlayerType) {
     @JsonClass(generateAdapter = true)
     data class UserResponse(
         @Json(name = "id")
@@ -87,7 +87,7 @@ sealed class PlayerResponse(@Json(name = "rel") val rel: PlayerType) {
     @JsonClass(generateAdapter = true)
     data class GuestResponse(
         @Json(name = "name")
-        val names: String,
+        val name: String,
         @Json(name = "links")
         val links: List<LinkResponse>
     ) : PlayerResponse(PlayerType.guest)

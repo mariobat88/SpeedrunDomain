@@ -3,6 +3,7 @@ package com.codebox.speedrun.domain.repo.runs.model
 import com.codebox.speedrun.domain.data.repo.categories.model.CategoryModel
 import com.codebox.speedrun.domain.data.repo.common.model.LinkModel
 import com.codebox.speedrun.domain.data.repo.games.model.GameModel
+import com.codebox.speedrun.domain.data.repo.players.model.PlayerModel
 
 data class RunModel(
     val id: String,
@@ -13,7 +14,7 @@ data class RunModel(
     val videos: Videos?,
     val comment: String?,
     val status: Status,
-    val players: List<Player>,
+    val players: List<PlayerModel>,
     val date: String?,
     val submitted: String?,
     val times: Times,
@@ -31,13 +32,6 @@ data class RunModel(
         val status: String,
         val examiner: String?,
         val verifyDate: String?
-    )
-
-    data class Player(
-        val rel: String,
-        val id: String?,
-        val name: String?,
-        val uri: String
     )
 
     data class Times(
