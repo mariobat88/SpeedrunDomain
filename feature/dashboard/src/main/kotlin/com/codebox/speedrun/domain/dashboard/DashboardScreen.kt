@@ -9,6 +9,7 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -20,6 +21,8 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
+import com.codebox.speedrun.domain.data.repo.players.model.PlayerModel
+import com.codebox.speedrun.domain.kit.player.ui.PlayerName
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
@@ -100,9 +103,10 @@ fun DashboardScreen() {
                             )
                             latestRun.runs.forEach { run ->
                                 Row(
-                                    modifier = Modifier.fillMaxWidth()
+                                    modifier = Modifier
+                                        .fillMaxWidth()
                                         .padding(vertical = 4.dp),
-                                    horizontalArrangement = Arrangement.SpaceBetween,
+                                    horizontalArrangement = Arrangement.spacedBy(10.dp, Alignment.Start),
                                     verticalAlignment = Alignment.CenterVertically
                                 ) {
                                     Text(
@@ -117,13 +121,9 @@ fun DashboardScreen() {
                                         modifier = Modifier.wrapContentWidth(),
                                         horizontalAlignment = Alignment.Start
                                     ) {
-                                        Text(
-                                            text = run.players.getOrNull(0)?.name ?: "",
+                                        PlayerName(
                                             modifier = Modifier.wrapContentSize(),
-                                            color = Color.White,
-                                            fontSize = 10.sp,
-                                            maxLines = 1,
-                                            overflow = TextOverflow.Ellipsis
+                                            player = run.players[0],
                                         )
                                         Text(
                                             text = run.times.primaryT.toString(),
