@@ -6,7 +6,10 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material3.*
+import androidx.compose.material3.Divider
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -18,6 +21,7 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -28,6 +32,7 @@ import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.codebox.speedrun.domain.core.framework.toElapsedTime
 import com.codebox.speedrun.domain.kit.player.ui.PlayerName
+import com.codebox.speedrun.domain.ui.SpeedrunScreen
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.ramcosta.composedestinations.DestinationsNavHost
 import com.ramcosta.composedestinations.annotation.Destination
@@ -54,51 +59,63 @@ fun DashboardScreen() {
 
     val dashboardNavController = rememberNavController()
 
-    Scaffold(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background),
-        bottomBar = {
-            BottomAppBar(
-                containerColor = MaterialTheme.colorScheme.primary,
-                contentColor = MaterialTheme.colorScheme.onPrimary,
-                contentPadding = PaddingValues(0.dp)
-            ) {
-                DashboardTabs.values().forEach { tab ->
-                    Box(
-                        modifier = Modifier
-                            .fillMaxHeight()
-                            .weight(1f)
-                            .clickable {
-                                dashboardNavController.navigate(
-                                    route = tab.route, navOptions = NavOptions
-                                        .Builder()
-                                        .setPopUpTo(
-                                            route = dashboardNavController.currentDestination?.route,
-                                            inclusive = true,
-                                            saveState = true
-                                        )
-                                        .setRestoreState(true)
-                                        .build()
+    SpeedrunScreen { screenPadding ->
+        Scaffold(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.background)
+                .padding(top = screenPadding.calculateTopPadding()),
+            bottomBar = {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .wrapContentHeight()
+                        .background(MaterialTheme.colorScheme.primary),
+                ) {
+                    DashboardTabs.values().forEach { tab ->
+                        Column(
+                            modifier = Modifier
+                                .wrapContentHeight()
+                                .weight(1f)
+                                .clickable {
+                                    dashboardNavController.navigate(
+                                        route = tab.route, navOptions = NavOptions
+                                            .Builder()
+                                            .setPopUpTo(
+                                                route = dashboardNavController.currentDestination?.route,
+                                                inclusive = true,
+                                                saveState = true
+                                            )
+                                            .setRestoreState(true)
+                                            .build()
+                                    )
+                                }
+                        ) {
+                            Box( modifier = Modifier
+                                .fillMaxWidth()
+                                .height(80.dp)
+                            ) {
+                                Text(
+                                    text = stringResource(tab.titleRes),
+                                    modifier = Modifier.align(Alignment.Center),
+                                    color = MaterialTheme.colorScheme.onPrimary,
                                 )
                             }
-                    ) {
-                        Text(
-                            text = stringResource(tab.titleRes),
-                            modifier = Modifier.align(Alignment.Center)
-                        )
+
+                            Spacer(modifier = Modifier.padding(bottom = screenPadding.calculateBottomPadding()))
+                        }
                     }
                 }
             }
+        ) { paddingValues ->
+            DestinationsNavHost(
+                navGraph = NavGraphs.dashboard,
+                navController = dashboardNavController,
+                dependenciesContainerBuilder = {
+                    dependency(paddingValues)
+                }
+            )
         }
-    ) { paddingValues ->
-        DestinationsNavHost(
-            navGraph = NavGraphs.dashboard,
-            navController = dashboardNavController,
-            dependenciesContainerBuilder = {
-                dependency(paddingValues)
-            }
-        )
     }
 }
 

@@ -40,6 +40,7 @@ class SpeedrunDomainFeatureConventionPlugin : Plugin<Project> {
                 add("implementation", libs.findLibrary("androidx.lifecycle.compose.runtime").get())
                 add("implementation", project(":core:designsystem"))
                 add("implementation", project(":core:framework"))
+                add("implementation", project(":core:ui"))
                 add("implementation", project(":core:wrapper:dispatchers"))
                 add("ksp", libs.findLibrary("compose.destinations.ksp").get())
             }
