@@ -1,5 +1,6 @@
 package com.codebox.speedrun.domain.networking.core.di
 
+import android.app.Application
 import com.codebox.speedrun.domain.annotations.ApiUrl
 import com.codebox.speedrun.domain.annotations.AppVersionName
 import com.codebox.speedrun.domain.annotations.DebugBuild
@@ -12,10 +13,12 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import okhttp3.Cache
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import java.io.File
 import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
@@ -34,29 +37,40 @@ class NetworkingModule {
     @Provides
     fun provideOkHttpClient(
         @AppVersionName versionName: String,
+        application: Application,
         httpLoggingInterceptor: HttpLoggingInterceptor?,
-    ): OkHttpClient = OkHttpClient.Builder()
-        .apply {
-            if (httpLoggingInterceptor != null) {
-                addInterceptor(httpLoggingInterceptor)
+    ): OkHttpClient {
+        val file = File(application.cacheDir, "http-cache")
+        val cacheSize = 10 * 1024 * 1024 // 10 MiB
+        val cache = Cache(file, cacheSize.toLong())
+
+        val builder = OkHttpClient.Builder()
+            .apply {
+                if (httpLoggingInterceptor != null) {
+                    addInterceptor(httpLoggingInterceptor)
+                }
             }
-        }
-        .addNetworkInterceptor { chain ->
-            val request = chain.request().newBuilder()
-                .removeHeader("user-agent")
-                .addHeader("user-agent", "SpeedrunDomain/$versionName")
-                .build()
-            chain.proceed(request)
-        }
-        .build()
+            .cache(cache)
+            .addNetworkInterceptor { chain ->
+                val request = chain.request().newBuilder()
+                    .removeHeader("user-agent")
+                    .addHeader("user-agent", "SpeedrunDomain/$versionName")
+                    .build()
+                chain.proceed(request)
+            }
+
+        return builder.build()
+    }
 
     @Singleton
     @Provides
     fun provideMoshi(): Moshi = Moshi.Builder()
-        .add(PolymorphicJsonAdapterFactory.of(
-            PlayerResponse::class.java, "rel")
-            .withSubtype(PlayerResponse.UserResponse::class.java, PlayerType.user.name)
-            .withSubtype(PlayerResponse.GuestResponse::class.java, PlayerType.guest.name)
+        .add(
+            PolymorphicJsonAdapterFactory.of(
+                PlayerResponse::class.java, "rel"
+            )
+                .withSubtype(PlayerResponse.UserResponse::class.java, PlayerType.user.name)
+                .withSubtype(PlayerResponse.GuestResponse::class.java, PlayerType.guest.name)
         )
         .build()
 

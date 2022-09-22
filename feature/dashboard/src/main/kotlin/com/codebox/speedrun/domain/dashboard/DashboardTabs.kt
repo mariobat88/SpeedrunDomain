@@ -1,6 +1,5 @@
 package com.codebox.speedrun.domain.dashboard
 
-import com.codebox.speedrun.domain.dasboard.R
 import com.codebox.speedrun.domain.dashboard.destinations.HomeScreenDestination
 import com.codebox.speedrun.domain.dashboard.destinations.LatestRunsScreenDestination
 
