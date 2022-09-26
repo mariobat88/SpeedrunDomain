@@ -1,10 +1,51 @@
 package com.codebox.speedrun.domain.data.datasource.games.mapper
 
+import com.codebox.speedrun.domain.data.database.entities.GameEntity
 import com.codebox.speedrun.domain.data.datasource.common.mapper.toModel
-import com.codebox.speedrun.domain.networking.api.games.GameResponse
 import com.codebox.speedrun.domain.data.repo.games.model.GameModel
+import com.codebox.speedrun.domain.networking.api.games.GameResponse
 
-fun GameResponse.Data.toModel() = GameModel(
+fun GameResponse.toEntity() = GameEntity(
+    id = id,
+    names = names.toEntity(),
+    boostReceived = boostReceived,
+    boostDistinctDonors = boostDistinctDonors,
+    abbreviation = abbreviation,
+    weblink = weblink,
+    discord = discord,
+    released = released,
+    releaseDate = releaseDate,
+    ruleset = ruleset.toEntity(),
+    romhack = romhack,
+//    gametypes = gametypes,
+//    platforms = platforms,
+//    regions = regions,
+//    genres = genres,
+//    engines = engines,
+//    developers = developers,
+//    publishers = publishers,
+    //moderators = moderators,
+    created = created,
+//    assets = assets.toModel(),
+//    links = links.map { it.toModel() },
+)
+
+private fun GameResponse.Names.toEntity() = GameEntity.Names(
+    international = international,
+    japanese = japanese,
+    twitch = twitch,
+)
+
+private fun GameResponse.Ruleset.toEntity() = GameEntity.Ruleset(
+    showMilliseconds = showMilliseconds,
+    requireVerification = requireVerification,
+    requireVideo = requireVideo,
+       //runTimes = runTimes,
+    defaultTime = defaultTime,
+    emulatorsAllowed = emulatorsAllowed,
+)
+
+fun GameResponse.toModel() = GameModel(
     id = id,
     names = names.toModel(),
     boostReceived = boostReceived,
@@ -29,13 +70,13 @@ fun GameResponse.Data.toModel() = GameModel(
     links = links.map { it.toModel() },
 )
 
-fun GameResponse.Data.Names.toModel() = GameModel.Names(
+fun GameResponse.Names.toModel() = GameModel.Names(
     international = international,
     japanese = japanese,
     twitch = twitch,
 )
 
-fun GameResponse.Data.Ruleset.toModel() = GameModel.Ruleset(
+fun GameResponse.Ruleset.toModel() = GameModel.Ruleset(
     showMilliseconds = showMilliseconds,
     requireVerification = requireVerification,
     requireVideo = requireVideo,
@@ -44,7 +85,7 @@ fun GameResponse.Data.Ruleset.toModel() = GameModel.Ruleset(
     emulatorsAllowed = emulatorsAllowed,
 )
 
-fun GameResponse.Data.Assets.toModel() = GameModel.Assets(
+fun GameResponse.Assets.toModel() = GameModel.Assets(
     logo = logo.toModel(),
     coverTiny = coverTiny.toModel(),
     coverSmall = coverSmall.toModel(),
@@ -59,6 +100,6 @@ fun GameResponse.Data.Assets.toModel() = GameModel.Assets(
     foreground = foreground.toModel(),
 )
 
-fun GameResponse.Data.Assets.Asset.toModel() = GameModel.Assets.Asset(
+fun GameResponse.Assets.Asset.toModel() = GameModel.Assets.Asset(
     uri = uri,
 )

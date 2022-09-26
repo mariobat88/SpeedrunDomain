@@ -29,7 +29,7 @@ data class GameModel(
     data class Names(
         val international: String,
         val japanese: String?,
-        val twitch: String
+        val twitch: String?
     )
 
     data class Ruleset(

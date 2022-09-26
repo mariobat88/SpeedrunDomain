@@ -1,5 +1,8 @@
 @file:Suppress("UnstableApiUsage")
 
+include(":data:database")
+
+
 pluginManagement {
     includeBuild("build-logic")
     repositories {
@@ -22,6 +25,7 @@ include(":core:designsystem")
 include(":core:framework")
 include(":core:ui")
 include(":core:wrapper:dispatchers")
+include(":data:database")
 include(":data:datasource:categories")
 include(":data:datasource:common")
 include(":data:datasource:games")

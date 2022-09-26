@@ -1,7 +1,7 @@
 package com.codebox.speedrun.domain.api.runs
 
 import com.codebox.speedrun.domain.networking.api.common.LinkResponse
-import com.codebox.speedrun.domain.networking.api.games.GameResponse
+import com.codebox.speedrun.domain.networking.api.games.DataGameResponse
 import com.codebox.speedrun.domain.networking.api.players.PlayerResponse
 import com.codebox.speedrun.networking.api.categories.CategoryResponse
 import com.squareup.moshi.Json
@@ -16,7 +16,7 @@ data class RunResponse(
     data class Data(
         @Json(name = "id") val id: String,
         @Json(name = "weblink") val weblink: String,
-        @Json(name = "game") val game: GameResponse,
+        @Json(name = "game") val game: DataGameResponse,
         @Json(name = "level") val level: String?,
         @Json(name = "category") val category: CategoryResponse,
         @Json(name = "videos") val videos: Videos?,

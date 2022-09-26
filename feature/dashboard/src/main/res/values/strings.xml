@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name ="home">Home</string>
+    <string name ="search">Search</string>
     <string name ="latest_runs">Latest Runs</string>
     <string name ="profile">Profile</string>
 </resources>

@@ -156,9 +156,7 @@ fun LatestRunsScreen(
             verticalArrangement = Arrangement.spacedBy(8.dp),
             contentPadding = PaddingValues(
                 top = dimensionResource(DesignSystemResources.dimen.side_padding),
-                bottom = paddingValues.calculateBottomPadding() + bottomBarHeight + dimensionResource(
-                    DesignSystemResources.dimen.side_padding
-                )
+                bottom = paddingValues.calculateBottomPadding() + bottomBarHeight + dimensionResource(DesignSystemResources.dimen.side_padding)
             )
         ) {
             itemsIndexed(viewState.latestRuns) { index, latestRun ->
