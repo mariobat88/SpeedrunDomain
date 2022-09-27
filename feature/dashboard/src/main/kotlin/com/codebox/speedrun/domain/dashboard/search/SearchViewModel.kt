@@ -34,6 +34,12 @@ class SearchViewModel @Inject constructor(
         val searchIntent = intents.filterIsInstance<Intent.Search>()
             .onEach { intent -> searchTerm = intent.searchTerm }
 
-        return merge(searchIntent)
+        val selectedTabIntent = intents.filterIsInstance<Intent.TabSelected>()
+            .onEach { intent -> reduce { it.copy(selectedTabIndex = intent.index) } }
+
+        return merge(
+            searchIntent,
+            selectedTabIntent
+        )
     }
 }
