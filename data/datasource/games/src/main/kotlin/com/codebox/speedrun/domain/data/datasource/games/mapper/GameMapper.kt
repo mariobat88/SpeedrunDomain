@@ -2,8 +2,16 @@ package com.codebox.speedrun.domain.data.datasource.games.mapper
 
 import com.codebox.speedrun.domain.data.database.entities.GameEntity
 import com.codebox.speedrun.domain.data.datasource.common.mapper.toModel
+import com.codebox.speedrun.domain.data.pagination.PaginationModel
+import com.codebox.speedrun.domain.data.pagination.toModel
 import com.codebox.speedrun.domain.data.repo.games.model.GameModel
 import com.codebox.speedrun.domain.networking.api.games.GameResponse
+import com.codebox.speedrun.domain.networking.api.pagination.PaginationResponse
+
+fun PaginationResponse<GameResponse>.toModel() = PaginationModel<GameModel>(
+    data = data.map { it.toModel() },
+    pagination = pagination.toModel()
+)
 
 fun GameResponse.toEntity() = GameEntity(
     id = id,

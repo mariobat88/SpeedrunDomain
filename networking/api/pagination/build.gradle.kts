@@ -5,5 +5,6 @@ plugins {
 
 dependencies{
     implementation(libs.moshi.core)
+    implementation(projects.networking.api.common)
     kapt(libs.moshi.kotlinCodegen)
 }

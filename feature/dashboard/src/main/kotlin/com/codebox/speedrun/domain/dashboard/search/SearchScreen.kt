@@ -5,7 +5,6 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -32,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.AsyncImage
 import com.codebox.speedrun.domain.core.framework.Compose
 import com.codebox.speedrun.domain.dashboard.DashboardNavGraph
@@ -69,8 +69,15 @@ private fun SearchScreen(
     ) {
         val density = LocalDensity.current
         val toolbarHeightPx = remember { mutableStateOf(0) }
-        val toolbarHeightDp = with(density) { toolbarHeightPx.value.toDp()}
-        val maxToolbarHeight = remember { derivedStateOf { with(density) { toolbarHeightPx.value.toFloat() + screenPadding.calculateTopPadding().roundToPx().toFloat() } } }
+        val toolbarHeightDp = with(density) { toolbarHeightPx.value.toDp() }
+        val maxToolbarHeight = remember {
+            derivedStateOf {
+                with(density) {
+                    toolbarHeightPx.value.toFloat() + screenPadding.calculateTopPadding()
+                        .roundToPx().toFloat()
+                }
+            }
+        }
         // our offset to collapse toolbar
         val toolbarOffsetHeightPx = remember { mutableStateOf(0f) }
 
@@ -85,7 +92,8 @@ private fun SearchScreen(
             }
         }
 
-        val search = viewModel.search.collectAsStateWithLifecycle().value
+        val searchedItems =
+            viewModel.search.collectAsStateWithLifecycle().value.collectAsLazyPagingItems()
 
         Box(
             modifier = Modifier
@@ -101,7 +109,8 @@ private fun SearchScreen(
                 verticalArrangement = Arrangement.spacedBy(sidePadding / 2),
                 horizontalArrangement = Arrangement.spacedBy(sidePadding / 2)
             ) {
-                items(search) { gameModel ->
+                items(searchedItems.itemCount) { index ->
+                    val gameModel = searchedItems[index]
                     Column(
                         modifier = Modifier
                             .clip(RoundedCornerShape(dimensionResource(DashboardResources.dimen.rounded_corner_size)))
@@ -114,7 +123,7 @@ private fun SearchScreen(
                         horizontalAlignment = Alignment.CenterHorizontally,
                     ) {
                         AsyncImage(
-                            model = gameModel.assets.coverMedium.uri,
+                            model = gameModel?.assets?.coverMedium?.uri,
                             contentDescription = "",
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -128,7 +137,7 @@ private fun SearchScreen(
                             contentAlignment = Alignment.Center
                         ) {
                             Text(
-                                text = gameModel.names.international,
+                                text = gameModel?.names?.international ?: "",
                                 color = MaterialTheme.colorScheme.onPrimary,
                                 fontSize = 12.sp,
                                 textAlign = TextAlign.Center,
@@ -183,3 +192,4 @@ private fun SearchScreen(
         }
     }
 }
+

@@ -1,9 +1,9 @@
 package com.codebox.speedrun.domain.datasource.runs.mapper
 
-import com.codebox.speedrun.domain.data.datasource.common.mapper.toModel
-import com.codebox.speedrun.domain.data.datasource.games.mapper.toModel
 import com.codebox.speedrun.domain.api.runs.RunResponse
 import com.codebox.speedrun.domain.data.datasource.categories.mapper.toModel
+import com.codebox.speedrun.domain.data.datasource.common.mapper.toModel
+import com.codebox.speedrun.domain.data.datasource.games.mapper.toModel
 import com.codebox.speedrun.domain.data.datasource.players.mapper.toModel
 import com.codebox.speedrun.domain.repo.runs.model.RunModel
 

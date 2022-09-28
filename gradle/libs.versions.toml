@@ -10,6 +10,7 @@ androidxComposeMaterial3 = "1.0.0-alpha15"
 androidxHiltNavigationCompose = "1.0.0"
 coil = "2.1.0"
 composeDestinations = "1.6.15-beta"
+composePaging = "1.0.0-alpha14"
 hilt = "2.42"
 javax = "1"
 kotlin = "1.7.0"
@@ -39,6 +40,7 @@ androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "u
 androidx-core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "splashscreen" }
 androidx-hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "androidxHiltNavigationCompose" }
 androidx-lifecycle-compose-runtime = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "lifecycle" }
+androidx-paging-pagingCompose = { group = "androidx.paging", name = "paging-compose", version.ref = "composePaging" }
 coil = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }

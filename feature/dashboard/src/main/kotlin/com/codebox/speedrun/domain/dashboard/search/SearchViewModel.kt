@@ -5,7 +5,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.lifecycle.viewModelScope
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
 import com.codebox.speedrun.domain.core.framework.SpeedrunViewModel
+import com.codebox.speedrun.domain.core.paging.SpeedrunPagingSource
 import com.codebox.speedrun.domain.data.repo.games.GamesRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
@@ -23,11 +26,20 @@ class SearchViewModel @Inject constructor(
 
     val search = snapshotFlow { searchTerm }
         .debounce(500)
-        .mapLatest { gamesRepository.searchGame(it) }
+        .mapLatest { searchTerm ->
+            Pager(
+                pagingSourceFactory = {
+                    SpeedrunPagingSource { size, max ->
+                        gamesRepository.searchGame(searchTerm, size, max)
+                    }
+                },
+                config = PagingConfig(100)
+            ).flow
+        }
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5_000),
-            initialValue = emptyList()
+            initialValue = emptyFlow()
         )
 
     override suspend fun bind(intents: Flow<Intent>): Flow<Any> {
