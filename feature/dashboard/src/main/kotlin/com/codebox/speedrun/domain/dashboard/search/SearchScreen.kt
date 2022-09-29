@@ -1,6 +1,6 @@
 package com.codebox.speedrun.domain.dashboard.search
 
-import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -31,10 +31,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.AsyncImage
 import com.codebox.speedrun.domain.core.framework.Compose
 import com.codebox.speedrun.domain.dashboard.DashboardNavGraph
+import com.google.accompanist.placeholder.PlaceholderHighlight
+import com.google.accompanist.placeholder.material.shimmer
+import com.google.accompanist.placeholder.placeholder
 import com.ramcosta.composedestinations.annotation.Destination
 import kotlin.math.roundToInt
 import com.codebox.speedrun.domain.core.designsystem.R as DesignSystemResources
@@ -52,7 +56,6 @@ fun SearchScreen(
     )
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun SearchScreen(
     viewModel: SearchViewModel,
@@ -78,7 +81,7 @@ private fun SearchScreen(
                 }
             }
         }
-        // our offset to collapse toolbar
+        // Our offset to collapse toolbar
         val toolbarOffsetHeightPx = remember { mutableStateOf(0f) }
 
         val nestedScrollConnection = remember {
@@ -103,46 +106,67 @@ private fun SearchScreen(
             LazyVerticalGrid(
                 columns = GridCells.Adaptive(dimensionResource(DashboardResources.dimen.item_width)),
                 contentPadding = PaddingValues(
-                    top = toolbarHeightDp + sidePadding,
+                    top = toolbarHeightDp,
                     bottom = screenPadding.calculateBottomPadding() + bottomBarHeight + sidePadding
                 ),
                 verticalArrangement = Arrangement.spacedBy(sidePadding / 2),
                 horizontalArrangement = Arrangement.spacedBy(sidePadding / 2)
             ) {
-                items(searchedItems.itemCount) { index ->
-                    val gameModel = searchedItems[index]
-                    Column(
-                        modifier = Modifier
-                            .clip(RoundedCornerShape(dimensionResource(DashboardResources.dimen.rounded_corner_size)))
-                            .border(
-                                0.5.dp,
-                                Color.DarkGray,
-                                RoundedCornerShape(dimensionResource(DashboardResources.dimen.rounded_corner_size))
-                            )
-                            .height(dimensionResource(DashboardResources.dimen.item_height)),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                    ) {
-                        AsyncImage(
-                            model = gameModel?.assets?.coverMedium?.uri,
-                            contentDescription = "",
+                if (searchedItems.loadState.refresh == LoadState.Loading) {
+                    items(40) {
+                        Column(
                             modifier = Modifier
-                                .fillMaxWidth()
-                                .height(dimensionResource(DashboardResources.dimen.image_height)),
-                            contentScale = ContentScale.Crop
-                        )
-                        Box(
+                                .clip(RoundedCornerShape(dimensionResource(DashboardResources.dimen.rounded_corner_size)))
+                                .border(
+                                    0.5.dp,
+                                    Color.DarkGray,
+                                    RoundedCornerShape(dimensionResource(DashboardResources.dimen.rounded_corner_size))
+                                )
+                                .height(dimensionResource(DashboardResources.dimen.item_height))
+                                .placeholder(
+                                    visible = searchedItems.loadState.refresh == LoadState.Loading,
+                                    color = MaterialTheme.colorScheme.background,
+                                    highlight = PlaceholderHighlight.shimmer()
+                                ),
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                        ){}
+                    }
+                } else {
+                    items(searchedItems.itemCount) { index ->
+                        val gameModel = searchedItems[index]
+                        Column(
                             modifier = Modifier
-                                .fillMaxSize()
-                                .padding(sidePadding / 4),
-                            contentAlignment = Alignment.Center
+                                .clip(RoundedCornerShape(dimensionResource(DashboardResources.dimen.rounded_corner_size)))
+                                .border(
+                                    0.5.dp,
+                                    Color.DarkGray,
+                                    RoundedCornerShape(dimensionResource(DashboardResources.dimen.rounded_corner_size))
+                                )
+                                .height(dimensionResource(DashboardResources.dimen.item_height)),
+                            horizontalAlignment = Alignment.CenterHorizontally,
                         ) {
-                            Text(
-                                text = gameModel?.names?.international ?: "",
-                                color = MaterialTheme.colorScheme.onPrimary,
-                                fontSize = 12.sp,
-                                textAlign = TextAlign.Center,
-                                maxLines = 2
+                            AsyncImage(
+                                model = gameModel?.assets?.coverMedium?.uri,
+                                contentDescription = "",
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(dimensionResource(DashboardResources.dimen.image_height)),
+                                contentScale = ContentScale.Crop
                             )
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .padding(sidePadding / 4),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Text(
+                                    text = gameModel?.names?.international ?: "",
+                                    color = MaterialTheme.colorScheme.onPrimary,
+                                    fontSize = 12.sp,
+                                    textAlign = TextAlign.Center,
+                                    maxLines = 2
+                                )
+                            }
                         }
                     }
                 }
@@ -154,7 +178,8 @@ private fun SearchScreen(
                     .onGloballyPositioned { coordinates ->
                         toolbarHeightPx.value = coordinates.size.height
                     }
-                    .offset { IntOffset(x = 0, y = toolbarOffsetHeightPx.value.roundToInt()) },
+                    .offset { IntOffset(x = 0, y = toolbarOffsetHeightPx.value.roundToInt()) }
+                    .background(MaterialTheme.colorScheme.background),
             ) {
                 TabRow(
                     selectedTabIndex = viewState.selectedTabIndex,
@@ -188,6 +213,7 @@ private fun SearchScreen(
                         focusedIndicatorColor = Color.Transparent
                     )
                 )
+                Spacer(modifier = Modifier.height(sidePadding))
             }
         }
     }

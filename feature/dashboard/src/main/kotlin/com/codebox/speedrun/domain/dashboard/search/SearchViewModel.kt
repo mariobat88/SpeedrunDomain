@@ -7,6 +7,7 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
+import androidx.paging.cachedIn
 import com.codebox.speedrun.domain.core.framework.SpeedrunViewModel
 import com.codebox.speedrun.domain.core.paging.SpeedrunPagingSource
 import com.codebox.speedrun.domain.data.repo.games.GamesRepository
@@ -34,7 +35,7 @@ class SearchViewModel @Inject constructor(
                     }
                 },
                 config = PagingConfig(pageSize = 20, initialLoadSize = 40)
-            ).flow
+            ).flow.cachedIn(viewModelScope)
         }
         .stateIn(
             scope = viewModelScope,

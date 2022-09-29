@@ -4,6 +4,7 @@ plugins {
 
 dependencies {
     implementation(libs.coil)
+    implementation(libs.accompanist.placeholderMaterial)
     implementation(projects.core.paging)
     implementation(projects.data.repo.games)
     implementation(projects.data.repo.runs)
