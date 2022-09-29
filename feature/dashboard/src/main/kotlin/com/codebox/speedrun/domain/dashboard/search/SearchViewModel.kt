@@ -21,7 +21,6 @@ class SearchViewModel @Inject constructor(
 ) : SpeedrunViewModel<ViewState, Intent, Unit>(
     viewState = ViewState()
 ) {
-
     var searchTerm by mutableStateOf("")
         private set
 
@@ -34,7 +33,7 @@ class SearchViewModel @Inject constructor(
                         gamesRepository.searchGame(searchTerm, offset, max)
                     }
                 },
-                config = PagingConfig(pageSize = 20, initialLoadSize = 40)
+                config = PagingConfig(pageSize = 20, initialLoadSize = INITIAL_LOAD_SIZE)
             ).flow.cachedIn(viewModelScope)
         }
         .stateIn(
@@ -54,5 +53,9 @@ class SearchViewModel @Inject constructor(
             searchIntent,
             selectedTabIntent
         )
+    }
+
+    companion object{
+        const val INITIAL_LOAD_SIZE  = 40
     }
 }

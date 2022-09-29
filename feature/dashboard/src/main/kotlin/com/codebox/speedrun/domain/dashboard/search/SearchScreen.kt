@@ -73,14 +73,7 @@ private fun SearchScreen(
         val density = LocalDensity.current
         val toolbarHeightPx = remember { mutableStateOf(0) }
         val toolbarHeightDp = with(density) { toolbarHeightPx.value.toDp() }
-        val maxToolbarHeight = remember {
-            derivedStateOf {
-                with(density) {
-                    toolbarHeightPx.value.toFloat() + screenPadding.calculateTopPadding()
-                        .roundToPx().toFloat()
-                }
-            }
-        }
+        val maxToolbarHeight = remember { derivedStateOf { with(density) { toolbarHeightPx.value.toFloat() + screenPadding.calculateTopPadding().roundToPx().toFloat() } } }
         // Our offset to collapse toolbar
         val toolbarOffsetHeightPx = remember { mutableStateOf(0f) }
 
@@ -95,8 +88,7 @@ private fun SearchScreen(
             }
         }
 
-        val searchedItems =
-            viewModel.search.collectAsStateWithLifecycle().value.collectAsLazyPagingItems()
+        val searchedItems = viewModel.search.collectAsStateWithLifecycle().value.collectAsLazyPagingItems()
 
         Box(
             modifier = Modifier
@@ -113,8 +105,8 @@ private fun SearchScreen(
                 horizontalArrangement = Arrangement.spacedBy(sidePadding / 2)
             ) {
                 if (searchedItems.loadState.refresh == LoadState.Loading) {
-                    items(40) {
-                        Column(
+                    items(SearchViewModel.INITIAL_LOAD_SIZE) {
+                        Spacer(
                             modifier = Modifier
                                 .clip(RoundedCornerShape(dimensionResource(DashboardResources.dimen.rounded_corner_size)))
                                 .border(
@@ -128,8 +120,7 @@ private fun SearchScreen(
                                     color = MaterialTheme.colorScheme.background,
                                     highlight = PlaceholderHighlight.shimmer()
                                 ),
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                        ){}
+                        )
                     }
                 } else {
                     items(searchedItems.itemCount) { index ->
