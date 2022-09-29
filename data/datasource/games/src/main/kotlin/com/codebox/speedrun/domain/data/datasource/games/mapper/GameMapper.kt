@@ -8,7 +8,7 @@ import com.codebox.speedrun.domain.data.repo.games.model.GameModel
 import com.codebox.speedrun.domain.networking.api.games.GameResponse
 import com.codebox.speedrun.domain.networking.api.pagination.PaginationResponse
 
-fun PaginationResponse<GameResponse>.toModel() = PaginationModel<GameModel>(
+fun PaginationResponse<GameResponse>.toModel() = PaginationModel(
     data = data.map { it.toModel() },
     pagination = pagination.toModel()
 )

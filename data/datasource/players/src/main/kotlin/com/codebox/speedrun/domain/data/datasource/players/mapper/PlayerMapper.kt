@@ -1,9 +1,17 @@
 package com.codebox.speedrun.domain.data.datasource.players.mapper
 
 import com.codebox.speedrun.domain.data.datasource.common.mapper.toModel
+import com.codebox.speedrun.domain.data.pagination.PaginationModel
+import com.codebox.speedrun.domain.data.pagination.toModel
 import com.codebox.speedrun.domain.data.repo.players.model.PlayerModel
+import com.codebox.speedrun.domain.networking.api.pagination.PaginationResponse
 import com.codebox.speedrun.domain.networking.api.players.PlayerResponse
 import com.codebox.speedrun.domain.networking.api.players.PlayerType
+
+fun PaginationResponse<PlayerResponse>.toModel() = PaginationModel(
+    data = data.map { it.toModel() },
+    pagination = pagination.toModel()
+)
 
 fun PlayerResponse.toModel(): PlayerModel {
     return if (playerType == PlayerType.user) {

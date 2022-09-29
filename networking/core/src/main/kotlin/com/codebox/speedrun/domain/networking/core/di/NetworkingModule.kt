@@ -66,9 +66,7 @@ class NetworkingModule {
     @Provides
     fun provideMoshi(): Moshi = Moshi.Builder()
         .add(
-            PolymorphicJsonAdapterFactory.of(
-                PlayerResponse::class.java, "rel"
-            )
+            PolymorphicJsonAdapterFactory.of(PlayerResponse::class.java, "rel")
                 .withSubtype(PlayerResponse.UserResponse::class.java, PlayerType.user.name)
                 .withSubtype(PlayerResponse.GuestResponse::class.java, PlayerType.guest.name)
         )

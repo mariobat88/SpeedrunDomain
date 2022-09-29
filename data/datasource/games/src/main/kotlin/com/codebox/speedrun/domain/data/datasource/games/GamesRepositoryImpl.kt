@@ -21,7 +21,7 @@ class GamesRepositoryImpl @Inject constructor(
 
     val gameDao = speedrunDatabase.gameDao()
 
-    override suspend fun searchGame(
+    override suspend fun searchGames(
         name: String,
         offset: Int,
         max: Int

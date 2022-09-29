@@ -4,5 +4,4 @@ plugins {
 
 dependencies{
     api(projects.networking.api.pagination)
-    implementation(projects.networking.core)
 }

@@ -4,5 +4,5 @@ import com.codebox.speedrun.domain.data.pagination.PaginationModel
 import com.codebox.speedrun.domain.data.repo.games.model.GameModel
 
 interface GamesRepository {
-    suspend fun searchGame(name: String, offset: Int, max: Int): PaginationModel<GameModel>
+    suspend fun searchGames(name: String, offset: Int, max: Int): PaginationModel<GameModel>
 }

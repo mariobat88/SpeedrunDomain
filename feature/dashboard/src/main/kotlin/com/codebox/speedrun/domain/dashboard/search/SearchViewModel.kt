@@ -30,7 +30,7 @@ class SearchViewModel @Inject constructor(
             Pager(
                 pagingSourceFactory = {
                     SpeedrunPagingSource { offset, max ->
-                        gamesRepository.searchGame(searchTerm, offset, max)
+                        gamesRepository.searchGames(searchTerm, offset, max)
                     }
                 },
                 config = PagingConfig(pageSize = 20, initialLoadSize = INITIAL_LOAD_SIZE)
