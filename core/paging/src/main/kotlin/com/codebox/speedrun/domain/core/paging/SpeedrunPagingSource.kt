@@ -5,7 +5,7 @@ import androidx.paging.PagingState
 import com.codebox.speedrun.domain.data.pagination.PaginationModel
 
 class SpeedrunPagingSource<T : Any>(
-    private val loadPage: suspend (size: Int, page: Int) -> PaginationModel<T>,
+    private val loadPage: suspend (offset: Int, max: Int) -> PaginationModel<T>,
 ) : PagingSource<Int, T>() {
 
     override fun getRefreshKey(state: PagingState<Int, T>): Int? {
@@ -23,6 +23,8 @@ class SpeedrunPagingSource<T : Any>(
             val currentOffset = response.pagination.offset
             val size = response.pagination.size
 
+            val nextKey = currentOffset + max
+
             if (items.isEmpty() || items.size < size) {
                 LoadResult.Page(
                     data = items,
@@ -32,8 +34,8 @@ class SpeedrunPagingSource<T : Any>(
             } else {
                 LoadResult.Page(
                     data = items,
-                    prevKey = (currentOffset - max).coerceAtLeast(0),
-                    nextKey = currentOffset + max
+                    prevKey = null,
+                    nextKey = nextKey
                 )
             }
         } catch (exception: Exception) {

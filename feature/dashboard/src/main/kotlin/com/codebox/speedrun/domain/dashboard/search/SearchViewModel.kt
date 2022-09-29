@@ -29,11 +29,11 @@ class SearchViewModel @Inject constructor(
         .mapLatest { searchTerm ->
             Pager(
                 pagingSourceFactory = {
-                    SpeedrunPagingSource { size, max ->
-                        gamesRepository.searchGame(searchTerm, size, max)
+                    SpeedrunPagingSource { offset, max ->
+                        gamesRepository.searchGame(searchTerm, offset, max)
                     }
                 },
-                config = PagingConfig(100)
+                config = PagingConfig(pageSize = 20, initialLoadSize = 40)
             ).flow
         }
         .stateIn(
