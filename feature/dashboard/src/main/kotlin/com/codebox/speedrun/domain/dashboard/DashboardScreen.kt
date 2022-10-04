@@ -33,7 +33,7 @@ import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.codebox.speedrun.domain.core.framework.toElapsedTime
 import com.codebox.speedrun.domain.kit.player.ui.PlayerName
-import com.codebox.speedrun.domain.ui.SpeedrunScreen
+import com.codebox.speedrun.domain.code.ui.SpeedrunScreen
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.ramcosta.composedestinations.DestinationsNavHost
 import com.ramcosta.composedestinations.annotation.Destination

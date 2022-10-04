@@ -6,5 +6,9 @@ sealed class Intent {
 }
 
 data class ViewState(
-    val selectedTabIndex: Int = 0
-)
+    val selectedTab: TAB = TAB.GAMES
+) {
+    enum class TAB {
+        GAMES, PLAYERS
+    }
+}

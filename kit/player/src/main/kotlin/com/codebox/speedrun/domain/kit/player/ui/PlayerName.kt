@@ -12,7 +12,7 @@ import com.codebox.speedrun.domain.data.repo.players.model.PlayerModel
 @OptIn(ExperimentalTextApi::class)
 @Composable
 fun PlayerName(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     player: PlayerModel,
 ) {
     if (player is PlayerModel.UserModel) {

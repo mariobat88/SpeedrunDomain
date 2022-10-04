@@ -2,7 +2,7 @@ package com.codebox.speedrun.domain.api.runs
 
 import com.codebox.speedrun.domain.networking.api.common.LinkResponse
 import com.codebox.speedrun.domain.networking.api.games.DataGameResponse
-import com.codebox.speedrun.domain.networking.api.players.PlayerResponse
+import com.codebox.speedrun.domain.networking.api.players.PolymorphicPlayerResponse
 import com.codebox.speedrun.networking.api.categories.CategoryResponse
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
@@ -46,7 +46,7 @@ data class RunResponse(
 
         @JsonClass(generateAdapter = true)
         data class Players(
-            @Json(name = "data") val data: List<PlayerResponse>,
+            @Json(name = "data") val data: List<PolymorphicPlayerResponse>,
         )
 
         @JsonClass(generateAdapter = true)

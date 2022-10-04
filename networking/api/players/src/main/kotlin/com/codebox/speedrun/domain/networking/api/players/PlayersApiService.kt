@@ -6,11 +6,11 @@ import retrofit2.http.Header
 import retrofit2.http.Query
 
 interface PlayersApiService {
-    @GET("games")
+    @GET("users")
     suspend fun searchPlayers(
         @Header("Cache-Control") cacheControl: String? = "no-cache",
         @Query("name") name: String,
         @Query("offset") offset: Int,
         @Query("max") max: Int
-    ): PaginationResponse<PlayerResponse>
+    ): PaginationResponse<UserResponse>
 }

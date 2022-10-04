@@ -60,6 +60,7 @@ dependencies {
     implementation(projects.core.designsystem)
     implementation(projects.data.database)
     implementation(projects.data.datasource.games)
+    implementation(projects.data.datasource.players)
     implementation(projects.data.datasource.runs)
     implementation(projects.feature.dashboard)
     implementation(projects.networking.core)

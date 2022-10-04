@@ -39,6 +39,7 @@ class SpeedrunPagingSource<T : Any>(
                 )
             }
         } catch (exception: Exception) {
+            exception.printStackTrace()
             return LoadResult.Error(exception)
         }
     }

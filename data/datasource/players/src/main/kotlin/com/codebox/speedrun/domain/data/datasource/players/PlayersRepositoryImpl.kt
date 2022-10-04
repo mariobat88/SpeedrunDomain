@@ -23,11 +23,11 @@ class PlayersRepositoryImpl @Inject constructor(
         name: String,
         offset: Int,
         max: Int
-    ): PaginationModel<PlayerModel> = withContext(dispatcherProvider.io()) {
-        val searchedGames = playersApiService.searchPlayers(name = name, offset = offset, max = max)
+    ): PaginationModel<PlayerModel.UserModel> = withContext(dispatcherProvider.io()) {
+        val searchedPlayers = playersApiService.searchPlayers(name = name, offset = offset, max = max)
 //        val entities = searchedGames.data.map { it.toEntity() }
 //        gameDao.upsert(entities)
 
-        searchedGames.toModel()
+        searchedPlayers.toModel()
     }
 }

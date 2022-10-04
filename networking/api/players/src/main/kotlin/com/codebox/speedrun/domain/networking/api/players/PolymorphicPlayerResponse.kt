@@ -8,7 +8,7 @@ enum class PlayerType {
     user, guest
 }
 
-sealed class PlayerResponse(@Json(name = "rel") val playerType: PlayerType) {
+sealed class PolymorphicPlayerResponse(@Json(name = "rel") val playerType: PlayerType) {
     @JsonClass(generateAdapter = true)
     data class UserResponse(
         @Json(name = "id")
@@ -35,9 +35,11 @@ sealed class PlayerResponse(@Json(name = "rel") val playerType: PlayerType) {
         val twitter: LinkResponse?,
         @Json(name = "speedrunslive")
         val speedrunslive: LinkResponse?,
+        @Json(name = "assets")
+        val assets: Assets,
         @Json(name = "links")
         val links: List<LinkResponse>
-    ) : PlayerResponse(PlayerType.user) {
+    ) : PolymorphicPlayerResponse(PlayerType.user) {
 
         @JsonClass(generateAdapter = true)
         data class NameStyle(
@@ -82,6 +84,23 @@ sealed class PlayerResponse(@Json(name = "rel") val playerType: PlayerType) {
                 val names: NamesResponse
             )
         }
+
+        @JsonClass(generateAdapter = true)
+        data class Assets(
+            @Json(name = "icon")
+            val icon: Asset?,
+            @Json(name = "supporterIcon")
+            val supporterIcon: Asset?,
+            @Json(name = "image")
+            val image: Asset?,
+        ) {
+
+            @JsonClass(generateAdapter = true)
+            data class Asset(
+                @Json(name = "uri")
+                val uri: String?,
+            )
+        }
     }
 
     @JsonClass(generateAdapter = true)
@@ -90,5 +109,5 @@ sealed class PlayerResponse(@Json(name = "rel") val playerType: PlayerType) {
         val name: String,
         @Json(name = "links")
         val links: List<LinkResponse>
-    ) : PlayerResponse(PlayerType.guest)
+    ) : PolymorphicPlayerResponse(PlayerType.guest)
 }

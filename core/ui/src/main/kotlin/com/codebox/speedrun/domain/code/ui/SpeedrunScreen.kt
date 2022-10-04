@@ -1,4 +1,4 @@
-package com.codebox.speedrun.domain.ui
+package com.codebox.speedrun.domain.code.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*

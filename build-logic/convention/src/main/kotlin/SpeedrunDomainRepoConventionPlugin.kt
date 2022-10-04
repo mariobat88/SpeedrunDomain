@@ -12,8 +12,7 @@ class SpeedrunDomainRepoConventionPlugin : Plugin<Project> {
             }
 
             dependencies {
-                add("implementation", project(":data:common"))
-                add("implementation", project(":data:repo:common"))
+                add("api", project(":data:repo:common"))
             }
         }
     }

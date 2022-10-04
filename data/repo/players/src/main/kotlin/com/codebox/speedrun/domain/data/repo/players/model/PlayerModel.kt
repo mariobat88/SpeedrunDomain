@@ -16,6 +16,7 @@ sealed class PlayerModel {
         val youtube: LinkModel?,
         val twitter: LinkModel?,
         val speedrunslive: LinkModel?,
+        val assets: Assets,
         val links: List<LinkModel>
     ) : PlayerModel() {
         data class NameStyle(
@@ -42,6 +43,16 @@ sealed class PlayerModel {
             data class Region(
                 val code: String,
                 val names: NamesModel
+            )
+        }
+
+        data class Assets(
+            val icon: Asset?,
+            val supporterIcon: Asset?,
+            val image: Asset?,
+        ) {
+            data class Asset(
+                val uri: String?,
             )
         }
     }

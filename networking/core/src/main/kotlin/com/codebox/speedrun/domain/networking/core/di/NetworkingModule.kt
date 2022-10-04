@@ -4,8 +4,8 @@ import android.app.Application
 import com.codebox.speedrun.domain.annotations.ApiUrl
 import com.codebox.speedrun.domain.annotations.AppVersionName
 import com.codebox.speedrun.domain.annotations.DebugBuild
-import com.codebox.speedrun.domain.networking.api.players.PlayerResponse
 import com.codebox.speedrun.domain.networking.api.players.PlayerType
+import com.codebox.speedrun.domain.networking.api.players.PolymorphicPlayerResponse
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.adapters.PolymorphicJsonAdapterFactory
 import dagger.Lazy
@@ -66,9 +66,9 @@ class NetworkingModule {
     @Provides
     fun provideMoshi(): Moshi = Moshi.Builder()
         .add(
-            PolymorphicJsonAdapterFactory.of(PlayerResponse::class.java, "rel")
-                .withSubtype(PlayerResponse.UserResponse::class.java, PlayerType.user.name)
-                .withSubtype(PlayerResponse.GuestResponse::class.java, PlayerType.guest.name)
+            PolymorphicJsonAdapterFactory.of(PolymorphicPlayerResponse::class.java, "rel")
+                .withSubtype(PolymorphicPlayerResponse.UserResponse::class.java, PlayerType.user.name)
+                .withSubtype(PolymorphicPlayerResponse.GuestResponse::class.java, PlayerType.guest.name)
         )
         .build()
 
