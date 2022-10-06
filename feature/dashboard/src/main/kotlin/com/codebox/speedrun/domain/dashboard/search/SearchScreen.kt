@@ -3,6 +3,7 @@ package com.codebox.speedrun.domain.dashboard.search
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -12,15 +13,12 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.key
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -36,7 +34,7 @@ import androidx.paging.compose.items
 import coil.compose.AsyncImage
 import com.codebox.speedrun.domain.core.framework.Compose
 import com.codebox.speedrun.domain.core.framework.countryFlag
-import com.codebox.speedrun.domain.dashboard.DashboardNavGraph
+import com.codebox.speedrun.domain.core.navigation.MainNavigator
 import com.codebox.speedrun.domain.kit.player.ui.PlayerName
 import com.google.accompanist.placeholder.PlaceholderHighlight
 import com.google.accompanist.placeholder.material.shimmer
@@ -46,21 +44,24 @@ import com.codebox.speedrun.domain.core.designsystem.R as DesignSystemResources
 import com.codebox.speedrun.domain.core.ui.R as UIResources
 import com.codebox.speedrun.domain.dashboard.R as DashboardResources
 
-@DashboardNavGraph
-@Destination
+const val SEARCH_SCREEN_ROUTE = "SearchScreen"
+
+@Destination(SEARCH_SCREEN_ROUTE)
 @Composable
 fun SearchScreen(
+    mainNavigator: MainNavigator,
     screenPadding: PaddingValues,
     bottomBarHeight: Dp,
 ) {
     SearchScreen(
-        hiltViewModel(), screenPadding, bottomBarHeight
+        hiltViewModel(), mainNavigator, screenPadding, bottomBarHeight
     )
 }
 
 @Composable
 private fun SearchScreen(
     viewModel: SearchViewModel,
+    mainNavigator: MainNavigator,
     screenPadding: PaddingValues,
     bottomBarHeight: Dp,
 ) = Compose(viewModel) { viewState, intentChannel, _ ->
@@ -72,208 +73,18 @@ private fun SearchScreen(
             .padding(top = screenPadding.calculateTopPadding())
             .padding(horizontal = sidePadding)
     ) {
-        val density = LocalDensity.current
-        val toolbarHeightPx = remember { mutableStateOf(0) }
-        val toolbarHeightDp = with(density) { toolbarHeightPx.value.toDp() }
-
         val searchedGames =
             viewModel.searchGames.collectAsStateWithLifecycle().value.collectAsLazyPagingItems()
         val searchPlayers =
             viewModel.searchPlayers.collectAsStateWithLifecycle().value.collectAsLazyPagingItems()
 
-        Box(
+        Column(
             modifier = Modifier.fillMaxSize()
         ) {
-            if (viewState.selectedTab == ViewState.TAB.GAMES) {
-                LazyVerticalGrid(
-                    columns = GridCells.Adaptive(dimensionResource(DashboardResources.dimen.item_width)),
-                    contentPadding = PaddingValues(
-                        top = toolbarHeightDp,
-                        bottom = screenPadding.calculateBottomPadding() + bottomBarHeight + sidePadding
-                    ),
-                    verticalArrangement = Arrangement.spacedBy(sidePadding / 2),
-                    horizontalArrangement = Arrangement.spacedBy(sidePadding / 2)
-                ) {
-
-                    if (searchedGames.loadState.refresh == LoadState.Loading) {
-                        items(SearchViewModel.INITIAL_LOAD_SIZE) {
-                            Spacer(
-                                modifier = Modifier
-                                    .clip(RoundedCornerShape(dimensionResource(DashboardResources.dimen.rounded_corner_size)))
-                                    .border(
-                                        0.5.dp,
-                                        Color.DarkGray,
-                                        RoundedCornerShape(dimensionResource(DashboardResources.dimen.rounded_corner_size))
-                                    )
-                                    .height(dimensionResource(DashboardResources.dimen.item_height))
-                                    .placeholder(
-                                        visible = searchedGames.loadState.refresh == LoadState.Loading,
-                                        color = MaterialTheme.colorScheme.background,
-                                        highlight = PlaceholderHighlight.shimmer()
-                                    ),
-                            )
-                        }
-                    } else {
-                        items(searchedGames.itemCount) { index ->
-                            val gameModel = searchedGames[index]
-                            Column(
-                                modifier = Modifier
-                                    .clip(RoundedCornerShape(dimensionResource(DashboardResources.dimen.rounded_corner_size)))
-                                    .border(
-                                        0.5.dp,
-                                        Color.DarkGray,
-                                        RoundedCornerShape(dimensionResource(DashboardResources.dimen.rounded_corner_size))
-                                    )
-                                    .height(dimensionResource(DashboardResources.dimen.item_height)),
-                                horizontalAlignment = Alignment.CenterHorizontally,
-                            ) {
-                                AsyncImage(
-                                    model = gameModel?.assets?.coverMedium?.uri,
-                                    contentDescription = "",
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .height(dimensionResource(DashboardResources.dimen.image_height)),
-                                    contentScale = ContentScale.Crop
-                                )
-                                Box(
-                                    modifier = Modifier
-                                        .fillMaxSize()
-                                        .padding(sidePadding / 4),
-                                    contentAlignment = Alignment.Center
-                                ) {
-                                    Text(
-                                        text = gameModel?.names?.international ?: "",
-                                        color = MaterialTheme.colorScheme.onPrimary,
-                                        fontSize = 12.sp,
-                                        textAlign = TextAlign.Center,
-                                        maxLines = 2
-                                    )
-                                }
-                            }
-                        }
-                    }
-                }
-            } else {
-                LazyColumn(
-                    contentPadding = PaddingValues(
-                        top = toolbarHeightDp,
-                        bottom = screenPadding.calculateBottomPadding() + bottomBarHeight + sidePadding
-                    ),
-                ) {
-                    items(searchPlayers) { player ->
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(60.dp),
-                        ) {
-                            Row(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .height(50.dp)
-                                    .align(Alignment.Center),
-                                horizontalArrangement = Arrangement.SpaceBetween,
-                            ) {
-                                player?.assets?.image?.uri?.let { uri ->
-                                    AsyncImage(
-                                        model = uri,
-                                        contentDescription = "",
-                                        modifier = Modifier.size(50.dp),
-                                        contentScale = ContentScale.Inside
-                                    )
-                                    Spacer(modifier = Modifier.width(4.dp))
-                                } ?: run {
-                                    Icon(
-                                        imageVector = Icons.Default.Person,
-                                        contentDescription = "",
-                                        modifier = Modifier.size(50.dp)
-                                    )
-                                }
-                                Column(
-                                    modifier = Modifier
-                                        .fillMaxHeight()
-                                        .wrapContentWidth(),
-                                    verticalArrangement = Arrangement.SpaceBetween
-                                ) {
-                                    Row(
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .wrapContentHeight(),
-                                        horizontalArrangement = Arrangement.SpaceBetween,
-                                        verticalAlignment = Alignment.CenterVertically,
-                                    ) {
-                                        PlayerName(
-                                            modifier = Modifier.wrapContentSize(),
-                                            player = player!!
-                                        )
-                                        Row(
-                                            modifier = Modifier.wrapContentSize()
-                                        ) {
-                                            if (player.twitch != null) {
-                                                Image(
-                                                    painter = painterResource(UIResources.drawable.icon_twitch_20),
-                                                    contentDescription = "",
-                                                    modifier = Modifier
-                                                        .wrapContentHeight()
-                                                        .width(25.dp),
-                                                    contentScale = ContentScale.Inside
-                                                )
-                                            }
-                                            if (player.twitter != null) {
-                                                Image(
-                                                    painter = painterResource(UIResources.drawable.icon_twitter_20),
-                                                    contentDescription = "",
-                                                    modifier = Modifier
-                                                        .wrapContentHeight()
-                                                        .width(25.dp),
-                                                    contentScale = ContentScale.Inside
-                                                )
-                                            }
-                                            if (player.youtube != null) {
-                                                Image(
-                                                    painter = painterResource(UIResources.drawable.icon_youtube_20),
-                                                    contentDescription = "",
-                                                    modifier = Modifier
-                                                        .wrapContentHeight()
-                                                        .width(25.dp),
-                                                    contentScale = ContentScale.Inside
-                                                )
-                                            }
-                                        }
-                                    }
-                                    Row(
-                                        modifier = Modifier.wrapContentSize()
-                                    ) {
-                                        Text(
-                                            text = countryFlag(
-                                                player?.location?.country?.code ?: ""
-                                            ),
-                                            modifier = Modifier.wrapContentSize()
-                                        )
-                                        Spacer(modifier = Modifier.width(4.dp))
-                                        Text(
-                                            text = player?.location?.country?.names?.international
-                                                ?: "",
-                                            color = MaterialTheme.colorScheme.onPrimary
-                                        )
-                                    }
-                                }
-                            }
-                            Divider(
-                                modifier = Modifier.align(Alignment.BottomCenter),
-                                color = Color.DarkGray,
-                                thickness = 0.5.dp
-                            )
-                        }
-                    }
-                }
-            }
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
                     .wrapContentHeight()
-                    .onGloballyPositioned { coordinates ->
-                        toolbarHeightPx.value = coordinates.size.height
-                    }
                     .background(MaterialTheme.colorScheme.background),
             ) {
                 TabRow(
@@ -309,6 +120,198 @@ private fun SearchScreen(
                     )
                 )
                 Spacer(modifier = Modifier.height(sidePadding))
+            }
+            if (viewState.selectedTab == ViewState.TAB.GAMES) {
+                LazyVerticalGrid(
+                    columns = GridCells.Adaptive(dimensionResource(DashboardResources.dimen.item_width)),
+                    contentPadding = PaddingValues(
+                        bottom = screenPadding.calculateBottomPadding() + bottomBarHeight + sidePadding
+                    ),
+                    verticalArrangement = Arrangement.spacedBy(sidePadding / 2),
+                    horizontalArrangement = Arrangement.spacedBy(sidePadding / 2)
+                ) {
+
+                    if (searchedGames.loadState.refresh == LoadState.Loading) {
+                        items(SearchViewModel.INITIAL_LOAD_SIZE) {
+                            Spacer(
+                                modifier = Modifier
+                                    .clip(RoundedCornerShape(dimensionResource(DashboardResources.dimen.rounded_corner_size)))
+                                    .border(
+                                        0.5.dp,
+                                        Color.DarkGray,
+                                        RoundedCornerShape(dimensionResource(DashboardResources.dimen.rounded_corner_size))
+                                    )
+                                    .height(dimensionResource(DashboardResources.dimen.item_height))
+                                    .placeholder(
+                                        visible = searchedGames.loadState.refresh == LoadState.Loading,
+                                        color = MaterialTheme.colorScheme.background,
+                                        highlight = PlaceholderHighlight.shimmer()
+                                    ),
+                            )
+                        }
+                    } else {
+                        items(searchedGames.itemCount) { index ->
+                            key(index) {
+                                val gameModel = searchedGames[index]
+                                Column(
+                                    modifier = Modifier
+                                        .clip(
+                                            RoundedCornerShape(
+                                                dimensionResource(
+                                                    DashboardResources.dimen.rounded_corner_size
+                                                )
+                                            )
+                                        )
+                                        .border(
+                                            0.5.dp,
+                                            Color.DarkGray,
+                                            RoundedCornerShape(dimensionResource(DashboardResources.dimen.rounded_corner_size))
+                                        )
+                                        .height(dimensionResource(DashboardResources.dimen.item_height))
+                                        .clickable { mainNavigator.navigateToGameScreen() },
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                ) {
+                                    AsyncImage(
+                                        model = gameModel?.assets?.coverMedium?.uri,
+                                        contentDescription = "",
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .height(dimensionResource(DashboardResources.dimen.image_height)),
+                                        contentScale = ContentScale.Crop
+                                    )
+                                    Box(
+                                        modifier = Modifier
+                                            .fillMaxSize()
+                                            .padding(sidePadding / 4),
+                                        contentAlignment = Alignment.Center
+                                    ) {
+                                        Text(
+                                            text = gameModel?.names?.international ?: "",
+                                            color = MaterialTheme.colorScheme.onPrimary,
+                                            fontSize = 12.sp,
+                                            textAlign = TextAlign.Center,
+                                            maxLines = 2
+                                        )
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                LazyColumn(
+                    contentPadding = PaddingValues(
+                        bottom = screenPadding.calculateBottomPadding() + bottomBarHeight + sidePadding
+                    ),
+                ) {
+                    items(searchPlayers) { player ->
+                        key(player!!.id) {
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(60.dp),
+                            ) {
+                                Row(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .height(50.dp)
+                                        .align(Alignment.Center),
+                                    horizontalArrangement = Arrangement.SpaceBetween,
+                                ) {
+                                    player.assets.image?.uri?.let { uri ->
+                                        AsyncImage(
+                                            model = uri,
+                                            contentDescription = "",
+                                            modifier = Modifier.size(50.dp),
+                                            contentScale = ContentScale.Inside
+                                        )
+                                        Spacer(modifier = Modifier.width(4.dp))
+                                    } ?: run {
+                                        Icon(
+                                            imageVector = Icons.Default.Person,
+                                            contentDescription = "",
+                                            modifier = Modifier.size(50.dp)
+                                        )
+                                    }
+                                    Column(
+                                        modifier = Modifier
+                                            .fillMaxHeight()
+                                            .wrapContentWidth(),
+                                        verticalArrangement = Arrangement.SpaceBetween
+                                    ) {
+                                        Row(
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .wrapContentHeight(),
+                                            horizontalArrangement = Arrangement.SpaceBetween,
+                                            verticalAlignment = Alignment.CenterVertically,
+                                        ) {
+                                            PlayerName(
+                                                modifier = Modifier.wrapContentSize(),
+                                                player = player
+                                            )
+                                            Row(
+                                                modifier = Modifier.wrapContentSize()
+                                            ) {
+                                                if (player.twitch != null) {
+                                                    Image(
+                                                        painter = painterResource(UIResources.drawable.icon_twitch_20),
+                                                        contentDescription = "",
+                                                        modifier = Modifier
+                                                            .wrapContentHeight()
+                                                            .width(25.dp),
+                                                        contentScale = ContentScale.Inside
+                                                    )
+                                                }
+                                                if (player.twitter != null) {
+                                                    Image(
+                                                        painter = painterResource(UIResources.drawable.icon_twitter_20),
+                                                        contentDescription = "",
+                                                        modifier = Modifier
+                                                            .wrapContentHeight()
+                                                            .width(25.dp),
+                                                        contentScale = ContentScale.Inside
+                                                    )
+                                                }
+                                                if (player.youtube != null) {
+                                                    Image(
+                                                        painter = painterResource(UIResources.drawable.icon_youtube_20),
+                                                        contentDescription = "",
+                                                        modifier = Modifier
+                                                            .wrapContentHeight()
+                                                            .width(25.dp),
+                                                        contentScale = ContentScale.Inside
+                                                    )
+                                                }
+                                            }
+                                        }
+                                        Row(
+                                            modifier = Modifier.wrapContentSize()
+                                        ) {
+                                            Text(
+                                                text = countryFlag(
+                                                    player.location?.country?.code ?: ""
+                                                ),
+                                                modifier = Modifier.wrapContentSize()
+                                            )
+                                            Spacer(modifier = Modifier.width(4.dp))
+                                            Text(
+                                                text = player.location?.country?.names?.international
+                                                    ?: "",
+                                                color = MaterialTheme.colorScheme.onPrimary
+                                            )
+                                        }
+                                    }
+                                }
+                                Divider(
+                                    modifier = Modifier.align(Alignment.BottomCenter),
+                                    color = Color.DarkGray,
+                                    thickness = 0.5.dp
+                                )
+                            }
+                        }
+                    }
+                }
             }
         }
     }

@@ -5,7 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
-import com.codebox.speedrun.domain.ui.SpeedrunApp
+import com.codebox.speedrun.domain.ui.App
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -20,7 +20,7 @@ class SpeedrunDomainActivity : ComponentActivity() {
         installSplashScreen()
 
         setContent {
-            SpeedrunApp()
+            App()
         }
     }
 }

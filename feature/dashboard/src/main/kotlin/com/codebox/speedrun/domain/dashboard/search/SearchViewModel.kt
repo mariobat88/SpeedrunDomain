@@ -9,6 +9,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
 import com.codebox.speedrun.domain.core.framework.SpeedrunViewModel
+import com.codebox.speedrun.domain.core.framework.navigation.StateNavigator
 import com.codebox.speedrun.domain.core.paging.SpeedrunPagingSource
 import com.codebox.speedrun.domain.data.repo.games.GamesRepository
 import com.codebox.speedrun.domain.data.repo.players.PlayersRepository
@@ -20,10 +21,12 @@ import javax.inject.Inject
 class SearchViewModel @Inject constructor(
     private val gamesRepository: GamesRepository,
     private val playersRepository: PlayersRepository,
+    private val speedrunNavigator: StateNavigator,
 ) : SpeedrunViewModel<ViewState, Intent, Unit>(
     viewState = ViewState()
 ) {
-    val tabEnums = ViewState.TAB.values()
+
+    private val tabEnums = ViewState.TAB.values()
 
     var searchTerm by mutableStateOf("")
         private set

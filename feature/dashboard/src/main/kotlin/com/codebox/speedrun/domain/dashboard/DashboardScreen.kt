@@ -31,23 +31,25 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
-import com.codebox.speedrun.domain.core.framework.toElapsedTime
-import com.codebox.speedrun.domain.kit.player.ui.PlayerName
 import com.codebox.speedrun.domain.code.ui.SpeedrunScreen
+import com.codebox.speedrun.domain.core.framework.toElapsedTime
+import com.codebox.speedrun.domain.core.navigation.MainNavigator
+import com.codebox.speedrun.domain.kit.player.ui.PlayerName
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.ramcosta.composedestinations.DestinationsNavHost
 import com.ramcosta.composedestinations.annotation.Destination
-import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.dependency
 import kotlin.math.max
 import com.codebox.speedrun.domain.core.designsystem.R as DesignSystemResources
 import com.codebox.speedrun.domain.dashboard.R as DashboardResources
 
+const val DASHBOARD_SCREEN_ROUTE = "DashboardScreen"
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-@RootNavGraph(start = true)
-@Destination
+@Destination(DASHBOARD_SCREEN_ROUTE)
 @Composable
-fun DashboardScreen() {
+fun DashboardScreen(
+    mainNavigator: MainNavigator
+) {
     val systemUiController = rememberSystemUiController()
 
     systemUiController.setStatusBarColor(
@@ -84,7 +86,8 @@ fun DashboardScreen() {
                                     .weight(1f)
                                     .clickable {
                                         dashboardNavController.navigate(
-                                            route = tab.route, navOptions = NavOptions
+                                            route = tab.route,
+                                            navOptions = NavOptions
                                                 .Builder()
                                                 .setPopUpTo(
                                                     route = dashboardNavController.currentDestination?.route,
@@ -120,9 +123,10 @@ fun DashboardScreen() {
             }
         ) {
             DestinationsNavHost(
-                navGraph = NavGraphs.dashboard,
+                navGraph = DashboardNavGraphs.root,
                 navController = dashboardNavController,
                 dependenciesContainerBuilder = {
+                    dependency(mainNavigator)
                     dependency(screenPadding)
                     dependency(bottomBarHeight)
                 }
@@ -131,8 +135,8 @@ fun DashboardScreen() {
     }
 }
 
-@DashboardNavGraph
-@Destination
+const val LATEST_SCREEN_ROUTE = "LatestRunsScreen"
+@Destination(LATEST_SCREEN_ROUTE)
 @Composable
 fun LatestRunsScreen(
     paddingValues: PaddingValues,
@@ -156,7 +160,9 @@ fun LatestRunsScreen(
             verticalArrangement = Arrangement.spacedBy(8.dp),
             contentPadding = PaddingValues(
                 top = dimensionResource(DesignSystemResources.dimen.side_padding),
-                bottom = paddingValues.calculateBottomPadding() + bottomBarHeight + dimensionResource(DesignSystemResources.dimen.side_padding)
+                bottom = paddingValues.calculateBottomPadding() + bottomBarHeight + dimensionResource(
+                    DesignSystemResources.dimen.side_padding
+                )
             )
         ) {
             itemsIndexed(viewState.latestRuns) { index, latestRun ->
