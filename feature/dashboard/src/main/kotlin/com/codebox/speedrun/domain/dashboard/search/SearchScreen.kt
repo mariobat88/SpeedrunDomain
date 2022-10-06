@@ -12,17 +12,12 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
-import androidx.compose.ui.input.nestedscroll.NestedScrollSource
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
@@ -31,7 +26,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -48,7 +42,6 @@ import com.google.accompanist.placeholder.PlaceholderHighlight
 import com.google.accompanist.placeholder.material.shimmer
 import com.google.accompanist.placeholder.placeholder
 import com.ramcosta.composedestinations.annotation.Destination
-import kotlin.math.roundToInt
 import com.codebox.speedrun.domain.core.designsystem.R as DesignSystemResources
 import com.codebox.speedrun.domain.core.ui.R as UIResources
 import com.codebox.speedrun.domain.dashboard.R as DashboardResources
@@ -82,27 +75,6 @@ private fun SearchScreen(
         val density = LocalDensity.current
         val toolbarHeightPx = remember { mutableStateOf(0) }
         val toolbarHeightDp = with(density) { toolbarHeightPx.value.toDp() }
-        val maxToolbarHeight = remember {
-            derivedStateOf {
-                with(density) {
-                    toolbarHeightPx.value.toFloat() + screenPadding.calculateTopPadding()
-                        .roundToPx().toFloat()
-                }
-            }
-        }
-        // Our offset to collapse toolbar
-        val toolbarOffsetHeightPx = remember { mutableStateOf(0f) }
-
-        val nestedScrollConnection = remember {
-            object : NestedScrollConnection {
-                override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset {
-                    val delta = available.y
-                    val newOffset = toolbarOffsetHeightPx.value + delta
-                    toolbarOffsetHeightPx.value = newOffset.coerceIn(-maxToolbarHeight.value, 0f)
-                    return Offset.Zero
-                }
-            }
-        }
 
         val searchedGames =
             viewModel.searchGames.collectAsStateWithLifecycle().value.collectAsLazyPagingItems()
@@ -110,9 +82,7 @@ private fun SearchScreen(
             viewModel.searchPlayers.collectAsStateWithLifecycle().value.collectAsLazyPagingItems()
 
         Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .nestedScroll(nestedScrollConnection)
+            modifier = Modifier.fillMaxSize()
         ) {
             if (viewState.selectedTab == ViewState.TAB.GAMES) {
                 LazyVerticalGrid(
@@ -304,7 +274,6 @@ private fun SearchScreen(
                     .onGloballyPositioned { coordinates ->
                         toolbarHeightPx.value = coordinates.size.height
                     }
-                    .offset { IntOffset(x = 0, y = toolbarOffsetHeightPx.value.roundToInt()) }
                     .background(MaterialTheme.colorScheme.background),
             ) {
                 TabRow(
