@@ -1,6 +1,5 @@
 package com.codebox.speedrun.domain.core.framework.navigation
 
-import com.ramcosta.composedestinations.spec.Direction
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -11,7 +10,7 @@ interface Navigator {
     fun onNavigated(state: NavigationState)
     fun navigateUp()
     fun popToRoute(route: String)
-    fun navigateToRoute(route: Direction)
+    fun navigateToRoute(route: String)
 
     val navigationState: StateFlow<NavigationState>
 }
@@ -32,7 +31,7 @@ class StateNavigator @Inject constructor() : Navigator {
 
     override fun navigateUp() = navigate(NavigationState.NavigateUp())
 
-    override fun navigateToRoute(route: Direction) =
+    override fun navigateToRoute(route: String) =
         navigate(NavigationState.NavigateToRoute(route))
 
     private fun navigate(state: NavigationState) {

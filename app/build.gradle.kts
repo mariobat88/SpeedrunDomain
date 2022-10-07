@@ -30,14 +30,6 @@ android {
             buildConfigField("String", "API_URL", "\"https://www.speedrun.com/api/v1/\"")
         }
     }
-
-    applicationVariants.all {
-        sourceSets {
-            getByName(name) {
-                kotlin.srcDir("build/generated/ksp/$name/kotlin")
-            }
-        }
-    }
 }
 
 dependencies {
@@ -52,7 +44,7 @@ dependencies {
     implementation(libs.androidx.compose.ui.tooling)
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.core.splashscreen)
-    implementation(libs.compose.destinations.core)
+    implementation(libs.androidx.navigation.compose)
     implementation(libs.hilt.android)
     implementation(libs.material3)
 
@@ -68,5 +60,4 @@ dependencies {
     implementation(projects.networking.core)
 
     kapt(libs.hilt.compiler)
-    ksp(libs.compose.destinations.ksp)
 }

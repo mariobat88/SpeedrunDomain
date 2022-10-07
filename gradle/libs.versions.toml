@@ -9,15 +9,14 @@ androidxComposeCompiler = "1.2.0"
 androidxComposeMaterial3 = "1.0.0-alpha15"
 androidxHiltNavigationCompose = "1.0.0"
 coil = "2.1.0"
-composeDestinations = "1.6.15-beta"
 composePaging = "1.0.0-alpha14"
 hilt = "2.42"
 javax = "1"
 kotlin = "1.7.0"
 kotlinxCoroutines = "1.6.3"
-ksp = "1.7.0-1.0.6"
 lifecycle = "2.6.0-alpha01"
 material3 = "1.6.1"
+navigation = "2.5.2"
 moshi = "1.13.0"
 okhttp = "4.10.0"
 retrofit = "2.9.0"
@@ -41,6 +40,7 @@ androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "u
 androidx-core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "splashscreen" }
 androidx-hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "androidxHiltNavigationCompose" }
 androidx-lifecycle-compose-runtime = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "lifecycle" }
+androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigation" }
 androidx-paging-pagingCompose = { group = "androidx.paging", name = "paging-compose", version.ref = "composePaging" }
 coil = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
@@ -49,15 +49,12 @@ hilt-gradlePlugin = { group = "com.google.dagger", name = "hilt-android-gradle-p
 javax-inject = { module = "javax.inject:javax.inject", version.ref = "javax" }
 kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
 kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlinxCoroutines" }
-ksp = { group = "com.google.devtools.ksp", name = "symbol-processing-api", version.ref = "ksp" }
 material3 = { group = "com.google.android.material", name = "material", version.ref = "material3" }
 moshi-adapters = { group = "com.squareup.moshi", name = "moshi-adapters", version.ref = "moshi" }
 moshi-core = { group = "com.squareup.moshi", name = "moshi", version.ref = "moshi" }
 moshi-kotlinCodegen = { group = "com.squareup.moshi", name = "moshi-kotlin-codegen", version.ref = "moshi" }
 okhttp-core = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttp" }
 okhttp-loggingInterceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp" }
-compose-destinations-core = { group = "io.github.raamcosta.compose-destinations", name = "core", version.ref = "composeDestinations" }
-compose-destinations-ksp = { group = "io.github.raamcosta.compose-destinations", name = "ksp", version.ref = "composeDestinations" }
 retrofit-core = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
 retrofit-converterMoshi = { group = "com.squareup.retrofit2", name = "converter-moshi", version.ref = "retrofit" }
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }

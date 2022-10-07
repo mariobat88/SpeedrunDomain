@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import com.codebox.speedrun.domain.core.navigation.MainNavigator
 import javax.inject.Inject
 
-class AppplicationViewModel @Inject constructor(
+class AppViewModel @Inject constructor(
     val mainNavigator: MainNavigator
 ) : ViewModel() {
 

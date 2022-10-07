@@ -3,7 +3,6 @@ package com.codebox.speedrun.domain.dashboard.search
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -23,7 +22,6 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -34,43 +32,34 @@ import androidx.paging.compose.items
 import coil.compose.AsyncImage
 import com.codebox.speedrun.domain.core.framework.Compose
 import com.codebox.speedrun.domain.core.framework.countryFlag
-import com.codebox.speedrun.domain.core.navigation.MainNavigator
 import com.codebox.speedrun.domain.kit.player.ui.PlayerName
 import com.google.accompanist.placeholder.PlaceholderHighlight
 import com.google.accompanist.placeholder.material.shimmer
 import com.google.accompanist.placeholder.placeholder
-import com.ramcosta.composedestinations.annotation.Destination
 import com.codebox.speedrun.domain.core.designsystem.R as DesignSystemResources
 import com.codebox.speedrun.domain.core.ui.R as UIResources
 import com.codebox.speedrun.domain.dashboard.R as DashboardResources
 
-const val SEARCH_SCREEN_ROUTE = "SearchScreen"
-
-@Destination(SEARCH_SCREEN_ROUTE)
 @Composable
 fun SearchScreen(
-    mainNavigator: MainNavigator,
-    screenPadding: PaddingValues,
-    bottomBarHeight: Dp,
+    //mainNavigator: MainNavigator,
 ) {
     SearchScreen(
-        hiltViewModel(), mainNavigator, screenPadding, bottomBarHeight
+        hiltViewModel(),
+        //mainNavigator,
     )
 }
 
 @Composable
 private fun SearchScreen(
     viewModel: SearchViewModel,
-    mainNavigator: MainNavigator,
-    screenPadding: PaddingValues,
-    bottomBarHeight: Dp,
+    //mainNavigator: MainNavigator,
 ) = Compose(viewModel) { viewState, intentChannel, _ ->
     val sidePadding = dimensionResource(DesignSystemResources.dimen.side_padding)
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(top = screenPadding.calculateTopPadding())
             .padding(horizontal = sidePadding)
     ) {
         val searchedGames =
@@ -125,7 +114,7 @@ private fun SearchScreen(
                 LazyVerticalGrid(
                     columns = GridCells.Adaptive(dimensionResource(DashboardResources.dimen.item_width)),
                     contentPadding = PaddingValues(
-                        bottom = screenPadding.calculateBottomPadding() + bottomBarHeight + sidePadding
+                        bottom = sidePadding
                     ),
                     verticalArrangement = Arrangement.spacedBy(sidePadding / 2),
                     horizontalArrangement = Arrangement.spacedBy(sidePadding / 2)
@@ -167,8 +156,8 @@ private fun SearchScreen(
                                             Color.DarkGray,
                                             RoundedCornerShape(dimensionResource(DashboardResources.dimen.rounded_corner_size))
                                         )
-                                        .height(dimensionResource(DashboardResources.dimen.item_height))
-                                        .clickable { mainNavigator.navigateToGameScreen() },
+                                        .height(dimensionResource(DashboardResources.dimen.item_height)),
+                                        //.clickable { mainNavigator.navigateToGameScreen() },
                                     horizontalAlignment = Alignment.CenterHorizontally,
                                 ) {
                                     AsyncImage(
@@ -201,7 +190,7 @@ private fun SearchScreen(
             } else {
                 LazyColumn(
                     contentPadding = PaddingValues(
-                        bottom = screenPadding.calculateBottomPadding() + bottomBarHeight + sidePadding
+                        bottom = sidePadding
                     ),
                 ) {
                     items(searchPlayers) { player ->

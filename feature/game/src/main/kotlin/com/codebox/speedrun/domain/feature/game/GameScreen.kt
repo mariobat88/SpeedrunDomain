@@ -8,11 +8,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.codebox.speedrun.domain.code.ui.SpeedrunScreen
-import com.ramcosta.composedestinations.annotation.Destination
 
-const val GAME_SCREEN_ROUTE = "GameScreen"
-
-@Destination(GAME_SCREEN_ROUTE)
 @Composable
 fun GameScreen() {
     GameScreen(hiltViewModel())

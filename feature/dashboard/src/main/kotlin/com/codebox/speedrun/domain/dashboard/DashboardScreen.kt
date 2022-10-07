@@ -33,22 +33,16 @@ import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.codebox.speedrun.domain.code.ui.SpeedrunScreen
 import com.codebox.speedrun.domain.core.framework.toElapsedTime
-import com.codebox.speedrun.domain.core.navigation.MainNavigator
 import com.codebox.speedrun.domain.kit.player.ui.PlayerName
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import com.ramcosta.composedestinations.DestinationsNavHost
-import com.ramcosta.composedestinations.annotation.Destination
-import com.ramcosta.composedestinations.navigation.dependency
 import kotlin.math.max
 import com.codebox.speedrun.domain.core.designsystem.R as DesignSystemResources
 import com.codebox.speedrun.domain.dashboard.R as DashboardResources
 
-const val DASHBOARD_SCREEN_ROUTE = "DashboardScreen"
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-@Destination(DASHBOARD_SCREEN_ROUTE)
 @Composable
 fun DashboardScreen(
-    mainNavigator: MainNavigator
+    //mainNavigator: MainNavigator
 ) {
     val systemUiController = rememberSystemUiController()
 
@@ -122,21 +116,17 @@ fun DashboardScreen(
                 }
             }
         ) {
-            DestinationsNavHost(
-                navGraph = DashboardNavGraphs.root,
+            DashboardNavigation(
                 navController = dashboardNavController,
-                dependenciesContainerBuilder = {
-                    dependency(mainNavigator)
-                    dependency(screenPadding)
-                    dependency(bottomBarHeight)
-                }
+                modifier = Modifier.padding(
+                    top = screenPadding.calculateTopPadding(),
+                    bottom = screenPadding.calculateBottomPadding() + bottomBarHeight
+                )
             )
         }
     }
 }
 
-const val LATEST_SCREEN_ROUTE = "LatestRunsScreen"
-@Destination(LATEST_SCREEN_ROUTE)
 @Composable
 fun LatestRunsScreen(
     paddingValues: PaddingValues,
