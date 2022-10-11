@@ -1,41 +1,85 @@
 package com.codebox.speedrun.domain.dashboard.search
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
-import androidx.compose.runtime.snapshotFlow
+import android.app.Activity
+import androidx.compose.runtime.*
+import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.CreationExtras
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
 import com.codebox.speedrun.domain.core.framework.SpeedrunViewModel
-import com.codebox.speedrun.domain.core.framework.navigation.StateNavigator
 import com.codebox.speedrun.domain.core.paging.SpeedrunPagingSource
 import com.codebox.speedrun.domain.data.repo.games.GamesRepository
 import com.codebox.speedrun.domain.data.repo.players.PlayersRepository
-import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
+import dagger.hilt.EntryPoint
+import dagger.hilt.InstallIn
+import dagger.hilt.android.EntryPointAccessors
+import dagger.hilt.android.components.ActivityComponent
 import kotlinx.coroutines.flow.*
-import javax.inject.Inject
 
-@HiltViewModel
-class SearchViewModel @Inject constructor(
+class SearchViewModel @AssistedInject constructor(
+    @Assisted("searchNavigator") private val searchNavigator: SearchNavigator,
     private val gamesRepository: GamesRepository,
     private val playersRepository: PlayersRepository,
-    private val speedrunNavigator: StateNavigator,
 ) : SpeedrunViewModel<ViewState, Intent, Unit>(
     viewState = ViewState()
 ) {
+
+    @EntryPoint
+    @InstallIn(ActivityComponent::class)
+    interface ViewModelFactoryProvider {
+        fun searchViewModelFactory(): Factory
+    }
+
+    @AssistedFactory
+    interface Factory {
+        fun create(
+            @Assisted("searchNavigator") searchNavigator: SearchNavigator,
+        ): SearchViewModel
+    }
+
+    companion object {
+        @Composable
+        fun create(
+            searchNavigator: SearchNavigator
+        ): SearchViewModel {
+            val activity = LocalContext.current as Activity
+
+            return viewModel(
+                factory = object : ViewModelProvider.Factory {
+                    @Suppress("UNCHECKED_CAST")
+                    override fun <T : ViewModel> create(
+                        modelClass: Class<T>,
+                        extras: CreationExtras
+                    ): T {
+                        val entryPoint = EntryPointAccessors.fromActivity(
+                            activity,
+                            ViewModelFactoryProvider::class.java
+                        )
+                        return entryPoint.searchViewModelFactory()
+                            .create(searchNavigator) as T
+                    }
+                })
+        }
+
+        const val INITIAL_LOAD_SIZE = 40
+    }
 
     private val tabEnums = ViewState.TAB.values()
 
     var searchTerm by mutableStateOf("")
         private set
 
-    var gameSearchTerm by mutableStateOf("")
-        private set
+    private var gameSearchTerm by mutableStateOf("")
 
-    var playerSearchTerm by mutableStateOf("")
-        private set
+    private var playerSearchTerm by mutableStateOf("")
 
     private val gameSearchFlow = snapshotFlow { gameSearchTerm }
 
@@ -101,13 +145,13 @@ class SearchViewModel @Inject constructor(
                 }
             }
 
+        val navigateToGameScreenIntent = intents.filterIsInstance<Intent.NavigateToGameScreen>()
+            .onEach { searchNavigator.navigateToGameScreen() }
+
         return merge(
             searchIntent,
-            selectedTabIntent
+            selectedTabIntent,
+            navigateToGameScreenIntent,
         )
-    }
-
-    companion object {
-        const val INITIAL_LOAD_SIZE = 40
     }
 }

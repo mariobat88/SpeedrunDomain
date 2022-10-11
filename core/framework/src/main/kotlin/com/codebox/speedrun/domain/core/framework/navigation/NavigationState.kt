@@ -1,5 +1,6 @@
 package com.codebox.speedrun.domain.core.framework.navigation
 
+import androidx.navigation.NavOptions
 import java.util.*
 
 /**
@@ -13,7 +14,7 @@ sealed class NavigationState {
 
     object Idle : NavigationState()
 
-    data class NavigateToRoute(val route: String, val id: String = UUID.randomUUID().toString()) :
+    data class NavigateToRoute(val route: String, val navOptions: NavOptions? = null, val id: String = UUID.randomUUID().toString()) :
         NavigationState()
 
     /**

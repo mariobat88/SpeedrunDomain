@@ -1,21 +1,22 @@
 package com.codebox.speedrun.domain.core.framework.navigation
 
+import androidx.navigation.NavOptions
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
-interface Navigator {
+interface StateNavigator {
     fun onNavigated(state: NavigationState)
     fun navigateUp()
     fun popToRoute(route: String)
-    fun navigateToRoute(route: String)
+    fun navigateToRoute(route: String, navOptions: NavOptions? = null)
 
     val navigationState: StateFlow<NavigationState>
 }
 
-class StateNavigator @Inject constructor() : Navigator {
+class StateNavigatorImpl @Inject constructor() : StateNavigator {
 
     private val _navigationState: MutableStateFlow<NavigationState> =
         MutableStateFlow(NavigationState.Idle)
@@ -31,8 +32,8 @@ class StateNavigator @Inject constructor() : Navigator {
 
     override fun navigateUp() = navigate(NavigationState.NavigateUp())
 
-    override fun navigateToRoute(route: String) =
-        navigate(NavigationState.NavigateToRoute(route))
+    override fun navigateToRoute(route: String, navOptions: NavOptions?) =
+        navigate(NavigationState.NavigateToRoute(route, navOptions))
 
     private fun navigate(state: NavigationState) {
         _navigationState.update { state }

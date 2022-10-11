@@ -3,6 +3,7 @@ package com.codebox.speedrun.domain.dashboard.search
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -24,7 +25,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
@@ -42,18 +42,15 @@ import com.codebox.speedrun.domain.dashboard.R as DashboardResources
 
 @Composable
 fun SearchScreen(
-    //mainNavigator: MainNavigator,
+    searchNavigator: SearchNavigator,
 ) {
-    SearchScreen(
-        hiltViewModel(),
-        //mainNavigator,
-    )
+    val searchViewModel = SearchViewModel.create(searchNavigator)
+    SearchScreen(searchViewModel)
 }
 
 @Composable
 private fun SearchScreen(
     viewModel: SearchViewModel,
-    //mainNavigator: MainNavigator,
 ) = Compose(viewModel) { viewState, intentChannel, _ ->
     val sidePadding = dimensionResource(DesignSystemResources.dimen.side_padding)
 
@@ -156,8 +153,8 @@ private fun SearchScreen(
                                             Color.DarkGray,
                                             RoundedCornerShape(dimensionResource(DashboardResources.dimen.rounded_corner_size))
                                         )
-                                        .height(dimensionResource(DashboardResources.dimen.item_height)),
-                                        //.clickable { mainNavigator.navigateToGameScreen() },
+                                        .height(dimensionResource(DashboardResources.dimen.item_height))
+                                        .clickable { intentChannel.tryEmit(Intent.NavigateToGameScreen) },
                                     horizontalAlignment = Alignment.CenterHorizontally,
                                 ) {
                                     AsyncImage(
