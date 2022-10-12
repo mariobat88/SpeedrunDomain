@@ -1,4 +1,4 @@
-package com.codebox.speedrun.domain.dashboard.home
+package com.codebox.speedrun.domain.dashboard.feature.home
 
 sealed class Intent
 

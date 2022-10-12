@@ -4,6 +4,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.rememberNavController
 import com.codebox.speedrun.domain.designsystem.theme.LightDefaultColorScheme
+import com.codebox.speedrun.domain.navigation.AppNavigation
 
 @Composable
 fun AppScreen() {

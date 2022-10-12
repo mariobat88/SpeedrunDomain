@@ -1,4 +1,4 @@
-package com.codebox.speedrun.domain.dashboard.search
+package com.codebox.speedrun.domain.dashboard.feature.search
 
 sealed class Intent {
     data class TabSelected(val index: Int) : Intent()

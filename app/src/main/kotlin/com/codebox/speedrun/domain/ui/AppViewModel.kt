@@ -9,6 +9,8 @@ import androidx.lifecycle.viewmodel.CreationExtras
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.codebox.speedrun.domain.core.framework.navigation.StateNavigator
 import com.codebox.speedrun.domain.core.framework.navigation.StateNavigatorImpl
+import com.codebox.speedrun.domain.feature.game.navigation.GameNavigation
+import com.codebox.speedrun.domain.navigation.AppNavigator
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -57,7 +59,7 @@ class AppViewModel @AssistedInject constructor(
         }
     }
 
-    override fun navigateToGameScreen() {
-        stateNavigator.navigateToRoute("game")
+    override fun navigateToGameScreen(gameId: String) {
+        stateNavigator.navigateToRoute(GameNavigation(gameId))
     }
 }

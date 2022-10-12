@@ -1,4 +1,4 @@
-package com.codebox.speedrun.domain.dashboard.search
+package com.codebox.speedrun.domain.dashboard.feature.search
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -32,6 +32,7 @@ import androidx.paging.compose.items
 import coil.compose.AsyncImage
 import com.codebox.speedrun.domain.core.framework.Compose
 import com.codebox.speedrun.domain.core.framework.countryFlag
+import com.codebox.speedrun.domain.dashboard.feature.search.navigation.SearchNavigator
 import com.codebox.speedrun.domain.kit.player.ui.PlayerName
 import com.google.accompanist.placeholder.PlaceholderHighlight
 import com.google.accompanist.placeholder.material.shimmer

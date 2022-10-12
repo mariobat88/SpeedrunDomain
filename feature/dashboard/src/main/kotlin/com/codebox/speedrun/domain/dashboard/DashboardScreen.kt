@@ -17,6 +17,8 @@ import androidx.navigation.NavOptions
 import androidx.navigation.compose.rememberNavController
 import com.codebox.speedrun.domain.code.ui.SpeedrunScreen
 import com.codebox.speedrun.domain.core.framework.Screen
+import com.codebox.speedrun.domain.dashboard.navigation.DashboardSubNavigation
+import com.codebox.speedrun.domain.dashboard.navigation.DashboardNavigator
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.codebox.speedrun.domain.dashboard.R as DashboardResources
 
@@ -107,7 +109,7 @@ fun DashboardScreen(
                 }
             }
         ) {
-            DashboardNavigation(
+            DashboardSubNavigation(
                 dashboardNavigator = dashboardViewModel.dashboardNavigator,
                 navController = dashboardNavController,
                 dashboardViewModel = dashboardViewModel,

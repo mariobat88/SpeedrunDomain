@@ -1,4 +1,4 @@
-package com.codebox.speedrun.domain.dashboard
+package com.codebox.speedrun.domain.dashboard.navigation
 
 import androidx.navigation.NavOptions
 

@@ -11,6 +11,8 @@ import androidx.navigation.NavOptions
 import com.codebox.speedrun.domain.core.framework.SpeedrunViewModel
 import com.codebox.speedrun.domain.core.framework.navigation.StateNavigator
 import com.codebox.speedrun.domain.core.framework.navigation.StateNavigatorImpl
+import com.codebox.speedrun.domain.dashboard.navigation.DashboardNavigator
+import com.codebox.speedrun.domain.dashboard.navigation.DashboardSubNavigator
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject

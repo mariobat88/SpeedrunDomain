@@ -1,4 +1,4 @@
-package com.codebox.speedrun.domain.dashboard.search
+package com.codebox.speedrun.domain.dashboard.feature.search
 
 import android.app.Activity
 import androidx.compose.runtime.*
@@ -13,6 +13,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
 import com.codebox.speedrun.domain.core.framework.SpeedrunViewModel
 import com.codebox.speedrun.domain.core.paging.SpeedrunPagingSource
+import com.codebox.speedrun.domain.dashboard.feature.search.navigation.SearchNavigator
 import com.codebox.speedrun.domain.data.repo.games.GamesRepository
 import com.codebox.speedrun.domain.data.repo.players.PlayersRepository
 import dagger.assisted.Assisted
@@ -146,7 +147,7 @@ class SearchViewModel @AssistedInject constructor(
             }
 
         val navigateToGameScreenIntent = intents.filterIsInstance<Intent.NavigateToGameScreen>()
-            .onEach { searchNavigator.navigateToGameScreen() }
+            .onEach { searchNavigator.navigateToGameScreen("123") }
 
         return merge(
             searchIntent,
