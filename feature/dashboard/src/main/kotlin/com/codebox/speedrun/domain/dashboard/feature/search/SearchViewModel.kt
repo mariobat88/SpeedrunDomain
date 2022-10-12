@@ -147,7 +147,7 @@ class SearchViewModel @AssistedInject constructor(
             }
 
         val navigateToGameScreenIntent = intents.filterIsInstance<Intent.NavigateToGameScreen>()
-            .onEach { searchNavigator.navigateToGameScreen("123") }
+            .onEach { intent -> searchNavigator.navigateToGameScreen(intent.gameId) }
 
         return merge(
             searchIntent,

@@ -37,7 +37,7 @@ fun <ViewState : Any, Intent : Any, SideEffect : Any> Screen(
     viewModel: SpeedrunViewModel<ViewState, Intent, SideEffect>,
     block: @Composable (viewState: ViewState, intentChannel: MutableSharedFlow<Intent>, sideEffects: Flow<SideEffect>) -> Unit,
 ) {
-    RegisterBackHandler(viewModel)
+    //RegisterBackHandler(viewModel)
     block(
         viewModel.viewState.collectAsStateWithLifecycle().value,
         viewModel.intentChannel,

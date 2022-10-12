@@ -51,9 +51,9 @@ data class GameModel(
         val trophy1st: Asset,
         val trophy2nd: Asset,
         val trophy3rd: Asset,
-        val trophy4th: Asset,
-        val background: Asset,
-        val foreground: Asset
+        val trophy4th: Asset?,
+        val background: Asset?,
+        val foreground: Asset?
     ) {
         data class Asset(
             val uri: String?

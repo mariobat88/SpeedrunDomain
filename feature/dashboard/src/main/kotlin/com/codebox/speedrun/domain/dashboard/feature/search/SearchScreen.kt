@@ -139,27 +139,17 @@ private fun SearchScreen(
                     } else {
                         items(searchedGames.itemCount) { index ->
                             key(index) {
-                                val gameModel = searchedGames[index]
+                                val gameModel = searchedGames[index]!!
                                 Column(
                                     modifier = Modifier
-                                        .clip(
-                                            RoundedCornerShape(
-                                                dimensionResource(
-                                                    DashboardResources.dimen.rounded_corner_size
-                                                )
-                                            )
-                                        )
-                                        .border(
-                                            0.5.dp,
-                                            Color.DarkGray,
-                                            RoundedCornerShape(dimensionResource(DashboardResources.dimen.rounded_corner_size))
-                                        )
+                                        .clip(RoundedCornerShape(dimensionResource(DashboardResources.dimen.rounded_corner_size)))
+                                        .border(0.5.dp, Color.DarkGray, RoundedCornerShape(dimensionResource(DashboardResources.dimen.rounded_corner_size)))
                                         .height(dimensionResource(DashboardResources.dimen.item_height))
-                                        .clickable { intentChannel.tryEmit(Intent.NavigateToGameScreen) },
+                                        .clickable { intentChannel.tryEmit(Intent.NavigateToGameScreen(gameModel.id)) },
                                     horizontalAlignment = Alignment.CenterHorizontally,
                                 ) {
                                     AsyncImage(
-                                        model = gameModel?.assets?.coverMedium?.uri,
+                                        model = gameModel.assets.coverMedium.uri,
                                         contentDescription = "",
                                         modifier = Modifier
                                             .fillMaxWidth()
@@ -173,7 +163,7 @@ private fun SearchScreen(
                                         contentAlignment = Alignment.Center
                                     ) {
                                         Text(
-                                            text = gameModel?.names?.international ?: "",
+                                            text = gameModel.names.international,
                                             color = MaterialTheme.colorScheme.onPrimary,
                                             fontSize = 12.sp,
                                             textAlign = TextAlign.Center,

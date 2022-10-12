@@ -34,7 +34,7 @@ fun GameResponse.toEntity() = GameEntity(
 //    publishers = publishers,
     //moderators = moderators,
     created = created,
-//    assets = assets.toModel(),
+    assets = assets.toEntity(),
 //    links = links.map { it.toModel() },
 )
 
@@ -51,6 +51,25 @@ private fun GameResponse.Ruleset.toEntity() = GameEntity.Ruleset(
        //runTimes = runTimes,
     defaultTime = defaultTime,
     emulatorsAllowed = emulatorsAllowed,
+)
+
+fun GameResponse.Assets.toEntity() = GameEntity.Assets(
+    logo = logo.toEntity(),
+    coverTiny = coverTiny.toEntity(),
+    coverSmall = coverSmall.toEntity(),
+    coverMedium = coverMedium.toEntity(),
+    coverLarge = coverLarge.toEntity(),
+    icon = icon.toEntity(),
+    trophy1st = trophy1st.toEntity(),
+    trophy2nd = trophy2nd.toEntity(),
+    trophy3rd = trophy3rd.toEntity(),
+    trophy4th = trophy4th.toEntity(),
+    background = background.toEntity(),
+    foreground = foreground.toEntity(),
+)
+
+fun GameResponse.Assets.Asset.toEntity() = GameEntity.Assets.Asset(
+    uri = uri,
 )
 
 fun GameResponse.toModel() = GameModel(
@@ -109,5 +128,65 @@ fun GameResponse.Assets.toModel() = GameModel.Assets(
 )
 
 fun GameResponse.Assets.Asset.toModel() = GameModel.Assets.Asset(
+    uri = uri,
+)
+
+fun GameEntity.toModel() = GameModel(
+    id = id,
+    names = names.toEntity(),
+    boostReceived = boostReceived,
+    boostDistinctDonors = boostDistinctDonors,
+    abbreviation = abbreviation,
+    weblink = weblink,
+    discord = discord,
+    released = released,
+    releaseDate = releaseDate,
+    ruleset = ruleset.toEntity(),
+    romhack = romhack,
+    gametypes = emptyList(),
+    platforms = emptyList(),
+    regions = emptyList(),
+    genres = emptyList(),
+    engines = emptyList(),
+    developers = emptyList(),
+    publishers = emptyList(),
+    moderators = emptyMap(),
+    created = created,
+    assets = assets.toEntity(),
+    links = emptyList(),
+)
+
+fun GameEntity.Names.toEntity() = GameModel.Names(
+    international = international,
+    japanese = japanese,
+    twitch = twitch,
+)
+
+fun GameEntity.Ruleset.toEntity() = GameModel.Ruleset(
+    showMilliseconds = showMilliseconds,
+    requireVerification = requireVerification,
+    requireVideo = requireVideo,
+    //runTimes = runTimes,
+    runTimes = emptyList(),
+    defaultTime = defaultTime,
+    emulatorsAllowed = emulatorsAllowed,
+)
+
+fun GameEntity.Assets.toEntity() = GameModel.Assets(
+    logo = logo.toEntity(),
+    coverTiny = coverTiny.toEntity(),
+    coverSmall = coverSmall.toEntity(),
+    coverMedium = coverMedium.toEntity(),
+    coverLarge = coverLarge.toEntity(),
+    icon = icon.toEntity(),
+    trophy1st = trophy1st.toEntity(),
+    trophy2nd = trophy2nd.toEntity(),
+    trophy3rd = trophy3rd.toEntity(),
+    trophy4th = trophy4th?.toEntity(),
+    background = background?.toEntity(),
+    foreground = foreground?.toEntity(),
+)
+
+fun GameEntity.Assets.Asset.toEntity() = GameModel.Assets.Asset(
     uri = uri,
 )

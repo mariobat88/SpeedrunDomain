@@ -8,6 +8,8 @@ import com.codebox.speedrun.domain.data.repo.games.GamesRepository
 import com.codebox.speedrun.domain.data.repo.games.model.GameModel
 import com.codebox.speedrun.domain.networking.api.games.GamesApiService
 import com.codebox.speedrun.domain.wrapper.dispatchers.DispatcherProvider
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -15,11 +17,11 @@ import javax.inject.Singleton
 @Singleton
 class GamesRepositoryImpl @Inject constructor(
     private val gamesApiService: GamesApiService,
-    speedrunDatabase: SpeedrunDatabase,
     private val dispatcherProvider: DispatcherProvider,
+    speedrunDatabase: SpeedrunDatabase,
 ) : GamesRepository {
 
-    val gameDao = speedrunDatabase.gameDao()
+    private val gameDao = speedrunDatabase.gameDao()
 
     override suspend fun searchGames(
         name: String,
@@ -32,4 +34,9 @@ class GamesRepositoryImpl @Inject constructor(
 
         searchedGames.toModel()
     }
+
+    override suspend fun getGameById(id: String): Flow<GameModel> =
+        withContext(dispatcherProvider.io()) {
+            gameDao.getGameById(id).map { it.toModel() }
+        }
 }
