@@ -29,8 +29,8 @@ data class Success<out T>(val value: T) : Async<T>(complete = true, shouldLoad =
 }
 
 data class Fail<out T>(
-    val title: String,
-    val message: String,
+    val title: String? = null,
+    val message: String? = null,
     val error: Throwable,
 ) : Async<T>(complete = true, shouldLoad = true, value = null) {
     override fun equals(other: Any?): Boolean {

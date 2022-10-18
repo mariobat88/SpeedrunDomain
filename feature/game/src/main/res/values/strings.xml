@@ -2,4 +2,8 @@
 <resources>
     <string name="release_date">Release date: %1$s</string>
     <string name="ruleset">Ruleset</string>
+    <string name="show_milliseconds">Show milliseconds</string>
+    <string name="require_verification">Require verification</string>
+    <string name="require_video">Require video</string>
+    <string name="emulators_allowed">Emulators allowed</string>
 </resources>

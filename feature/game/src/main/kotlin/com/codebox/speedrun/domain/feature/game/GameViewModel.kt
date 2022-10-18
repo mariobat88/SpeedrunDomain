@@ -68,16 +68,8 @@ class GameViewModel @AssistedInject constructor(
     init {
         viewModelScope.launch(dispatcherProvider.main()) {
             gamesRepository.getGameById(gameId)
-                .collect { game ->
-                    reduce {
-                        it.copy(
-                            gameName = game.names.international,
-                            releaseDate = game.releaseDate,
-                            coverLargeUri = game.assets.coverLarge.uri,
-                            coverSmallUri = game.assets.coverSmall.uri,
-                        )
-                    }
-                }
+                .asAsync()
+                .collect { gameAsync -> reduce { it.copy(gameAsync = gameAsync) } }
         }
     }
 }

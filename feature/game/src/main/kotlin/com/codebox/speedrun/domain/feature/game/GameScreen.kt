@@ -5,10 +5,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Divider
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ProvideTextStyle
-import androidx.compose.material3.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -57,7 +57,7 @@ fun GameScreen(
                 .verticalScroll(rememberScrollState())
         ) {
             SubcomposeAsyncImage(
-                model = viewState.coverLargeUri,
+                model = viewState.gameAsync()?.assets?.coverLarge ?: "",
                 contentDescription = "",
                 modifier = Modifier
                     .fillMaxWidth()
@@ -86,7 +86,7 @@ fun GameScreen(
                             MaterialTheme.typography.headlineMedium
                         ) {
                             Text(
-                                text = viewState.gameName,
+                                text = viewState.gameAsync()?.names?.international ?: "",
                                 modifier = Modifier
                                     .wrapContentSize()
                                     .align(Alignment.Center)
@@ -114,7 +114,7 @@ fun GameScreen(
                 Text(
                     text = stringResource(
                         GameScreenResources.string.release_date,
-                        viewState.releaseDate
+                        viewState.gameAsync()?.releaseDate ?: ""
                     ),
                     color = MaterialTheme.colorScheme.onBackground,
                 )
@@ -125,11 +125,66 @@ fun GameScreen(
                     text = stringResource(GameScreenResources.string.ruleset),
                     color = MaterialTheme.colorScheme.onBackground,
                 )
+                Spacer(
+                    modifier = Modifier.height(dimensionResource(DesignSystemResources.dimen.side_padding))
+                )
                 Divider(
                     color = MaterialTheme.colorScheme.primary
                 )
+                Spacer(
+                    modifier = Modifier.height(dimensionResource(DesignSystemResources.dimen.side_padding))
+                )
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .wrapContentHeight()
+                ) {
+                    Rule(
+                        required = viewState.gameAsync()?.ruleset?.showMilliseconds,
+                        title = stringResource(GameScreenResources.string.show_milliseconds),
+                    )
+                    Rule(
+                        required = viewState.gameAsync()?.ruleset?.requireVerification,
+                        title = stringResource(GameScreenResources.string.require_verification),
+                    )
+                    Rule(
+                        required = viewState.gameAsync()?.ruleset?.requireVideo,
+                        title = stringResource(GameScreenResources.string.require_video),
+                    )
+                    Rule(
+                        required = viewState.gameAsync()?.ruleset?.emulatorsAllowed,
+                        title = stringResource(GameScreenResources.string.emulators_allowed),
+                    )
+                }
             }
         }
+    }
+}
+
+@Composable
+private fun Rule(
+    required: Boolean?,
+    title: String
+) {
+    Row {
+        if (required == true) {
+            Icon(
+                imageVector = Icons.Default.Check,
+                contentDescription = "",
+                tint = MaterialTheme.colorScheme.primary
+            )
+        } else if (required == false) {
+            Icon(
+                imageVector = Icons.Default.Close,
+                contentDescription = "",
+                tint = MaterialTheme.colorScheme.error
+            )
+        }
+        Spacer(modifier = Modifier.width(4.dp))
+        Text(
+            text = title,
+            color = MaterialTheme.colorScheme.onBackground,
+        )
     }
 }
 

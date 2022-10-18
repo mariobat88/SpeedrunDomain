@@ -22,6 +22,7 @@ okhttp = "4.10.0"
 retrofit = "2.9.0"
 room = "2.4.3"
 splashscreen = "1.0.0"
+timber = "5.0.1"
 
 [libraries]
 accompanist-systemuicontroller = { group = "com.google.accompanist", name = "accompanist-systemuicontroller", version.ref = "accompanist" }
@@ -60,3 +61,4 @@ retrofit-converterMoshi = { group = "com.squareup.retrofit2", name = "converter-
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
+timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
