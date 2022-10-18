@@ -72,6 +72,7 @@ class GameViewModel @AssistedInject constructor(
                     reduce {
                         it.copy(
                             gameName = game.names.international,
+                            releaseDate = game.releaseDate,
                             coverLargeUri = game.assets.coverLarge.uri,
                             coverSmallUri = game.assets.coverSmall.uri,
                         )
