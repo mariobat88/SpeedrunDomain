@@ -24,6 +24,8 @@ import com.codebox.speedrun.data.common.enums.RunTimeEnum
 import com.codebox.speedrun.domain.code.ui.SpeedrunScreen
 import com.codebox.speedrun.domain.code.ui.Tile
 import com.codebox.speedrun.domain.core.framework.Screen
+import com.codebox.speedrun.domain.core.framework.async.Loading
+import com.codebox.speedrun.domain.core.framework.async.Success
 import com.codebox.speedrun.domain.designsystem.theme.SpeedrunColors
 import com.codebox.speedrun.utils.capitalized
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -59,49 +61,66 @@ fun GameScreen(
                 )
                 .verticalScroll(rememberScrollState())
         ) {
-            SubcomposeAsyncImage(
-                model = viewState.gameAsync()?.assets?.coverLarge ?: "",
-                contentDescription = "",
+            Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(300.dp),
-                contentScale = ContentScale.Crop,
+                    .height(300.dp)
             ) {
-                val painter = painter
-                val state = painter.state
-                if (state is AsyncImagePainter.State.Success) {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                    ) {
-                        Image(
-                            painter = painter,
+                when (val gameAsync = viewState.gameAsync) {
+                    is Loading -> {
+                        LinearProgressIndicator(modifier = Modifier.align(Alignment.Center))
+                    }
+                    is Success -> {
+                        SubcomposeAsyncImage(
+                            model = gameAsync().assets.coverLarge.uri,
                             contentDescription = "",
                             modifier = Modifier.fillMaxSize(),
-                            contentScale = ContentScale.Crop
-                        )
-                        Spacer(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .background(SpeedrunColors.CoverOverlay),
-                        )
-                        ProvideTextStyle(
-                            MaterialTheme.typography.headlineMedium
+                            contentScale = ContentScale.Crop,
                         ) {
-                            Text(
-                                text = viewState.gameAsync()?.names?.international ?: "",
-                                modifier = Modifier
-                                    .wrapContentSize()
-                                    .align(Alignment.Center)
-                                    .padding(horizontal = dimensionResource(DesignSystemResources.dimen.side_padding)),
-                                color = MaterialTheme.colorScheme.onBackground,
-                                textAlign = TextAlign.Center,
-                            )
-                        }
+                            val painter = painter
+                            val state = painter.state
+                            if (state is AsyncImagePainter.State.Success) {
+                                Box(
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                ) {
+                                    Image(
+                                        painter = painter,
+                                        contentDescription = "",
+                                        modifier = Modifier.fillMaxSize(),
+                                        contentScale = ContentScale.Crop
+                                    )
+                                    Spacer(
+                                        modifier = Modifier
+                                            .fillMaxSize()
+                                            .background(SpeedrunColors.CoverOverlay),
+                                    )
+                                    ProvideTextStyle(
+                                        MaterialTheme.typography.headlineMedium
+                                    ) {
+                                        Text(
+                                            text = gameAsync().names.international,
+                                            modifier = Modifier
+                                                .wrapContentSize()
+                                                .align(Alignment.Center)
+                                                .padding(
+                                                    horizontal = dimensionResource(
+                                                        DesignSystemResources.dimen.side_padding
+                                                    )
+                                                ),
+                                            color = MaterialTheme.colorScheme.onBackground,
+                                            textAlign = TextAlign.Center,
+                                        )
+                                    }
 
+                                }
+                            }
+                        }
                     }
+                    else -> {}
                 }
             }
+
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
