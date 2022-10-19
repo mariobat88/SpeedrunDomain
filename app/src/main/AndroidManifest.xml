@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.codebox.speedrun.domain">
+    package="com.speedrun.domain">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name=".SpeedrunDomainApplication"
+        android:name="com.speedrun.domain.SpeedrunDomainApplication"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:networkSecurityConfig="@xml/network_security_config"
@@ -16,7 +16,7 @@
         tools:targetApi="31">
 
         <activity
-            android:name=".SpeedrunDomainActivity"
+            android:name="com.speedrun.domain.SpeedrunDomainActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
