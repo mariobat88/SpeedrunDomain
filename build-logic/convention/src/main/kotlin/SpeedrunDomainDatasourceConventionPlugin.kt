@@ -18,6 +18,7 @@ class SpeedrunDomainDatasourceConventionPlugin : Plugin<Project> {
             dependencies {
                 add("implementation", libs.findLibrary("kotlinx.coroutines.android").get())
                 add("implementation", project(":core:wrapper:dispatchers"))
+                add("implementation", project(":data:common"))
                 add("implementation", project(":data:datasource:common"))
             }
         }

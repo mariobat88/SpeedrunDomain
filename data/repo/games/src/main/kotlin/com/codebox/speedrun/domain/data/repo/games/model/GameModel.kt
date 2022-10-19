@@ -1,5 +1,6 @@
 package com.codebox.speedrun.domain.data.repo.games.model
 
+import com.codebox.speedrun.data.common.enums.RunTimeEnum
 import com.codebox.speedrun.domain.data.repo.common.model.LinkModel
 
 data class GameModel(
@@ -36,8 +37,8 @@ data class GameModel(
         val showMilliseconds: Boolean,
         val requireVerification: Boolean,
         val requireVideo: Boolean,
-        val runTimes: List<String>,
-        val defaultTime: String,
+        val runTimes: List<RunTimeEnum>,
+        val defaultTime: RunTimeEnum,
         val emulatorsAllowed: Boolean
     )
 

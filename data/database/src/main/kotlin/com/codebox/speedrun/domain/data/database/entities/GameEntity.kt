@@ -1,11 +1,21 @@
 package com.codebox.speedrun.domain.data.database.entities
 
-import androidx.room.ColumnInfo
-import androidx.room.Embedded
-import androidx.room.Entity
-import androidx.room.PrimaryKey
+import androidx.room.*
+import com.codebox.speedrun.data.common.enums.RunTimeEnum
 
-@Entity(tableName = GameEntity.TABLE_NAME)
+@Entity(
+    tableName = GameEntity.TABLE_NAME,
+    foreignKeys = [
+        ForeignKey(
+            entity = RunTimeEntity::class,
+            parentColumns = [RunTimeEntity.COLUMN_ID],
+            childColumns = [GameEntity.Ruleset.COLUMN_DEFAULT_TIME],
+        )
+    ],
+    indices = [
+        Index(GameEntity.Ruleset.COLUMN_DEFAULT_TIME)
+    ]
+)
 data class GameEntity(
     @PrimaryKey
     @ColumnInfo(name = COLUMN_ID)
@@ -47,13 +57,25 @@ data class GameEntity(
     )
 
     data class Ruleset(
+        @ColumnInfo(name = COLUMN_SHOW_MILLISECONDS)
         val showMilliseconds: Boolean,
+        @ColumnInfo(name = COLUMN_REQUIRE_VERIFICATION)
         val requireVerification: Boolean,
+        @ColumnInfo(name = COLUMN_REQUIRE_VIDEO)
         val requireVideo: Boolean,
-        //val runTimes: List<String>,
-        val defaultTime: String,
+        @ColumnInfo(name = COLUMN_DEFAULT_TIME)
+        val defaultTime: RunTimeEnum,
+        @ColumnInfo(name = COLUMN_EMULATORS_ALLOWED)
         val emulatorsAllowed: Boolean
-    )
+    ) {
+        companion object {
+            const val COLUMN_SHOW_MILLISECONDS = "showMilliseconds"
+            const val COLUMN_REQUIRE_VERIFICATION = "requireVerification"
+            const val COLUMN_REQUIRE_VIDEO = "requireVideo"
+            const val COLUMN_DEFAULT_TIME = "defaultTime"
+            const val COLUMN_EMULATORS_ALLOWED = "emulatorsAllowed"
+        }
+    }
 
     data class Assets(
         @Embedded(prefix = "logo")

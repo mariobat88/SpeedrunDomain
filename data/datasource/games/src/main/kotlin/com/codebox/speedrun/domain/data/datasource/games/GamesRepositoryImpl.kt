@@ -1,8 +1,10 @@
 package com.codebox.speedrun.domain.data.datasource.games
 
 import com.codebox.speedrun.domain.data.database.SpeedrunDatabase
-import com.codebox.speedrun.domain.data.datasource.games.mapper.toEntity
+import com.codebox.speedrun.domain.data.datasource.games.mapper.toGameEntity
+import com.codebox.speedrun.domain.data.datasource.games.mapper.toGameRunTimeEntity
 import com.codebox.speedrun.domain.data.datasource.games.mapper.toModel
+import com.codebox.speedrun.domain.data.datasource.games.mapper.toRunTimeEntity
 import com.codebox.speedrun.domain.data.pagination.PaginationModel
 import com.codebox.speedrun.domain.data.repo.games.GamesRepository
 import com.codebox.speedrun.domain.data.repo.games.model.GameModel
@@ -22,6 +24,8 @@ class GamesRepositoryImpl @Inject constructor(
 ) : GamesRepository {
 
     private val gameDao = speedrunDatabase.gameDao()
+    private val runTimeDao = speedrunDatabase.runTimeDao()
+    private val gameRunTimeDao = speedrunDatabase.gameRunTimeDao()
 
     override suspend fun searchGames(
         name: String,
@@ -29,8 +33,21 @@ class GamesRepositoryImpl @Inject constructor(
         max: Int
     ): PaginationModel<GameModel> = withContext(dispatcherProvider.io()) {
         val searchedGames = gamesApiService.searchGames(name = name, offset = offset, max = max)
-        val entities = searchedGames.data.map { it.toEntity() }
-        gameDao.upsert(entities)
+
+        val runTimeEntities = searchedGames.data.map { it.ruleset.runTimes }
+            .asSequence()
+            .flatten()
+            .distinctBy { it.jsonValue }
+            .map { it.toRunTimeEntity() }
+            .toList()
+
+        val gameEntities = searchedGames.data.map { it.toGameEntity() }
+
+        val gameRunTimeEntities = searchedGames.data.map { it.toGameRunTimeEntity() }.flatten()
+
+        runTimeDao.upsert(runTimeEntities)
+        gameDao.upsert(gameEntities)
+        gameRunTimeDao.upsert(gameRunTimeEntities)
 
         searchedGames.toModel()
     }

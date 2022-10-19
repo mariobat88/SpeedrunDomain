@@ -13,9 +13,9 @@ fun PaginationResponse<GameResponse>.toModel() = PaginationModel(
     pagination = pagination.toModel()
 )
 
-fun GameResponse.toEntity() = GameEntity(
+fun GameResponse.toGameEntity() = GameEntity(
     id = id,
-    names = names.toEntity(),
+    names = names.toGameEntity(),
     boostReceived = boostReceived,
     boostDistinctDonors = boostDistinctDonors,
     abbreviation = abbreviation,
@@ -23,7 +23,7 @@ fun GameResponse.toEntity() = GameEntity(
     discord = discord,
     released = released,
     releaseDate = releaseDate,
-    ruleset = ruleset.toEntity(),
+    ruleset = ruleset.toGameEntity(),
     romhack = romhack,
 //    gametypes = gametypes,
 //    platforms = platforms,
@@ -34,41 +34,40 @@ fun GameResponse.toEntity() = GameEntity(
 //    publishers = publishers,
     //moderators = moderators,
     created = created,
-    assets = assets.toEntity(),
+    assets = assets.toGameEntity(),
 //    links = links.map { it.toModel() },
 )
 
-private fun GameResponse.Names.toEntity() = GameEntity.Names(
+private fun GameResponse.Names.toGameEntity() = GameEntity.Names(
     international = international,
     japanese = japanese,
     twitch = twitch,
 )
 
-private fun GameResponse.Ruleset.toEntity() = GameEntity.Ruleset(
+private fun GameResponse.Ruleset.toGameEntity() = GameEntity.Ruleset(
     showMilliseconds = showMilliseconds,
     requireVerification = requireVerification,
     requireVideo = requireVideo,
-       //runTimes = runTimes,
     defaultTime = defaultTime,
     emulatorsAllowed = emulatorsAllowed,
 )
 
-fun GameResponse.Assets.toEntity() = GameEntity.Assets(
-    logo = logo.toEntity(),
-    coverTiny = coverTiny.toEntity(),
-    coverSmall = coverSmall.toEntity(),
-    coverMedium = coverMedium.toEntity(),
-    coverLarge = coverLarge.toEntity(),
-    icon = icon.toEntity(),
-    trophy1st = trophy1st.toEntity(),
-    trophy2nd = trophy2nd.toEntity(),
-    trophy3rd = trophy3rd.toEntity(),
-    trophy4th = trophy4th.toEntity(),
-    background = background.toEntity(),
-    foreground = foreground.toEntity(),
+fun GameResponse.Assets.toGameEntity() = GameEntity.Assets(
+    logo = logo.toGameEntity(),
+    coverTiny = coverTiny.toGameEntity(),
+    coverSmall = coverSmall.toGameEntity(),
+    coverMedium = coverMedium.toGameEntity(),
+    coverLarge = coverLarge.toGameEntity(),
+    icon = icon.toGameEntity(),
+    trophy1st = trophy1st.toGameEntity(),
+    trophy2nd = trophy2nd.toGameEntity(),
+    trophy3rd = trophy3rd.toGameEntity(),
+    trophy4th = trophy4th.toGameEntity(),
+    background = background.toGameEntity(),
+    foreground = foreground.toGameEntity(),
 )
 
-fun GameResponse.Assets.Asset.toEntity() = GameEntity.Assets.Asset(
+fun GameResponse.Assets.Asset.toGameEntity() = GameEntity.Assets.Asset(
     uri = uri,
 )
 
@@ -133,7 +132,7 @@ fun GameResponse.Assets.Asset.toModel() = GameModel.Assets.Asset(
 
 fun GameEntity.toModel() = GameModel(
     id = id,
-    names = names.toEntity(),
+    names = names.toGameEntity(),
     boostReceived = boostReceived,
     boostDistinctDonors = boostDistinctDonors,
     abbreviation = abbreviation,
@@ -141,7 +140,7 @@ fun GameEntity.toModel() = GameModel(
     discord = discord,
     released = released,
     releaseDate = releaseDate,
-    ruleset = ruleset.toEntity(),
+    ruleset = ruleset.toGameEntity(),
     romhack = romhack,
     gametypes = emptyList(),
     platforms = emptyList(),
@@ -152,17 +151,17 @@ fun GameEntity.toModel() = GameModel(
     publishers = emptyList(),
     moderators = emptyMap(),
     created = created,
-    assets = assets.toEntity(),
+    assets = assets.toGameEntity(),
     links = emptyList(),
 )
 
-fun GameEntity.Names.toEntity() = GameModel.Names(
+fun GameEntity.Names.toGameEntity() = GameModel.Names(
     international = international,
     japanese = japanese,
     twitch = twitch,
 )
 
-fun GameEntity.Ruleset.toEntity() = GameModel.Ruleset(
+fun GameEntity.Ruleset.toGameEntity() = GameModel.Ruleset(
     showMilliseconds = showMilliseconds,
     requireVerification = requireVerification,
     requireVideo = requireVideo,
@@ -172,21 +171,21 @@ fun GameEntity.Ruleset.toEntity() = GameModel.Ruleset(
     emulatorsAllowed = emulatorsAllowed,
 )
 
-fun GameEntity.Assets.toEntity() = GameModel.Assets(
-    logo = logo.toEntity(),
-    coverTiny = coverTiny.toEntity(),
-    coverSmall = coverSmall.toEntity(),
-    coverMedium = coverMedium.toEntity(),
-    coverLarge = coverLarge.toEntity(),
-    icon = icon.toEntity(),
-    trophy1st = trophy1st.toEntity(),
-    trophy2nd = trophy2nd.toEntity(),
-    trophy3rd = trophy3rd.toEntity(),
-    trophy4th = trophy4th?.toEntity(),
-    background = background?.toEntity(),
-    foreground = foreground?.toEntity(),
+fun GameEntity.Assets.toGameEntity() = GameModel.Assets(
+    logo = logo.toGameEntity(),
+    coverTiny = coverTiny.toGameEntity(),
+    coverSmall = coverSmall.toGameEntity(),
+    coverMedium = coverMedium.toGameEntity(),
+    coverLarge = coverLarge.toGameEntity(),
+    icon = icon.toGameEntity(),
+    trophy1st = trophy1st.toGameEntity(),
+    trophy2nd = trophy2nd.toGameEntity(),
+    trophy3rd = trophy3rd.toGameEntity(),
+    trophy4th = trophy4th?.toGameEntity(),
+    background = background?.toGameEntity(),
+    foreground = foreground?.toGameEntity(),
 )
 
-fun GameEntity.Assets.Asset.toEntity() = GameModel.Assets.Asset(
+fun GameEntity.Assets.Asset.toGameEntity() = GameModel.Assets.Asset(
     uri = uri,
 )

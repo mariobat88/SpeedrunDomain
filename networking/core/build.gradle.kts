@@ -11,6 +11,7 @@ dependencies {
     implementation(libs.okhttp.loggingInterceptor)
     implementation(libs.retrofit.converterMoshi)
     implementation(projects.core.annotations)
+    implementation(projects.data.common)
     implementation(projects.networking.api.players)
     kapt(libs.moshi.kotlinCodegen)
 }

@@ -1,5 +1,6 @@
 package com.codebox.speedrun.domain.networking.api.games
 
+import com.codebox.speedrun.data.common.enums.RunTimeEnum
 import com.codebox.speedrun.domain.networking.api.common.LinkResponse
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
@@ -41,8 +42,8 @@ data class GameResponse(
         @Json(name = "show-milliseconds") val showMilliseconds: Boolean,
         @Json(name = "require-verification") val requireVerification: Boolean,
         @Json(name = "require-video") val requireVideo: Boolean,
-        @Json(name = "run-times") val runTimes: List<String>,
-        @Json(name = "default-time") val defaultTime: String,
+        @Json(name = "run-times") val runTimes: List<RunTimeEnum>,
+        @Json(name = "default-time") val defaultTime: RunTimeEnum,
         @Json(name = "emulators-allowed") val emulatorsAllowed: Boolean
     )
 

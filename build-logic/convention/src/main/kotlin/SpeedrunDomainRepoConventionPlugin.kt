@@ -17,6 +17,7 @@ class SpeedrunDomainRepoConventionPlugin : Plugin<Project> {
 
             dependencies {
                 add("implementation", libs.findLibrary("kotlinx.coroutines.android").get())
+                add("implementation", project(":data:common"))
                 add("api", project(":data:repo:common"))
             }
         }
