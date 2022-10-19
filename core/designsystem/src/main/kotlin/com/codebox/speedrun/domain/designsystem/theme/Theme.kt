@@ -6,6 +6,10 @@ import androidx.compose.ui.graphics.Color
 val LightDefaultColorScheme = lightColorScheme(
     primary = SpeedrunColors.Green,
     onPrimary = Color.White,
-    background = SpeedrunColors.PanelDark,
+    background = SpeedrunColors.ChineseBlack,
     onBackground = Color.White,
+    secondary = SpeedrunColors.Gunmetal,
+    onSecondary = Color.White,
+    tertiary = SpeedrunColors.DarkGunmetal,
+    onTertiary = Color.White,
 )

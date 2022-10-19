@@ -6,4 +6,5 @@
     <string name="require_verification">Require verification</string>
     <string name="require_video">Require video</string>
     <string name="emulators_allowed">Emulators allowed</string>
+    <string name="runtimes">Runtimes:</string>
 </resources>

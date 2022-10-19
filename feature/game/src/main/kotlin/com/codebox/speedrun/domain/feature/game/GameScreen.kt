@@ -22,8 +22,10 @@ import coil.compose.AsyncImagePainter
 import coil.compose.SubcomposeAsyncImage
 import com.codebox.speedrun.data.common.enums.RunTimeEnum
 import com.codebox.speedrun.domain.code.ui.SpeedrunScreen
+import com.codebox.speedrun.domain.code.ui.Tile
 import com.codebox.speedrun.domain.core.framework.Screen
 import com.codebox.speedrun.domain.designsystem.theme.SpeedrunColors
+import com.codebox.speedrun.utils.capitalized
 import kotlinx.coroutines.flow.MutableSharedFlow
 import com.codebox.speedrun.domain.core.designsystem.R as DesignSystemResources
 import com.codebox.speedrun.domain.feature.game.R as GameScreenResources
@@ -122,50 +124,49 @@ fun GameScreen(
                 Spacer(
                     modifier = Modifier.height(dimensionResource(DesignSystemResources.dimen.side_padding))
                 )
-                Text(
-                    text = stringResource(GameScreenResources.string.ruleset),
-                    color = MaterialTheme.colorScheme.onBackground,
-                )
-                Spacer(
-                    modifier = Modifier.height(dimensionResource(DesignSystemResources.dimen.side_padding))
-                )
-                Divider(
-                    color = MaterialTheme.colorScheme.primary
-                )
-                Spacer(
-                    modifier = Modifier.height(dimensionResource(DesignSystemResources.dimen.side_padding))
-                )
-                Column(
+                Tile(
+                    title = stringResource(GameScreenResources.string.ruleset),
                     modifier = Modifier
                         .fillMaxWidth()
-                        .wrapContentHeight()
+                        .wrapContentHeight(),
                 ) {
-                    Rule(
-                        required = viewState.gameAsync()?.ruleset?.showMilliseconds,
-                        title = stringResource(GameScreenResources.string.show_milliseconds),
-                    )
-                    Rule(
-                        required = viewState.gameAsync()?.ruleset?.requireVerification,
-                        title = stringResource(GameScreenResources.string.require_verification),
-                    )
-                    Rule(
-                        required = viewState.gameAsync()?.ruleset?.requireVideo,
-                        title = stringResource(GameScreenResources.string.require_video),
-                    )
-                    Rule(
-                        required = viewState.gameAsync()?.ruleset?.emulatorsAllowed,
-                        title = stringResource(GameScreenResources.string.emulators_allowed),
-                    )
-                    Row(
+                    Column(
                         modifier = Modifier
                             .fillMaxWidth()
                             .wrapContentHeight()
+                            .padding(vertical = dimensionResource(DesignSystemResources.dimen.side_padding)),
+                        verticalArrangement = Arrangement.spacedBy(4.dp)
                     ) {
-                        viewState.gameAsync()?.ruleset?.runTimes?.forEach { runTime ->
-                            Runtime(
-                                runTime = runTime,
-                                defaultRuntime = viewState.gameAsync()?.ruleset?.defaultTime
-                            )
+                        Rule(
+                            required = viewState.gameAsync()?.ruleset?.showMilliseconds,
+                            title = stringResource(GameScreenResources.string.show_milliseconds),
+                        )
+                        Rule(
+                            required = viewState.gameAsync()?.ruleset?.requireVerification,
+                            title = stringResource(GameScreenResources.string.require_verification),
+                        )
+                        Rule(
+                            required = viewState.gameAsync()?.ruleset?.requireVideo,
+                            title = stringResource(GameScreenResources.string.require_video),
+                        )
+                        Rule(
+                            required = viewState.gameAsync()?.ruleset?.emulatorsAllowed,
+                            title = stringResource(GameScreenResources.string.emulators_allowed),
+                        )
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .wrapContentHeight()
+                        ) {
+                            viewState.gameAsync()?.ruleset?.runTimes?.forEachIndexed { index, runTime ->
+                                Runtime(
+                                    runTime = runTime,
+                                    defaultRuntime = viewState.gameAsync()?.ruleset?.defaultTime
+                                )
+                                if (viewState.gameAsync()?.ruleset?.runTimes?.lastIndex != index) {
+                                    Spacer(modifier = Modifier.width(4.dp))
+                                }
+                            }
                         }
                     }
                 }
@@ -212,15 +213,15 @@ private fun Runtime(
     ) {
         RadioButton(
             selected = runTime == defaultRuntime,
-            onClick = {},
+            onClick = null,
             enabled = false,
-            colors =  RadioButtonDefaults.colors(
+            colors = RadioButtonDefaults.colors(
                 disabledSelectedColor = MaterialTheme.colorScheme.primary,
                 disabledUnselectedColor = MaterialTheme.colorScheme.primary,
             )
         )
         Text(
-            text = runTime.name.lowercase(),
+            text = runTime.name.lowercase().capitalized(),
             color = MaterialTheme.colorScheme.onBackground,
         )
     }
