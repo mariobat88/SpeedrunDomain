@@ -7,19 +7,17 @@ import com.codebox.speedrun.data.common.enums.RunTimeEnum
 @Entity(
     tableName = GameRunTimeEntity.TABLE_NAME,
     primaryKeys = [
-        GameRunTimeEntity.COLUMN_GAME_ID,
-        GameRunTimeEntity.COLUMN_RUN_TIME,
+        GameEntity.COLUMN_ID,
+        RunTimeEntity.COLUMN_ID,
     ]
 )
 data class GameRunTimeEntity(
-    @ColumnInfo(name = COLUMN_GAME_ID)
+    @ColumnInfo(name = GameEntity.COLUMN_ID)
     val gameId: String,
-    @ColumnInfo(name = COLUMN_RUN_TIME)
+    @ColumnInfo(name = RunTimeEntity.COLUMN_ID)
     val runTimeEnum: RunTimeEnum,
 ) {
     companion object {
         const val TABLE_NAME = "gameRunTime"
-        const val COLUMN_GAME_ID = "${TABLE_NAME}_gameId"
-        const val COLUMN_RUN_TIME = "${TABLE_NAME}_runTime"
     }
 }

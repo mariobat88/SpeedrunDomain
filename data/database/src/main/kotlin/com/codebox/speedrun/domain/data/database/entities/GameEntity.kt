@@ -46,7 +46,7 @@ data class GameEntity(
     //val links: List<LinkModel>
 ) {
     companion object {
-        const val TABLE_NAME = "games"
+        const val TABLE_NAME = "game"
         const val COLUMN_ID = "${TABLE_NAME}_id"
     }
 

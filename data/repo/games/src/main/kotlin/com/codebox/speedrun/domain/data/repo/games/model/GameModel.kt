@@ -37,7 +37,7 @@ data class GameModel(
         val showMilliseconds: Boolean,
         val requireVerification: Boolean,
         val requireVideo: Boolean,
-        val runTimes: List<RunTimeEnum>,
+        val runTimes: List<RunTimeEnum>?,
         val defaultTime: RunTimeEnum,
         val emulatorsAllowed: Boolean
     )

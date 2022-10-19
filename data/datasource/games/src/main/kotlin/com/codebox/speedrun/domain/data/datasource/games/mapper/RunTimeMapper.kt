@@ -6,3 +6,5 @@ import com.codebox.speedrun.domain.data.database.entities.RunTimeEntity
 fun RunTimeEnum.toRunTimeEntity() = RunTimeEntity(
     runTime = this
 )
+
+fun RunTimeEntity.toRunTimeEnum() = this.runTime

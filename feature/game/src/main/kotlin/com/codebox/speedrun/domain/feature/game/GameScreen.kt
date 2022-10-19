@@ -20,6 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImagePainter
 import coil.compose.SubcomposeAsyncImage
+import com.codebox.speedrun.data.common.enums.RunTimeEnum
 import com.codebox.speedrun.domain.code.ui.SpeedrunScreen
 import com.codebox.speedrun.domain.core.framework.Screen
 import com.codebox.speedrun.domain.designsystem.theme.SpeedrunColors
@@ -155,6 +156,18 @@ fun GameScreen(
                         required = viewState.gameAsync()?.ruleset?.emulatorsAllowed,
                         title = stringResource(GameScreenResources.string.emulators_allowed),
                     )
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .wrapContentHeight()
+                    ) {
+                        viewState.gameAsync()?.ruleset?.runTimes?.forEach { runTime ->
+                            Runtime(
+                                runTime = runTime,
+                                defaultRuntime = viewState.gameAsync()?.ruleset?.defaultTime
+                            )
+                        }
+                    }
                 }
             }
         }
@@ -186,6 +199,32 @@ private fun Rule(
             color = MaterialTheme.colorScheme.onBackground,
         )
     }
+}
+
+@Composable
+private fun Runtime(
+    runTime: RunTimeEnum,
+    defaultRuntime: RunTimeEnum?
+) {
+    Row(
+        modifier = Modifier.wrapContentSize(),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        RadioButton(
+            selected = runTime == defaultRuntime,
+            onClick = {},
+            enabled = false,
+            colors =  RadioButtonDefaults.colors(
+                disabledSelectedColor = MaterialTheme.colorScheme.primary,
+                disabledUnselectedColor = MaterialTheme.colorScheme.primary,
+            )
+        )
+        Text(
+            text = runTime.name.lowercase(),
+            color = MaterialTheme.colorScheme.onBackground,
+        )
+    }
+
 }
 
 @Preview

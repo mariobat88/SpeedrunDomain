@@ -1,10 +1,7 @@
 package com.codebox.speedrun.domain.data.datasource.games
 
 import com.codebox.speedrun.domain.data.database.SpeedrunDatabase
-import com.codebox.speedrun.domain.data.datasource.games.mapper.toGameEntity
-import com.codebox.speedrun.domain.data.datasource.games.mapper.toGameRunTimeEntity
-import com.codebox.speedrun.domain.data.datasource.games.mapper.toModel
-import com.codebox.speedrun.domain.data.datasource.games.mapper.toRunTimeEntity
+import com.codebox.speedrun.domain.data.datasource.games.mapper.*
 import com.codebox.speedrun.domain.data.pagination.PaginationModel
 import com.codebox.speedrun.domain.data.repo.games.GamesRepository
 import com.codebox.speedrun.domain.data.repo.games.model.GameModel
@@ -54,6 +51,6 @@ class GamesRepositoryImpl @Inject constructor(
 
     override suspend fun getGameById(id: String): Flow<GameModel> =
         withContext(dispatcherProvider.io()) {
-            gameDao.getGameById(id).map { it.toModel() }
+            gameDao.getGameById(id).map { it.toGameModel() }
         }
 }

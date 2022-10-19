@@ -1,5 +1,6 @@
 package com.codebox.speedrun.domain.data.datasource.games.mapper
 
+import com.codebox.speedrun.data.common.enums.RunTimeEnum
 import com.codebox.speedrun.domain.data.database.entities.GameEntity
 import com.codebox.speedrun.domain.data.datasource.common.mapper.toModel
 import com.codebox.speedrun.domain.data.pagination.PaginationModel
@@ -161,12 +162,13 @@ fun GameEntity.Names.toGameEntity() = GameModel.Names(
     twitch = twitch,
 )
 
-fun GameEntity.Ruleset.toGameEntity() = GameModel.Ruleset(
+fun GameEntity.Ruleset.toGameEntity(
+    runTimes: List<RunTimeEnum>? = null
+) = GameModel.Ruleset(
     showMilliseconds = showMilliseconds,
     requireVerification = requireVerification,
     requireVideo = requireVideo,
-    //runTimes = runTimes,
-    runTimes = emptyList(),
+    runTimes = runTimes,
     defaultTime = defaultTime,
     emulatorsAllowed = emulatorsAllowed,
 )
