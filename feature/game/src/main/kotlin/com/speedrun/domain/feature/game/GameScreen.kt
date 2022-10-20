@@ -1,10 +1,8 @@
 package com.speedrun.domain.feature.game
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
@@ -12,12 +10,15 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import coil.compose.AsyncImagePainter
 import coil.compose.SubcomposeAsyncImage
 import com.speedrun.data.common.enums.RunTimeEnum
@@ -61,66 +62,7 @@ fun GameScreen(
                 )
                 .verticalScroll(rememberScrollState())
         ) {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(300.dp)
-            ) {
-                when (val gameAsync = viewState.gameAsync) {
-                    is Loading -> {
-                        LinearProgressIndicator(modifier = Modifier.align(Alignment.Center))
-                    }
-                    is Success -> {
-                        SubcomposeAsyncImage(
-                            model = gameAsync().assets.coverLarge.uri,
-                            contentDescription = "",
-                            modifier = Modifier.fillMaxSize(),
-                            contentScale = ContentScale.Crop,
-                        ) {
-                            val painter = painter
-                            val state = painter.state
-                            if (state is AsyncImagePainter.State.Success) {
-                                Box(
-                                    modifier = Modifier
-                                        .fillMaxSize()
-                                ) {
-                                    Image(
-                                        painter = painter,
-                                        contentDescription = "",
-                                        modifier = Modifier.fillMaxSize(),
-                                        contentScale = ContentScale.Crop
-                                    )
-                                    Spacer(
-                                        modifier = Modifier
-                                            .fillMaxSize()
-                                            .background(SpeedrunColors.CoverOverlay),
-                                    )
-                                    ProvideTextStyle(
-                                        MaterialTheme.typography.headlineMedium
-                                    ) {
-                                        Text(
-                                            text = gameAsync().names.international,
-                                            modifier = Modifier
-                                                .wrapContentSize()
-                                                .align(Alignment.Center)
-                                                .padding(
-                                                    horizontal = dimensionResource(
-                                                        DesignSystemResources.dimen.side_padding
-                                                    )
-                                                ),
-                                            color = MaterialTheme.colorScheme.onBackground,
-                                            textAlign = TextAlign.Center,
-                                        )
-                                    }
-
-                                }
-                            }
-                        }
-                    }
-                    else -> {}
-                }
-            }
-
+            Header(viewState)
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -133,13 +75,7 @@ fun GameScreen(
                 Spacer(
                     modifier = Modifier.height(dimensionResource(DesignSystemResources.dimen.side_padding))
                 )
-                Text(
-                    text = stringResource(
-                        GameScreenResources.string.release_date,
-                        viewState.gameAsync()?.releaseDate ?: ""
-                    ),
-                    color = MaterialTheme.colorScheme.onBackground,
-                )
+                GameInfo(viewState)
                 Spacer(
                     modifier = Modifier.height(dimensionResource(DesignSystemResources.dimen.side_padding))
                 )
@@ -189,6 +125,117 @@ fun GameScreen(
                         }
                     }
                 }
+            }
+        }
+    }
+}
+
+@Composable
+private fun Header(
+    viewState: ViewState
+) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(300.dp)
+    ) {
+        when (val gameAsync = viewState.gameAsync) {
+            is Loading -> {
+                LinearProgressIndicator(modifier = Modifier.align(Alignment.Center))
+            }
+            is Success -> {
+                SubcomposeAsyncImage(
+                    model = gameAsync().assets.coverLarge.uri,
+                    contentDescription = "",
+                    modifier = Modifier.fillMaxSize(),
+                    contentScale = ContentScale.Crop,
+                ) {
+                    val painter = painter
+                    val state = painter.state
+                    if (state is AsyncImagePainter.State.Success) {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxSize()
+                        ) {
+                            Image(
+                                painter = painter,
+                                contentDescription = "",
+                                modifier = Modifier.fillMaxSize(),
+                                contentScale = ContentScale.Crop
+                            )
+                            Spacer(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .background(SpeedrunColors.CoverOverlay),
+                            )
+                            ProvideTextStyle(
+                                MaterialTheme.typography.headlineMedium
+                            ) {
+                                Text(
+                                    text = gameAsync().names.international,
+                                    modifier = Modifier
+                                        .wrapContentSize()
+                                        .align(Alignment.Center)
+                                        .padding(
+                                            horizontal = dimensionResource(
+                                                DesignSystemResources.dimen.side_padding
+                                            )
+                                        ),
+                                    color = MaterialTheme.colorScheme.onBackground,
+                                    textAlign = TextAlign.Center,
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+            else -> {}
+        }
+    }
+}
+
+@Composable
+private fun GameInfo(
+    viewState: ViewState
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .wrapContentHeight(),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        AsyncImage(
+            model = viewState.gameAsync()?.assets?.coverSmall?.uri,
+            contentDescription = "",
+            modifier = Modifier
+                .clip(RoundedCornerShape(12.dp))
+                .border(0.5.dp, Color.DarkGray, RoundedCornerShape(12.dp))
+                .width(100.dp)
+                .height(160.dp),
+            contentScale = ContentScale.Crop
+        )
+        Spacer(
+            modifier = Modifier.width(dimensionResource(DesignSystemResources.dimen.side_padding))
+        )
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .wrapContentHeight(),
+            verticalArrangement = Arrangement.spacedBy(4.dp)
+        ) {
+            Text(
+                text = stringResource(
+                    GameScreenResources.string.release_date,
+                    viewState.gameAsync()?.releaseDate ?: ""
+                ),
+                color = MaterialTheme.colorScheme.onBackground,
+            )
+            if (viewState.developersAsync() != null && viewState.developersAsync()!!.isNotEmpty()) {
+                val developers = viewState.developersAsync()?.map { it.name }!!.joinToString(",")
+                Text(
+                    text = stringResource(GameScreenResources.string.developed_by, developers),
+                    color = MaterialTheme.colorScheme.onBackground,
+                )
             }
         }
     }

@@ -20,7 +20,7 @@ data class GameModel(
     val regions: List<String>,
     val genres: List<String>,
     val engines: List<String>,
-    val developers: List<String>,
+    val developers: List<String>?,
     val publishers: List<String>,
     val moderators: Map<String, String>,
     val created: String?,

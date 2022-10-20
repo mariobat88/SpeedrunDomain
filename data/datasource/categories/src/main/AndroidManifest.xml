@@ -1,2 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="com.speedrun.data.datasource.categories" />
+<manifest package="com.speedrun.domain.data.datasource.categories" />

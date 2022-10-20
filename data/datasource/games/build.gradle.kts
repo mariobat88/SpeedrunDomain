@@ -3,8 +3,7 @@ plugins {
 }
 
 dependencies{
-    implementation(libs.room.runtime)
-    implementation(projects.data.database)
+    api(projects.data.datasource.developers)
     api(projects.data.repo.games)
     api(projects.networking.api.games)
 }

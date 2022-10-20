@@ -163,7 +163,7 @@ fun GameEntity.Names.toGameEntity() = GameModel.Names(
 )
 
 fun GameEntity.Ruleset.toGameEntity(
-    runTimes: List<RunTimeEnum>? = null
+    runTimes: List<RunTimeEnum>? = null,
 ) = GameModel.Ruleset(
     showMilliseconds = showMilliseconds,
     requireVerification = requireVerification,

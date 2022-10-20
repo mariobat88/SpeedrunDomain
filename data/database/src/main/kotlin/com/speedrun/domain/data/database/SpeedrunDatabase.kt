@@ -2,27 +2,23 @@ package com.speedrun.domain.data.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.speedrun.domain.data.database.daos.FollowedGameDao
-import com.speedrun.domain.data.database.daos.GameDao
-import com.speedrun.domain.data.database.daos.GameRunTimeDao
-import com.speedrun.domain.data.database.daos.RunTimeDao
-import com.speedrun.domain.data.database.entities.FollowedGameEntity
-import com.speedrun.domain.data.database.entities.GameEntity
-import com.speedrun.domain.data.database.entities.GameRunTimeEntity
-import com.speedrun.domain.data.database.entities.RunTimeEntity
+import com.speedrun.domain.data.database.daos.*
+import com.speedrun.domain.data.database.entities.*
 
 @Database(
     entities = [
-        FollowedGameEntity::class,
+        DeveloperEntity::class,
         GameEntity::class,
         RunTimeEntity::class,
         GameRunTimeEntity::class,
+        GameDeveloperEntity::class,
     ],
     version = 1
 )
 abstract class SpeedrunDatabase : RoomDatabase() {
-    abstract fun followedGameDao(): FollowedGameDao
+    abstract fun developerDao(): DeveloperDao
     abstract fun gameDao(): GameDao
     abstract fun runTimeDao(): RunTimeDao
     abstract fun gameRunTimeDao(): GameRunTimeDao
+    abstract fun gameDeveloperDao(): GameDeveloperDao
 }

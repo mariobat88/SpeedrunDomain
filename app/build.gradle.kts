@@ -54,6 +54,7 @@ dependencies {
     implementation(projects.core.framework)
     implementation(projects.core.navigation)
     implementation(projects.data.database)
+    implementation(projects.data.datasource.developers)
     implementation(projects.data.datasource.games)
     implementation(projects.data.datasource.players)
     implementation(projects.data.datasource.runs)

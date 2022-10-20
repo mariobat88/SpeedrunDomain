@@ -23,6 +23,7 @@ class GamesRepositoryImpl @Inject constructor(
     private val gameDao = speedrunDatabase.gameDao()
     private val runTimeDao = speedrunDatabase.runTimeDao()
     private val gameRunTimeDao = speedrunDatabase.gameRunTimeDao()
+    private val gameDeveloperDao = speedrunDatabase.gameDeveloperDao()
 
     override suspend fun searchGames(
         name: String,
@@ -41,10 +42,12 @@ class GamesRepositoryImpl @Inject constructor(
         val gameEntities = searchedGames.data.map { it.toGameEntity() }
 
         val gameRunTimeEntities = searchedGames.data.map { it.toGameRunTimeEntity() }.flatten()
+        val gameDeveloperEntities = searchedGames.data.map { it.toGameDeveloperEntity() }.flatten()
 
         runTimeDao.upsert(runTimeEntities)
         gameDao.upsert(gameEntities)
         gameRunTimeDao.upsert(gameRunTimeEntities)
+        gameDeveloperDao.upsert(gameDeveloperEntities)
 
         searchedGames.toModel()
     }

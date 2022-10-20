@@ -3,9 +3,7 @@ package com.speedrun.domain.data.database.result
 import androidx.room.Embedded
 import androidx.room.Junction
 import androidx.room.Relation
-import com.speedrun.domain.data.database.entities.GameEntity
-import com.speedrun.domain.data.database.entities.GameRunTimeEntity
-import com.speedrun.domain.data.database.entities.RunTimeEntity
+import com.speedrun.domain.data.database.entities.*
 
 data class GameEntityResult(
     @Embedded
@@ -16,5 +14,11 @@ data class GameEntityResult(
         parentColumn = GameEntity.COLUMN_ID,
         associateBy = Junction(GameRunTimeEntity::class)
     )
-    val runTimes: List<RunTimeEntity>?
+    val runTimes: List<RunTimeEntity>?,
+    @Relation(
+        entity = GameDeveloperEntity::class,
+        entityColumn = GameEntity.COLUMN_ID,
+        parentColumn = GameEntity.COLUMN_ID,
+    )
+    val developers: List<GameDeveloperEntity>?
 )
