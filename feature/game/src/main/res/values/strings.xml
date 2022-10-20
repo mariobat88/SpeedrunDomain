@@ -9,4 +9,5 @@
     <string name="require_video">Require video</string>
     <string name="emulators_allowed">Emulators allowed</string>
     <string name="runtimes">Runtimes:</string>
+    <string name="latest_runs">Latest runs</string>
 </resources>

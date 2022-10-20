@@ -1,13 +1,17 @@
 package com.speedrun.domain.feature.game
 
-import androidx.compose.foundation.*
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.key
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -29,6 +33,7 @@ import com.speedrun.domain.core.framework.async.Success
 import com.speedrun.domain.core.ui.SpeedrunScreen
 import com.speedrun.domain.core.ui.Tile
 import com.speedrun.domain.core.utils.capitalized
+import com.speedrun.domain.kit.run.ui.Run
 import kotlinx.coroutines.flow.MutableSharedFlow
 import com.speedrun.domain.core.designsystem.R as DesignSystemResources
 import com.speedrun.domain.feature.game.R as GameScreenResources
@@ -54,76 +59,130 @@ fun GameScreen(
     intentChannel: MutableSharedFlow<Intent>,
 ) {
     SpeedrunScreen { screenPadding ->
-        Column(
+        LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(
                     bottom = screenPadding.calculateBottomPadding(),
                 )
-                .verticalScroll(rememberScrollState())
         ) {
-            Header(viewState)
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .wrapContentHeight()
-                    .padding(
-                        start = dimensionResource(DesignSystemResources.dimen.side_padding),
-                        end = dimensionResource(DesignSystemResources.dimen.side_padding),
-                    )
-            ) {
+            item("Header") {
+                Header(viewState)
+            }
+            item("HeaderSpacer") {
                 Spacer(
                     modifier = Modifier.height(dimensionResource(DesignSystemResources.dimen.side_padding))
                 )
-                GameInfo(viewState)
-                Spacer(
-                    modifier = Modifier.height(dimensionResource(DesignSystemResources.dimen.side_padding))
-                )
-                Tile(
-                    title = stringResource(GameScreenResources.string.ruleset),
+            }
+            item("GameInfo") {
+                Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .wrapContentHeight(),
+                        .wrapContentHeight()
+                        .padding(
+                            start = dimensionResource(DesignSystemResources.dimen.side_padding),
+                            end = dimensionResource(DesignSystemResources.dimen.side_padding),
+                        )
                 ) {
-                    Column(
+                    GameInfo(viewState)
+                }
+            }
+            item("GameInfoSpacer") {
+                Spacer(
+                    modifier = Modifier.height(dimensionResource(DesignSystemResources.dimen.side_padding))
+                )
+            }
+            item("RuleSet") {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .wrapContentHeight()
+                        .padding(horizontal = dimensionResource(DesignSystemResources.dimen.side_padding))
+                ) {
+                    Tile(
+                        title = stringResource(GameScreenResources.string.ruleset),
                         modifier = Modifier
                             .fillMaxWidth()
-                            .wrapContentHeight()
-                            .padding(vertical = dimensionResource(DesignSystemResources.dimen.side_padding)),
-                        verticalArrangement = Arrangement.spacedBy(4.dp)
+                            .wrapContentHeight(),
                     ) {
-                        Rule(
-                            required = viewState.gameAsync()?.ruleset?.showMilliseconds,
-                            title = stringResource(GameScreenResources.string.show_milliseconds),
-                        )
-                        Rule(
-                            required = viewState.gameAsync()?.ruleset?.requireVerification,
-                            title = stringResource(GameScreenResources.string.require_verification),
-                        )
-                        Rule(
-                            required = viewState.gameAsync()?.ruleset?.requireVideo,
-                            title = stringResource(GameScreenResources.string.require_video),
-                        )
-                        Rule(
-                            required = viewState.gameAsync()?.ruleset?.emulatorsAllowed,
-                            title = stringResource(GameScreenResources.string.emulators_allowed),
-                        )
-                        Row(
+                        Column(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .wrapContentHeight()
+                                .padding(vertical = dimensionResource(DesignSystemResources.dimen.side_padding)),
+                            verticalArrangement = Arrangement.spacedBy(4.dp)
                         ) {
-                            viewState.gameAsync()?.ruleset?.runTimes?.forEachIndexed { index, runTime ->
-                                Runtime(
-                                    runTime = runTime,
-                                    defaultRuntime = viewState.gameAsync()?.ruleset?.defaultTime
-                                )
-                                if (viewState.gameAsync()?.ruleset?.runTimes?.lastIndex != index) {
-                                    Spacer(modifier = Modifier.width(4.dp))
+                            Rule(
+                                required = viewState.gameAsync()?.ruleset?.showMilliseconds,
+                                title = stringResource(GameScreenResources.string.show_milliseconds),
+                            )
+                            Rule(
+                                required = viewState.gameAsync()?.ruleset?.requireVerification,
+                                title = stringResource(GameScreenResources.string.require_verification),
+                            )
+                            Rule(
+                                required = viewState.gameAsync()?.ruleset?.requireVideo,
+                                title = stringResource(GameScreenResources.string.require_video),
+                            )
+                            Rule(
+                                required = viewState.gameAsync()?.ruleset?.emulatorsAllowed,
+                                title = stringResource(GameScreenResources.string.emulators_allowed),
+                            )
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .wrapContentHeight()
+                            ) {
+                                viewState.gameAsync()?.ruleset?.runTimes?.forEachIndexed { index, runTime ->
+                                    Runtime(
+                                        runTime = runTime,
+                                        defaultRuntime = viewState.gameAsync()?.ruleset?.defaultTime
+                                    )
+                                    if (viewState.gameAsync()?.ruleset?.runTimes?.lastIndex != index) {
+                                        Spacer(modifier = Modifier.width(4.dp))
+                                    }
                                 }
                             }
                         }
                     }
+                }
+            }
+            item("RuleSetSpacer") {
+                Spacer(
+                    modifier = Modifier.height(dimensionResource(DesignSystemResources.dimen.side_padding))
+                )
+            }
+            if (viewState.runsAsync is Success) {
+                item("Runs") {
+                    Tile(
+                        title = stringResource(GameScreenResources.string.latest_runs),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .wrapContentHeight()
+                            .padding(horizontal = dimensionResource(DesignSystemResources.dimen.side_padding))
+                    )
+                }
+                items(viewState.runsAsync()?.size ?: 0) { index ->
+                    val run = viewState.runsAsync()?.get(index)!!
+                    key(run.id) {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .wrapContentHeight()
+                                .padding(horizontal = dimensionResource(DesignSystemResources.dimen.side_padding))
+                                .background(MaterialTheme.colorScheme.tertiary)
+                                .padding(vertical = 4.dp),
+                            contentAlignment = Alignment.CenterStart
+                        ) {
+                            Run(
+                                run = run,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .wrapContentHeight()
+                            )
+                        }
+                    }
+                    Divider()
                 }
             }
         }

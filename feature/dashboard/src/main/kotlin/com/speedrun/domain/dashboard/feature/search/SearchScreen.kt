@@ -2,13 +2,11 @@ package com.speedrun.domain.dashboard.feature.search
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.*
@@ -16,7 +14,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.key
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.dimensionResource
@@ -35,6 +32,7 @@ import com.google.accompanist.placeholder.material.shimmer
 import com.google.accompanist.placeholder.placeholder
 import com.speedrun.domain.core.framework.Compose
 import com.speedrun.domain.core.framework.countryFlag
+import com.speedrun.domain.core.ui.RoundedCornerBox
 import com.speedrun.domain.dashboard.feature.search.navigation.SearchNavigator
 import com.speedrun.domain.kit.player.ui.PlayerName
 import com.speedrun.domain.core.designsystem.R as DesignSystemResources
@@ -120,14 +118,8 @@ private fun SearchScreen(
 
                     if (searchedGames.loadState.refresh == LoadState.Loading) {
                         items(SearchViewModel.INITIAL_LOAD_SIZE) {
-                            Spacer(
+                            RoundedCornerBox(
                                 modifier = Modifier
-                                    .clip(RoundedCornerShape(dimensionResource(DashboardResources.dimen.rounded_corner_size)))
-                                    .border(
-                                        0.5.dp,
-                                        Color.DarkGray,
-                                        RoundedCornerShape(dimensionResource(DashboardResources.dimen.rounded_corner_size))
-                                    )
                                     .height(dimensionResource(DashboardResources.dimen.item_height))
                                     .placeholder(
                                         visible = searchedGames.loadState.refresh == LoadState.Loading,
@@ -140,39 +132,37 @@ private fun SearchScreen(
                         items(searchedGames.itemCount) { index ->
                             key(index) {
                                 val gameModel = searchedGames[index]!!
-                                Column(
+                                RoundedCornerBox(
                                     modifier = Modifier
-                                        .clip(RoundedCornerShape(dimensionResource(DashboardResources.dimen.rounded_corner_size)))
-                                        .border(0.5.dp, Color.DarkGray, RoundedCornerShape(dimensionResource(DashboardResources.dimen.rounded_corner_size)))
                                         .height(dimensionResource(DashboardResources.dimen.item_height))
-                                        .clickable { intentChannel.tryEmit(
-                                            Intent.NavigateToGameScreen(
-                                                gameModel.id
-                                            )
-                                        ) },
-                                    horizontalAlignment = Alignment.CenterHorizontally,
-                                ) {
-                                    AsyncImage(
-                                        model = gameModel.assets.coverMedium.uri,
-                                        contentDescription = "",
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .height(dimensionResource(DashboardResources.dimen.image_height)),
-                                        contentScale = ContentScale.Crop
-                                    )
-                                    Box(
-                                        modifier = Modifier
-                                            .fillMaxSize()
-                                            .padding(sidePadding / 4),
-                                        contentAlignment = Alignment.Center
+                                        .clickable { intentChannel.tryEmit(Intent.NavigateToGameScreen(gameModel.id)) },
                                     ) {
-                                        Text(
-                                            text = gameModel.names.international,
-                                            color = MaterialTheme.colorScheme.onPrimary,
-                                            fontSize = 12.sp,
-                                            textAlign = TextAlign.Center,
-                                            maxLines = 2
+                                    Column(
+                                        modifier = Modifier.fillMaxSize(),
+                                        horizontalAlignment = Alignment.CenterHorizontally,
+                                    ) {
+                                        AsyncImage(
+                                            model = gameModel.assets.coverMedium.uri,
+                                            contentDescription = "",
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .height(dimensionResource(DashboardResources.dimen.image_height)),
+                                            contentScale = ContentScale.Crop
                                         )
+                                        Box(
+                                            modifier = Modifier
+                                                .fillMaxSize()
+                                                .padding(sidePadding / 4),
+                                            contentAlignment = Alignment.Center
+                                        ) {
+                                            Text(
+                                                text = gameModel.names.international,
+                                                color = MaterialTheme.colorScheme.onPrimary,
+                                                fontSize = 12.sp,
+                                                textAlign = TextAlign.Center,
+                                                maxLines = 2
+                                            )
+                                        }
                                     }
                                 }
                             }

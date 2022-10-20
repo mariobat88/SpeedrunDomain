@@ -14,7 +14,7 @@ import com.speedrun.domain.core.designsystem.R
 fun Tile(
     title: String,
     modifier: Modifier,
-    content: @Composable () -> Unit,
+    content: (@Composable () -> Unit)? = null,
 ) {
     Column(
         modifier = modifier
@@ -50,7 +50,7 @@ fun Tile(
                 .background(MaterialTheme.colorScheme.tertiary)
                 .padding(horizontal = dimensionResource(R.dimen.side_padding))
         ) {
-            content()
+            content?.invoke()
         }
     }
 }

@@ -15,6 +15,7 @@ import com.speedrun.domain.data.repo.developers.DevelopersRepository
 import com.speedrun.domain.data.repo.games.GamesRepository
 import com.speedrun.domain.data.repo.games.model.GameModel
 import com.speedrun.domain.data.repo.publishers.PublishersRepository
+import com.speedrun.domain.repo.runs.RunsRepository
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -34,6 +35,7 @@ class GameViewModel @AssistedInject constructor(
     private val developersRepository: DevelopersRepository,
     private val publishersRepository: PublishersRepository,
     private val gamesRepository: GamesRepository,
+    private val runsRepository: RunsRepository,
     dispatcherProvider: DispatcherProvider,
 ) : SpeedrunViewModel<ViewState, Intent, Unit>(
     viewState = ViewState()
@@ -122,6 +124,21 @@ class GameViewModel @AssistedInject constructor(
                                 publishersAsync = publishersAsync,
                                 publishers = publishersAsync()?.map { it.name }?.joinToString(", ")
                                     ?: ""
+                            )
+                        }
+                    }
+            }
+
+            launch {
+                getGameByIdFlow
+                    .filterIsInstance<Success<GameModel>>()
+                    .map { it.value }
+                    .map { gameModel -> runsRepository.getLatestRunsOfGame(gameModel.id) }
+                    .asAsync()
+                    .collect{ runsAsync ->
+                        reduce {
+                            it.copy(
+                                runsAsync = runsAsync
                             )
                         }
                     }
