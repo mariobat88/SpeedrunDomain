@@ -20,5 +20,11 @@ data class GameEntityResult(
         entityColumn = GameEntity.COLUMN_ID,
         parentColumn = GameEntity.COLUMN_ID,
     )
-    val developers: List<GameDeveloperEntity>?
+    val developers: List<GameDeveloperEntity>?,
+    @Relation(
+        entity = GamePublisherEntity::class,
+        entityColumn = GameEntity.COLUMN_ID,
+        parentColumn = GameEntity.COLUMN_ID,
+    )
+    val publishers: List<GamePublisherEntity>?
 )

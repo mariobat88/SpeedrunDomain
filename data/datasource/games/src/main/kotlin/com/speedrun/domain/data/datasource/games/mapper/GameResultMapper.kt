@@ -22,7 +22,7 @@ fun GameEntityResult.toGameModel(): GameModel {
         genres = emptyList(),
         engines = emptyList(),
         developers = developers?.map { it.developerId },
-        publishers = emptyList(),
+        publishers = publishers?.map { it.publisherId },
         moderators = emptyMap(),
         created = gameEntity.created,
         assets = gameEntity.assets.toGameEntity(),

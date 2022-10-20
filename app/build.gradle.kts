@@ -57,6 +57,7 @@ dependencies {
     implementation(projects.data.datasource.developers)
     implementation(projects.data.datasource.games)
     implementation(projects.data.datasource.players)
+    implementation(projects.data.datasource.publishers)
     implementation(projects.data.datasource.runs)
     implementation(projects.feature.dashboard)
     implementation(projects.feature.game)

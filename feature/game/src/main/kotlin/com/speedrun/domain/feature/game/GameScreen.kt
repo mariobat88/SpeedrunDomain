@@ -202,7 +202,6 @@ private fun GameInfo(
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight(),
-        verticalAlignment = Alignment.CenterVertically
     ) {
         AsyncImage(
             model = viewState.gameAsync()?.assets?.coverSmall?.uri,
@@ -231,9 +230,20 @@ private fun GameInfo(
                 color = MaterialTheme.colorScheme.onBackground,
             )
             if (viewState.developersAsync() != null && viewState.developersAsync()!!.isNotEmpty()) {
-                val developers = viewState.developersAsync()?.map { it.name }!!.joinToString(",")
                 Text(
-                    text = stringResource(GameScreenResources.string.developed_by, developers),
+                    text = stringResource(
+                        GameScreenResources.string.developed_by,
+                        viewState.developers
+                    ),
+                    color = MaterialTheme.colorScheme.onBackground,
+                )
+            }
+            if (viewState.publishersAsync() != null && viewState.publishersAsync()!!.isNotEmpty()) {
+                Text(
+                    text = stringResource(
+                        GameScreenResources.string.developed_by,
+                        viewState.publishers
+                    ),
                     color = MaterialTheme.colorScheme.onBackground,
                 )
             }
@@ -286,6 +296,7 @@ private fun Runtime(
                 disabledUnselectedColor = MaterialTheme.colorScheme.primary,
             )
         )
+        Spacer(modifier = Modifier.width(4.dp))
         Text(
             text = runTime.name.lowercase().capitalized(),
             color = MaterialTheme.colorScheme.onBackground,

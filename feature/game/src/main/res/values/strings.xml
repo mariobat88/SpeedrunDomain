@@ -2,6 +2,7 @@
 <resources>
     <string name="release_date">Release date: %1$s</string>
     <string name="developed_by">Developed by: %1$s</string>
+    <string name="published_by">Published by: %1$s</string>
     <string name="ruleset">Ruleset</string>
     <string name="show_milliseconds">Show milliseconds</string>
     <string name="require_verification">Require verification</string>

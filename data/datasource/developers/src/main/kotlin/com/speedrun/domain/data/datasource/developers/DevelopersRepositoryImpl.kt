@@ -13,7 +13,7 @@ import javax.inject.Singleton
 
 @Singleton
 class DevelopersRepositoryImpl @Inject constructor(
-    private val develoeprApiService: DevelopersApiService,
+    private val developersApiService: DevelopersApiService,
     private val dispatcherProvider: DispatcherProvider,
     speedrunDatabase: SpeedrunDatabase,
 ) : DevelopersRepository {
@@ -22,7 +22,7 @@ class DevelopersRepositoryImpl @Inject constructor(
 
     override suspend fun getDeveloper(id: String): DeveloperModel =
         withContext(dispatcherProvider.io()) {
-            val developerResponse = develoeprApiService.getDeveloper(id)
+            val developerResponse = developersApiService.getDeveloper(id)
             val developerEntity = developerResponse.data.toDeveloperEntity()
 
             developerDao.upsert(developerEntity)

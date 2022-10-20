@@ -21,7 +21,7 @@ data class GameModel(
     val genres: List<String>,
     val engines: List<String>,
     val developers: List<String>?,
-    val publishers: List<String>,
+    val publishers: List<String>?,
     val moderators: Map<String, String>,
     val created: String?,
     val assets: Assets,

@@ -6,5 +6,5 @@ import retrofit2.http.Path
 interface DevelopersApiService {
 
     @GET("developers/{id}")
-    suspend fun getDeveloper(@Path("id") id: String, ): DeveloperResponse
+    suspend fun getDeveloper(@Path("id") id: String): DeveloperResponse
 }
