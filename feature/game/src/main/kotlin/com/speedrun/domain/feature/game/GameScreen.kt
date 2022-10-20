@@ -172,7 +172,6 @@ fun GameScreen(
                                 .padding(horizontal = dimensionResource(DesignSystemResources.dimen.side_padding))
                                 .background(MaterialTheme.colorScheme.tertiary)
                                 .padding(vertical = 4.dp),
-                            contentAlignment = Alignment.CenterStart
                         ) {
                             Run(
                                 run = run,
