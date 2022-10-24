@@ -18,6 +18,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -67,7 +68,10 @@ fun GameScreen(
                 )
         ) {
             item("Header") {
-                Header(viewState)
+                Header(
+                    viewState = viewState,
+                    screenPadding = screenPadding,
+                )
             }
             item("HeaderSpacer") {
                 Spacer(
@@ -190,7 +194,8 @@ fun GameScreen(
 
 @Composable
 private fun Header(
-    viewState: ViewState
+    viewState: ViewState,
+    screenPadding: PaddingValues,
 ) {
     Box(
         modifier = Modifier
@@ -241,6 +246,19 @@ private fun Header(
                                         ),
                                     color = MaterialTheme.colorScheme.onBackground,
                                     textAlign = TextAlign.Center,
+                                )
+                            }
+                            IconButton(
+                                onClick = {},
+                                modifier = Modifier
+                                    .padding(top = screenPadding.calculateTopPadding())
+                                    .wrapContentSize()
+                                    .align(Alignment.TopEnd)
+                            ) {
+                                Icon(
+                                    painter = painterResource(GameScreenResources.drawable.ic_trophy),
+                                    contentDescription = "leaderboards",
+                                    tint = MaterialTheme.colorScheme.onPrimary
                                 )
                             }
                         }

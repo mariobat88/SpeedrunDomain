@@ -14,4 +14,3 @@ interface GamesApiService {
         @Query("max") max: Int
     ): PaginationResponse<GameResponse>
 }
-
