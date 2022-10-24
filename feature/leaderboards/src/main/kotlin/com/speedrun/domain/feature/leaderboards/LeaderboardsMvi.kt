@@ -1,9 +1,13 @@
 package com.speedrun.domain.feature.leaderboards
 
-sealed class Intent
+import com.speedrun.domain.core.framework.async.Async
+import com.speedrun.domain.core.framework.async.Uninitialized
+import com.speedrun.domain.data.repo.categories.model.CategoryModel
+
+sealed class Intent {
+    data class CategorySelected(val index: Int) : Intent()
+}
 
 data class ViewState(
-
-    val developers: String = "",
-    val publishers: String = "",
+    val categoriesAsync: Async<List<CategoryModel>> = Uninitialized,
 )

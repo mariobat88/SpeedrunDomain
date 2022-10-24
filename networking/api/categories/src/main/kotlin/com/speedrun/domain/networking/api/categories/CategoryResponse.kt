@@ -21,7 +21,7 @@ data class CategoryResponse(
         @Json(name = "type")
         val type: String,
         @Json(name = "rules")
-        val rules: String,
+        val rules: String?,
         @Json(name = "players")
         val players: Players,
         @Json(name = "miscellaneous")

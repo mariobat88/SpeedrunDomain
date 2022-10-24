@@ -68,7 +68,15 @@ class LeaderboardsViewModel @AssistedInject constructor(
     init {
         viewModelScope.launch(dispatcherProvider.main()) {
             launch {
-                val categories = categoriesRepository.getCategoriesByGame(gameId)
+                suspend {
+                    categoriesRepository.getCategoriesByGame(gameId)
+                }.execute { categoriesAsync ->
+                    reduce {
+                        it.copy(
+                            categoriesAsync = categoriesAsync
+                        )
+                    }
+                }
             }
         }
     }
