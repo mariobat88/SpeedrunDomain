@@ -34,6 +34,7 @@ import com.speedrun.domain.core.framework.async.Success
 import com.speedrun.domain.core.ui.SpeedrunScreen
 import com.speedrun.domain.core.ui.Tile
 import com.speedrun.domain.core.utils.capitalized
+import com.speedrun.domain.feature.game.navigation.GameNavigator
 import com.speedrun.domain.kit.run.ui.Run
 import kotlinx.coroutines.flow.MutableSharedFlow
 import com.speedrun.domain.core.designsystem.R as DesignSystemResources
@@ -41,9 +42,10 @@ import com.speedrun.domain.feature.game.R as GameScreenResources
 
 @Composable
 internal fun GameScreen(
-    gameId: String
+    gameId: String,
+    gameNavigator: GameNavigator,
 ) {
-    val gameViewModel = GameViewModel.create(gameId)
+    val gameViewModel = GameViewModel.create(gameId, gameNavigator)
     GameScreen(gameViewModel)
 }
 
@@ -71,6 +73,7 @@ fun GameScreen(
                 Header(
                     viewState = viewState,
                     screenPadding = screenPadding,
+                    intentChannel = intentChannel,
                 )
             }
             item("HeaderSpacer") {
@@ -196,6 +199,7 @@ fun GameScreen(
 private fun Header(
     viewState: ViewState,
     screenPadding: PaddingValues,
+    intentChannel: MutableSharedFlow<Intent>,
 ) {
     Box(
         modifier = Modifier
@@ -249,7 +253,7 @@ private fun Header(
                                 )
                             }
                             IconButton(
-                                onClick = {},
+                                onClick = { intentChannel.tryEmit(Intent.LeaderboardsClicked) },
                                 modifier = Modifier
                                     .padding(top = screenPadding.calculateTopPadding())
                                     .wrapContentSize()

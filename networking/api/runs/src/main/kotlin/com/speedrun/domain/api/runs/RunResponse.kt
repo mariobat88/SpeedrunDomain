@@ -1,6 +1,5 @@
 package com.speedrun.domain.api.runs
 
-import com.speedrun.domain.networking.api.categories.CategoryResponse
 import com.speedrun.domain.networking.api.common.LinkResponse
 import com.speedrun.domain.networking.api.games.DataGameResponse
 import com.speedrun.domain.networking.api.players.PolymorphicPlayerResponse
@@ -18,7 +17,7 @@ data class RunResponse(
         @Json(name = "weblink") val weblink: String,
         @Json(name = "game") val game: DataGameResponse,
         @Json(name = "level") val level: String?,
-        @Json(name = "category") val category: CategoryResponse,
+        @Json(name = "category") val category: String,
         @Json(name = "videos") val videos: Videos?,
         @Json(name = "comment") val comment: String?,
         @Json(name = "status") val status: Status,

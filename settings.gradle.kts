@@ -1,5 +1,6 @@
 @file:Suppress("UnstableApiUsage")
 
+
 pluginManagement {
     includeBuild("build-logic")
     repositories {
@@ -44,6 +45,7 @@ include(":data:repo:publishers")
 include(":data:repo:runs")
 include(":feature:dashboard")
 include(":feature:game")
+include(":feature:leaderboards")
 include(":kit:player")
 include(":kit:run")
 include(":networking:api:categories")

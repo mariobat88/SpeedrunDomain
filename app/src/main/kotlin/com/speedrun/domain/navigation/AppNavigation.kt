@@ -8,6 +8,7 @@ import com.speedrun.domain.core.framework.navigation.StateNavigator
 import com.speedrun.domain.dashboard.navigation.DashboardNavigation
 import com.speedrun.domain.dashboard.navigation.dashboardNavigation
 import com.speedrun.domain.feature.game.navigation.gameNavigation
+import com.speedrun.domain.feature.leaderboards.navigation.leaderboardsNavigation
 
 @Composable
 fun <T> AppNavigation(
@@ -19,7 +20,8 @@ fun <T> AppNavigation(
         startDestination = DashboardNavigation.route
     ) {
         dashboardNavigation(mainNavigator)
-        gameNavigation()
+        gameNavigation(mainNavigator)
+        leaderboardsNavigation()
     }
     Navigation(navController, mainNavigator)
 }

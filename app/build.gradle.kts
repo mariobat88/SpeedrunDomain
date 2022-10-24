@@ -54,6 +54,7 @@ dependencies {
     implementation(projects.core.framework)
     implementation(projects.core.navigation)
     implementation(projects.data.database)
+    implementation(projects.data.datasource.categories)
     implementation(projects.data.datasource.developers)
     implementation(projects.data.datasource.games)
     implementation(projects.data.datasource.players)
@@ -61,6 +62,7 @@ dependencies {
     implementation(projects.data.datasource.runs)
     implementation(projects.feature.dashboard)
     implementation(projects.feature.game)
+    implementation(projects.feature.leaderboards)
     implementation(projects.networking.core)
 
     kapt(libs.hilt.compiler)

@@ -15,6 +15,7 @@ import com.speedrun.domain.data.repo.developers.DevelopersRepository
 import com.speedrun.domain.data.repo.games.GamesRepository
 import com.speedrun.domain.data.repo.games.model.GameModel
 import com.speedrun.domain.data.repo.publishers.PublishersRepository
+import com.speedrun.domain.feature.game.navigation.GameNavigator
 import com.speedrun.domain.repo.runs.RunsRepository
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -25,13 +26,12 @@ import dagger.hilt.android.EntryPointAccessors
 import dagger.hilt.android.components.ActivityComponent
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
-import kotlinx.coroutines.flow.filterIsInstance
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 class GameViewModel @AssistedInject constructor(
     @Assisted("gameId") private val gameId: String,
+    @Assisted("gameNavigator") private val gameNavigator: GameNavigator,
     private val developersRepository: DevelopersRepository,
     private val publishersRepository: PublishersRepository,
     private val gamesRepository: GamesRepository,
@@ -50,13 +50,15 @@ class GameViewModel @AssistedInject constructor(
     interface Factory {
         fun create(
             @Assisted("gameId") gameId: String,
+            @Assisted("gameNavigator") gameNavigator: GameNavigator,
         ): GameViewModel
     }
 
     companion object {
         @Composable
         fun create(
-            gameId: String
+            gameId: String,
+            gameNavigator: GameNavigator,
         ): GameViewModel {
             val activity = LocalContext.current as Activity
 
@@ -72,7 +74,10 @@ class GameViewModel @AssistedInject constructor(
                             ViewModelFactoryProvider::class.java
                         )
                         return entryPoint.gameViewModelFactory()
-                            .create(gameId) as T
+                            .create(
+                                gameId = gameId,
+                                gameNavigator = gameNavigator
+                            ) as T
                     }
                 })
         }
@@ -135,7 +140,7 @@ class GameViewModel @AssistedInject constructor(
                     .map { it.value }
                     .map { gameModel -> runsRepository.getLatestRunsOfGame(gameModel.id) }
                     .asAsync()
-                    .collect{ runsAsync ->
+                    .collect { runsAsync ->
                         reduce {
                             it.copy(
                                 runsAsync = runsAsync
@@ -144,5 +149,10 @@ class GameViewModel @AssistedInject constructor(
                     }
             }
         }
+    }
+
+    override suspend fun bind(intents: Flow<Intent>): Flow<Any> {
+        return intents.filterIsInstance<Intent.LeaderboardsClicked>()
+            .onEach { gameNavigator.navigateToLeaderboardsScreen(gameId) }
     }
 }

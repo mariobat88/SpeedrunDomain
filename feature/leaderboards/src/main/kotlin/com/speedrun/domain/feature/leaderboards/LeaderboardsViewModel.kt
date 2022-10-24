@@ -1,17 +1,16 @@
-package com.speedrun.domain.ui
+package com.speedrun.domain.feature.leaderboards
 
 import android.app.Activity
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.CreationExtras
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.speedrun.domain.core.framework.navigation.StateNavigator
-import com.speedrun.domain.core.framework.navigation.StateNavigatorImpl
-import com.speedrun.domain.feature.game.navigation.GameNavigation
-import com.speedrun.domain.feature.leaderboards.navigation.LeaderboardsNavigation
-import com.speedrun.domain.navigation.AppNavigator
+import com.speedrun.domain.core.framework.SpeedrunViewModel
+import com.speedrun.domain.core.wrapper.dispatchers.DispatcherProvider
+import com.speedrun.domain.data.repo.categories.CategoriesRepository
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -19,27 +18,33 @@ import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.android.EntryPointAccessors
 import dagger.hilt.android.components.ActivityComponent
+import kotlinx.coroutines.launch
 
-class AppViewModel @AssistedInject constructor(
-    @Assisted("stateNavigator") private val stateNavigator: StateNavigator,
-) : ViewModel(), AppNavigator, StateNavigator by stateNavigator {
-
+class LeaderboardsViewModel @AssistedInject constructor(
+    @Assisted("gameId") private val gameId: String,
+    private val categoriesRepository: CategoriesRepository,
+    dispatcherProvider: DispatcherProvider,
+) : SpeedrunViewModel<ViewState, Intent, Unit>(
+    viewState = ViewState()
+) {
     @EntryPoint
     @InstallIn(ActivityComponent::class)
     interface ViewModelFactoryProvider {
-        fun appViewModelFactory(): Factory
+        fun leaderboardsViewModelFactory(): Factory
     }
 
     @AssistedFactory
     interface Factory {
         fun create(
-            @Assisted("stateNavigator") stateNavigator: StateNavigator,
-        ): AppViewModel
+            @Assisted("gameId") gameId: String,
+        ): LeaderboardsViewModel
     }
 
     companion object {
         @Composable
-        fun create(): AppViewModel {
+        fun create(
+            gameId: String
+        ): LeaderboardsViewModel {
             val activity = LocalContext.current as Activity
 
             return viewModel(
@@ -53,18 +58,18 @@ class AppViewModel @AssistedInject constructor(
                             activity,
                             ViewModelFactoryProvider::class.java
                         )
-                        return entryPoint.appViewModelFactory()
-                            .create(StateNavigatorImpl()) as T
+                        return entryPoint.leaderboardsViewModelFactory()
+                            .create(gameId) as T
                     }
                 })
         }
     }
 
-    override fun navigateToGameScreen(gameId: String) {
-        stateNavigator.navigateToRoute(GameNavigation(gameId))
-    }
-
-    override fun navigateToLeaderboardsScreen(gameId: String) {
-        stateNavigator.navigateToRoute(LeaderboardsNavigation(gameId))
+    init {
+        viewModelScope.launch(dispatcherProvider.main()) {
+            launch {
+                val categories = categoriesRepository.getCategoriesByGame(gameId)
+            }
+        }
     }
 }

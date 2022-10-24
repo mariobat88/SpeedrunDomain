@@ -41,10 +41,10 @@ fun Run(
             Spacer(
                 modifier = Modifier.width(dimensionResource(DesignSystemResources.dimen.side_padding))
             )
-            Text(
-                text = "Category: ${run.category.name}",
-                color = MaterialTheme.colorScheme.onBackground
-            )
+//            Text(
+//                text = "Category: ${run.category.name}",
+//                color = MaterialTheme.colorScheme.onBackground
+//            )
         }
     }
 }

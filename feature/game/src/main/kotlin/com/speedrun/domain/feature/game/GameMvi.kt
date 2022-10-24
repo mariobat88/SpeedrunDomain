@@ -7,7 +7,9 @@ import com.speedrun.domain.data.repo.games.model.GameModel
 import com.speedrun.domain.data.repo.publishers.model.PublisherModel
 import com.speedrun.domain.repo.runs.model.RunModel
 
-sealed class Intent
+sealed class Intent{
+    object LeaderboardsClicked : Intent()
+}
 
 data class ViewState(
     val gameAsync: Async<GameModel> = Uninitialized,

@@ -10,7 +10,7 @@ data class RunModel(
     val weblink: String,
     val game: GameModel,
     val level: String?,
-    val category: CategoryModel,
+    val category: String,
     val videos: Videos?,
     val comment: String?,
     val status: Status,

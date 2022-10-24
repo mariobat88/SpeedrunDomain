@@ -18,7 +18,9 @@ object GameNavigation : Destination {
     override val destination = "game_destination"
 }
 
-fun NavGraphBuilder.gameNavigation() {
+fun NavGraphBuilder.gameNavigation(
+    gameNavigator: GameNavigator,
+) {
     navigation(
         route = GameNavigation.route,
         startDestination = GameNavigation.destination,
@@ -26,7 +28,7 @@ fun NavGraphBuilder.gameNavigation() {
     ) {
         composable(route = GameNavigation.destination) { backStackEntry ->
             val gameId = backStackEntry.arguments?.getString(GameNavigation.gameIdArg)!!
-            GameScreen(gameId)
+            GameScreen(gameId, gameNavigator)
         }
     }
 }
