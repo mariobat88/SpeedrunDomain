@@ -6,4 +6,5 @@ dependencies{
     implementation(libs.accompanist.pager)
     implementation(libs.accompanist.pagerIndicators)
     implementation(projects.data.repo.categories)
+    implementation(projects.data.repo.leaderboards)
 }

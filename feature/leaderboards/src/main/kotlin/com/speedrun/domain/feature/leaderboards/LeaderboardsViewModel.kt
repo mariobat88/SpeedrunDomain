@@ -11,6 +11,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.speedrun.domain.core.framework.SpeedrunViewModel
 import com.speedrun.domain.core.wrapper.dispatchers.DispatcherProvider
 import com.speedrun.domain.data.repo.categories.CategoriesRepository
+import com.speedrun.domain.data.repo.leaderboards.LeaderboardsRepository
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -18,11 +19,16 @@ import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.android.EntryPointAccessors
 import dagger.hilt.android.components.ActivityComponent
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.filterIsInstance
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.launch
 
 class LeaderboardsViewModel @AssistedInject constructor(
     @Assisted("gameId") private val gameId: String,
     private val categoriesRepository: CategoriesRepository,
+    private val leaderboardsRepository: LeaderboardsRepository,
     dispatcherProvider: DispatcherProvider,
 ) : SpeedrunViewModel<ViewState, Intent, Unit>(
     viewState = ViewState()
@@ -79,5 +85,25 @@ class LeaderboardsViewModel @AssistedInject constructor(
                 }
             }
         }
+    }
+
+    override suspend fun bind(intents: Flow<Intent>): Flow<Any> {
+        return intents.filterIsInstance<Intent.CategorySelected>()
+            .map { intent ->
+                val category = getViewState().categoriesAsync()!![intent.index]
+                val leaderboardsMap = getViewState().leaderboardsMap
+
+                suspend {
+                    leaderboardsRepository.getLeaderboard(gameId, category.id)
+                }.execute { leaderboardAsync ->
+                    leaderboardsMap[intent.index] = leaderboardAsync
+                }
+
+                reduce {
+                    it.copy(
+                        leaderboardsMap = leaderboardsMap
+                    )
+                }
+            }
     }
 }

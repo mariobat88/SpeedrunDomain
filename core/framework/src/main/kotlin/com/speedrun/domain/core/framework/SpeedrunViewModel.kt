@@ -40,6 +40,10 @@ abstract class SpeedrunViewModel<VS, I, E>(
         return emptyFlow()
     }
 
+    protected fun getViewState(): VS {
+        return viewState.value
+    }
+
     protected fun reduce(block: (VS) -> VS) {
         _viewState.update { block(it) }
     }
