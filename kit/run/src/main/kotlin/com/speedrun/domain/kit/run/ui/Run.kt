@@ -1,8 +1,6 @@
 package com.speedrun.domain.kit.run.ui
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -32,7 +30,7 @@ fun Run(
                     .height(dimensionResource(R.dimen.game_image_height))
             ) {
                 AsyncImage(
-                    model = run.game.assets.coverSmall.uri,
+                    model = run.game?.assets?.coverSmall?.uri ?: "",
                     contentDescription = "",
                     modifier = Modifier.fillMaxSize(),
                     contentScale = ContentScale.Crop

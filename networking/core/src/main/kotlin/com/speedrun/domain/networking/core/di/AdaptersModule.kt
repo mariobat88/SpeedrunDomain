@@ -1,6 +1,7 @@
 package com.speedrun.domain.networking.core.di
 
 import com.speedrun.domain.networking.core.adapters.RunTimeEnumAdapter
+import com.speedrun.domain.networking.core.adapters.RunTypeEnumAdapter
 import com.squareup.moshi.JsonAdapter
 import dagger.Binds
 import dagger.Module
@@ -13,5 +14,9 @@ import dagger.multibindings.IntoSet
 abstract class AdaptersModule {
     @Binds
     @IntoSet
-    abstract fun bindRealTimeEnumAdapter(adapter: RunTimeEnumAdapter): JsonAdapter<*>
+    abstract fun bindRunTimeEnumAdapter(adapter: RunTimeEnumAdapter): JsonAdapter<*>
+
+    @Binds
+    @IntoSet
+    abstract fun bindRunTypeEnumAdapter(adapter: RunTypeEnumAdapter): JsonAdapter<*>
 }

@@ -2,6 +2,7 @@
 
 package com.speedrun.domain.feature.leaderboards
 
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -49,18 +50,17 @@ fun LeaderboardsScreen(
         Column(
             modifier = Modifier.padding(screenPadding)
         ) {
-            val pagerState = rememberPagerState()
-            val coroutineScope = rememberCoroutineScope()
-
-            LaunchedEffect(pagerState) {
-                // Collect from the pager state a snapshotFlow reading the currentPage
-                snapshotFlow { pagerState.currentPage }.collect { page ->
-                    intentChannel.tryEmit(Intent.CategorySelected(page))
-                }
-            }
-
-
             viewState.categoriesAsync()?.let {
+                val pagerState = rememberPagerState()
+                val coroutineScope = rememberCoroutineScope()
+
+                LaunchedEffect(pagerState) {
+                    // Collect from the pager state a snapshotFlow reading the currentPage
+                    snapshotFlow { pagerState.currentPage }.collect { page ->
+                        intentChannel.tryEmit(Intent.CategorySelected(page))
+                    }
+                }
+
                 androidx.compose.material.ScrollableTabRow(
                     selectedTabIndex = pagerState.currentPage,
                     modifier = Modifier.fillMaxWidth(),
@@ -90,27 +90,29 @@ fun LeaderboardsScreen(
                     count = viewState.categoriesAsync()?.size ?: 0,
                     state = pagerState,
                 ) { page ->
-//                    val leaderboardAsync = viewState.leaderboardsMap[page]
-//                    when(val leaderboard = leaderboardAsync){
-//                        is Loading ->{
-//
-//                        }
-//                        is Success -> {
-//                            val runs = leaderboard().runs
-//                            LazyColumn{
-//                                leaderboard().runs.forEach {  run ->
-//                                    key(run.run) {
-//                                        Column {
-//                                            Text(text = run.run)
-//                                        }
-//                                    }
-//                                }
-//                            }
-//                        }
-//                         else -> {
-//
-//                         }
-//                    }
+                    when(val leaderboardAsync = viewState.leaderboardsMap[page]){
+                        is Loading ->{
+                            Log.d("BATBAT", "LOADING ${viewState.leaderboardsMap.toString()}")
+                        }
+                        is Success -> {
+                            Log.d("BATBAT", "Success ${viewState.leaderboardsMap.toString()}")
+                            LazyColumn{
+                                leaderboardAsync().runs.forEach { run ->
+                                    item(run.run.id) {
+                                        Column {
+                                            Text(
+                                                text = run.place.toString(),
+                                                color = MaterialTheme.colorScheme.onPrimary
+                                            )
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                         else -> {
+                             Log.d("BATBAT", "ELSE ${viewState.leaderboardsMap.toString()}")
+                         }
+                    }
                 }
             }
         }

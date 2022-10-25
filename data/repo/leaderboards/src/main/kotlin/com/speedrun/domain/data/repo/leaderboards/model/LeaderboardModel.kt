@@ -1,6 +1,7 @@
 package com.speedrun.domain.data.repo.leaderboards.model
 
 import com.speedrun.domain.data.repo.common.model.LinkModel
+import com.speedrun.domain.repo.runs.model.RunModel
 
 data class LeaderboardModel(
     val weblink: String,
@@ -12,11 +13,11 @@ data class LeaderboardModel(
     val emulators: Boolean?,
     val videoOnly: Boolean,
     val timing: String,
-    val runs: List<Run>,
+    val runs: List<LeaderboardRun>,
     val links: List<LinkModel>
 ) {
-    data class Run(
+    data class LeaderboardRun(
         val place: Int,
-        val run: String
+        val run: RunModel,
     )
 }

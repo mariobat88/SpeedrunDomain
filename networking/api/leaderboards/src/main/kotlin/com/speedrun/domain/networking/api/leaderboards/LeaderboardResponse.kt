@@ -1,6 +1,7 @@
 package com.speedrun.domain.networking.api.leaderboards
 
 
+import com.speedrun.domain.api.runs.models.FlatRunResponse
 import com.speedrun.domain.networking.api.common.LinkResponse
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
@@ -31,16 +32,16 @@ data class LeaderboardResponse(
         @Json(name = "timing")
         val timing: String,
         @Json(name = "runs")
-        val runs: List<Run>,
+        val runs: List<LeaderboardRun>,
         @Json(name = "links")
         val links: List<LinkResponse>
     ) {
         @JsonClass(generateAdapter = true)
-        data class Run(
+        data class LeaderboardRun(
             @Json(name = "place")
             val place: Int,
             @Json(name = "run")
-            val run: String
+            val run: FlatRunResponse,
         )
     }
 }

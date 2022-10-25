@@ -8,6 +8,6 @@ interface LeaderboardsApiService {
     @GET("leaderboards/{gameId}/category/{categoryId}")
     suspend fun getLeaderboard(
         @Path("gameId") gameId: String,
-        @Path("categoryId") categoryId: String
+        @Path("categoryId") categoryId: String,
     ): LeaderboardResponse
 }

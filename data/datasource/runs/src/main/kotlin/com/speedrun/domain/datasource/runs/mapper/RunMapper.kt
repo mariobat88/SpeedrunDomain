@@ -1,13 +1,31 @@
 package com.speedrun.domain.datasource.runs.mapper
 
-import com.speedrun.domain.api.runs.RunResponse
-import com.speedrun.domain.data.datasource.categories.mapper.toModel
+import com.speedrun.domain.api.runs.models.*
 import com.speedrun.domain.data.datasource.common.mapper.toModel
 import com.speedrun.domain.data.datasource.games.mapper.toModel
 import com.speedrun.domain.data.datasource.players.mapper.toModel
 import com.speedrun.domain.repo.runs.model.RunModel
 
-fun RunResponse.Data.toModel() = RunModel(
+fun FlatRunResponse.toModel() = RunModel(
+    id = id,
+    weblink = weblink,
+    game = null,
+    level = level,
+    category = category,
+    videos = videos?.toModel(),
+    comment = comment,
+    status = status.toModel(),
+    players = null,
+    date = date,
+    submitted = submitted,
+    times = times.toModel(),
+    system = system.toModel(),
+    splits = splits,
+    values = values,
+    links = null,
+)
+
+fun RunResponse.toModel() = RunModel(
     id = id,
     weblink = weblink,
     game = game.data.toModel(),
@@ -26,17 +44,17 @@ fun RunResponse.Data.toModel() = RunModel(
     links = links.map { it.toModel() },
 )
 
-fun RunResponse.Data.Videos.toModel() = RunModel.Videos(
+fun VideosResponse.toModel() = RunModel.Videos(
     links = links.map { it.toModel() }
 )
 
-fun RunResponse.Data.Status.toModel() = RunModel.Status(
+fun StatusResponse.toModel() = RunModel.Status(
     status = status,
     examiner = examiner,
     verifyDate = verifyDate,
 )
 
-fun RunResponse.Data.Times.toModel() = RunModel.Times(
+fun TimesResponse.toModel() = RunModel.Times(
     primary = primary,
     primaryT = primaryT,
     realtime = realtime,
@@ -47,7 +65,7 @@ fun RunResponse.Data.Times.toModel() = RunModel.Times(
     ingameT = ingameT,
 )
 
-fun RunResponse.Data.System.toModel() = RunModel.System(
+fun SystemResponse.toModel() = RunModel.System(
     platform = platform,
     emulated = emulated,
     region = region,

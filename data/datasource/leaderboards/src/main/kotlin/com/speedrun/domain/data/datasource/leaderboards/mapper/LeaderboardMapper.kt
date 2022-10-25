@@ -2,6 +2,7 @@ package com.speedrun.domain.data.datasource.leaderboards.mapper
 
 import com.speedrun.domain.data.datasource.common.mapper.toModel
 import com.speedrun.domain.data.repo.leaderboards.model.LeaderboardModel
+import com.speedrun.domain.datasource.runs.mapper.toModel
 import com.speedrun.domain.networking.api.leaderboards.LeaderboardResponse
 
 fun LeaderboardResponse.Data.toLeaderboardModel() = LeaderboardModel(
@@ -18,7 +19,7 @@ fun LeaderboardResponse.Data.toLeaderboardModel() = LeaderboardModel(
     links = links.map { it.toModel() },
 )
 
-private fun LeaderboardResponse.Data.Run.toModel() = LeaderboardModel.Run(
+fun LeaderboardResponse.Data.LeaderboardRun.toModel() = LeaderboardModel.LeaderboardRun(
     place = place,
-    run = run,
+    run = run.toModel(),
 )

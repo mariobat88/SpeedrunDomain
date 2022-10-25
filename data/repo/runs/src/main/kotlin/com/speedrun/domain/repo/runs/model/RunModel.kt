@@ -1,6 +1,5 @@
 package com.speedrun.domain.repo.runs.model
 
-import com.speedrun.domain.data.repo.categories.model.CategoryModel
 import com.speedrun.domain.data.repo.common.model.LinkModel
 import com.speedrun.domain.data.repo.games.model.GameModel
 import com.speedrun.domain.data.repo.players.model.PlayerModel
@@ -8,20 +7,20 @@ import com.speedrun.domain.data.repo.players.model.PlayerModel
 data class RunModel(
     val id: String,
     val weblink: String,
-    val game: GameModel,
+    val game: GameModel?,
     val level: String?,
     val category: String,
     val videos: Videos?,
     val comment: String?,
     val status: Status,
-    val players: List<PlayerModel>,
+    val players: List<PlayerModel>?,
     val date: String?,
     val submitted: String?,
     val times: Times,
     val system: System,
     val splits: Any?,
     val values: Map<String, String>?,
-    val links: List<LinkModel>
+    val links: List<LinkModel>?
 ) {
 
     data class Videos(

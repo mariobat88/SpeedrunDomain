@@ -1,6 +1,7 @@
 package com.speedrun.domain.networking.api.categories
 
 
+import com.speedrun.data.common.enums.RunTypeEnum
 import com.speedrun.domain.networking.api.common.LinkResponse
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
@@ -19,7 +20,7 @@ data class CategoryResponse(
         @Json(name = "weblink")
         val weblink: String,
         @Json(name = "type")
-        val type: String,
+        val type: RunTypeEnum,
         @Json(name = "rules")
         val rules: String?,
         @Json(name = "players")

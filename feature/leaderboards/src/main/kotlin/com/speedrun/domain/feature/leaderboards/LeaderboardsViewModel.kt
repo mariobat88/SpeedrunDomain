@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.CreationExtras
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.speedrun.data.common.enums.RunTypeEnum
 import com.speedrun.domain.core.framework.SpeedrunViewModel
 import com.speedrun.domain.core.wrapper.dispatchers.DispatcherProvider
 import com.speedrun.domain.data.repo.categories.CategoriesRepository
@@ -22,7 +23,6 @@ import dagger.hilt.android.components.ActivityComponent
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.launch
 
 class LeaderboardsViewModel @AssistedInject constructor(
@@ -75,7 +75,7 @@ class LeaderboardsViewModel @AssistedInject constructor(
         viewModelScope.launch(dispatcherProvider.main()) {
             launch {
                 suspend {
-                    categoriesRepository.getCategoriesByGame(gameId)
+                    categoriesRepository.getCategoriesByGame(gameId).filter { it.type == RunTypeEnum.PER_GAME }
                 }.execute { categoriesAsync ->
                     reduce {
                         it.copy(
@@ -90,19 +90,18 @@ class LeaderboardsViewModel @AssistedInject constructor(
     override suspend fun bind(intents: Flow<Intent>): Flow<Any> {
         return intents.filterIsInstance<Intent.CategorySelected>()
             .map { intent ->
-                val category = getViewState().categoriesAsync()!![intent.index]
-                val leaderboardsMap = getViewState().leaderboardsMap
-
                 suspend {
+                    val category = getViewState().categoriesAsync()!![intent.index]
                     leaderboardsRepository.getLeaderboard(gameId, category.id)
                 }.execute { leaderboardAsync ->
+                    val leaderboardsMap = getViewState().leaderboardsMap
                     leaderboardsMap[intent.index] = leaderboardAsync
-                }
 
-                reduce {
-                    it.copy(
-                        leaderboardsMap = leaderboardsMap
-                    )
+                    reduce {
+                        it.copy(
+                            leaderboardsMap = leaderboardsMap
+                        )
+                    }
                 }
             }
     }

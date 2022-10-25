@@ -1,5 +1,6 @@
 package com.speedrun.domain.data.repo.categories.model
 
+import com.speedrun.data.common.enums.RunTypeEnum
 import com.speedrun.domain.data.repo.common.model.LinkModel
 
 data class CategoryModel(
@@ -9,7 +10,7 @@ data class CategoryModel(
     val name: String,
     val players: Players,
     val rules: String?,
-    val type: String,
+    val type: RunTypeEnum,
     val weblink: String
 ) {
     data class Players(
