@@ -88,7 +88,6 @@ data class UserResponse(
         @Json(name = "image")
         val image: Asset?,
     ) {
-
         @JsonClass(generateAdapter = true)
         data class Asset(
             @Json(name = "uri")

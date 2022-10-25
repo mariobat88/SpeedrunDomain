@@ -8,7 +8,9 @@ enum class PlayerType {
     user, guest
 }
 
-sealed class PolymorphicPlayerResponse(@Json(name = "rel") val playerType: PlayerType) {
+sealed class PolymorphicPlayerResponse(
+    @Json(name = "rel") val playerType: PlayerType
+) {
     @JsonClass(generateAdapter = true)
     data class UserResponse(
         @Json(name = "id")

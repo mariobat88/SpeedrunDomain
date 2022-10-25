@@ -3,7 +3,7 @@ package com.speedrun.domain.datasource.runs.mapper
 import com.speedrun.domain.api.runs.models.*
 import com.speedrun.domain.data.datasource.common.mapper.toModel
 import com.speedrun.domain.data.datasource.games.mapper.toModel
-import com.speedrun.domain.data.datasource.players.mapper.toModel
+import com.speedrun.domain.data.datasource.players.mapper.toPlayerModel
 import com.speedrun.domain.repo.runs.model.RunModel
 
 fun FlatRunResponse.toModel() = RunModel(
@@ -34,7 +34,7 @@ fun RunResponse.toModel() = RunModel(
     videos = videos?.toModel(),
     comment = comment,
     status = status.toModel(),
-    players = players.data.map { it.toModel() },
+    players = players.data.map { it.toPlayerModel() },
     date = date,
     submitted = submitted,
     times = times.toModel(),

@@ -12,5 +12,5 @@ interface PlayersApiService {
         @Query("name") name: String,
         @Query("offset") offset: Int,
         @Query("max") max: Int
-    ): PaginationResponse<UserResponse>
+    ): PaginationResponse<PolymorphicPlayerResponse.UserResponse>
 }

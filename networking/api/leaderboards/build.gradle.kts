@@ -3,5 +3,6 @@ plugins {
 }
 
 dependencies{
+    implementation(projects.networking.api.players)
     implementation(projects.networking.api.runs)
 }

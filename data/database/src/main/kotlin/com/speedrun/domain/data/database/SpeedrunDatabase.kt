@@ -14,6 +14,9 @@ import com.speedrun.domain.data.database.entities.*
         GameRunTimeEntity::class,
         GameDeveloperEntity::class,
         GamePublisherEntity::class,
+        PlayerEntity::class,
+        UserEntity::class,
+        GuestEntity::class,
     ],
     version = 1
 )
@@ -24,4 +27,7 @@ abstract class SpeedrunDatabase : RoomDatabase() {
     abstract fun runTimeDao(): RunTimeDao
     abstract fun gameRunTimeDao(): GameRunTimeDao
     abstract fun gameDeveloperDao(): GameDeveloperDao
+    abstract fun playerDao(): PlayerDao
+    abstract fun userDao(): UserDao
+    abstract fun guestDao(): GuestDao
 }

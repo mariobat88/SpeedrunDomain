@@ -3,6 +3,7 @@ plugins {
 }
 
 dependencies{
+    api(projects.data.datasource.players)
     api(projects.data.datasource.runs)
     api(projects.data.repo.leaderboards)
     api(projects.networking.api.leaderboards)
