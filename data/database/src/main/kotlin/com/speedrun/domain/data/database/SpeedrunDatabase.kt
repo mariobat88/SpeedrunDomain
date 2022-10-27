@@ -17,6 +17,7 @@ import com.speedrun.domain.data.database.entities.*
         PlayerEntity::class,
         UserEntity::class,
         GuestEntity::class,
+        LeaderboardEntity::class,
     ],
     version = 1
 )
@@ -30,4 +31,5 @@ abstract class SpeedrunDatabase : RoomDatabase() {
     abstract fun playerDao(): PlayerDao
     abstract fun userDao(): UserDao
     abstract fun guestDao(): GuestDao
+    abstract fun leaderboardDao(): LeaderboardDao
 }
