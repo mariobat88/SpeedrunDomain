@@ -8,6 +8,7 @@ import com.speedrun.domain.data.repo.publishers.model.PublisherModel
 import com.speedrun.domain.repo.runs.model.RunModel
 
 sealed class Intent{
+    object BackClicked : Intent()
     object LeaderboardsClicked : Intent()
 }
 
