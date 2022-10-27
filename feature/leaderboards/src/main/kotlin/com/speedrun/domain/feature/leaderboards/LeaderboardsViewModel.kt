@@ -22,6 +22,7 @@ import dagger.hilt.android.EntryPointAccessors
 import dagger.hilt.android.components.ActivityComponent
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filterIsInstance
+import kotlinx.coroutines.flow.flatMapConcat
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
@@ -75,7 +76,8 @@ class LeaderboardsViewModel @AssistedInject constructor(
         viewModelScope.launch(dispatcherProvider.main()) {
             launch {
                 suspend {
-                    categoriesRepository.getCategoriesByGame(gameId).filter { it.type == RunTypeEnum.PER_GAME }
+                    categoriesRepository.getCategoriesByGame(gameId)
+                        .filter { it.type == RunTypeEnum.PER_GAME }
                 }.execute { categoriesAsync ->
                     reduce {
                         it.copy(
@@ -90,19 +92,25 @@ class LeaderboardsViewModel @AssistedInject constructor(
     override suspend fun bind(intents: Flow<Intent>): Flow<Any> {
         return intents.filterIsInstance<Intent.CategorySelected>()
             .map { intent ->
-                suspend {
-                    val category = getViewState().categoriesAsync()!![intent.index]
-                    leaderboardsRepository.getLeaderboard(gameId, category.id)
-                }.execute { leaderboardAsync ->
-                    val leaderboardsMap = getViewState().leaderboardsMap
-                    leaderboardsMap[intent.index] = leaderboardAsync
+                val category = getViewState().categoriesAsync()!![intent.index]
 
-                    reduce {
-                        it.copy(
-                            leaderboardsMap = leaderboardsMap
-                        )
-                    }
+                suspend {
+                    leaderboardsRepository.refreshLeaderboards(gameId, category.id)
+                }.execute {
+
                 }
+
+                leaderboardsRepository.getLeaderboard(gameId, category.id).asAsync()
+                    .collect { leaderboardAsync ->
+                        val leaderboardsMap = getViewState().leaderboardsMap
+                        leaderboardsMap[intent.index] = leaderboardAsync
+
+                        reduce {
+                            it.copy(
+                                leaderboardsMap = leaderboardsMap
+                            )
+                        }
+                    }
             }
     }
 }

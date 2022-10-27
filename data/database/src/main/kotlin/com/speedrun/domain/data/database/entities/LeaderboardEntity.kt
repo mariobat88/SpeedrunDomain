@@ -2,16 +2,14 @@ package com.speedrun.domain.data.database.entities
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.speedrun.data.common.enums.RunTimeEnum
 
-@Entity(
-    tableName = LeaderboardEntity.TABLE_NAME,
-    primaryKeys = [
-        LeaderboardEntity.COLUMN_GAME,
-        LeaderboardEntity.COLUMN_CATEGORY,
-    ]
-)
+@Entity(tableName = LeaderboardEntity.TABLE_NAME)
 data class LeaderboardEntity(
+    @PrimaryKey
+    @ColumnInfo(name = COLUMN_ID)
+    val id: String,
     @ColumnInfo(name = COLUMN_WEBLINK)
     val weblink: String,
     @ColumnInfo(name = COLUMN_GAME)
@@ -27,9 +25,9 @@ data class LeaderboardEntity(
     @ColumnInfo(name = COLUMN_EMULATORS)
     val emulators: Boolean?,
     @ColumnInfo(name = COLUMN_VIDEO_ONLY)
-    val videoOnly: Boolean?,
+    val videoOnly: Boolean,
     @ColumnInfo(name = COLUMN_TIMING)
-    val timing: RunTimeEnum?,
+    val timing: RunTimeEnum,
 ) {
     companion object {
         const val TABLE_NAME = "leaderboard"

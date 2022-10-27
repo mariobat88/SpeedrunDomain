@@ -7,6 +7,7 @@ import com.speedrun.domain.data.database.entities.*
 
 @Database(
     entities = [
+        RunEntity::class,
         DeveloperEntity::class,
         PublisherEntity::class,
         GameEntity::class,
@@ -18,10 +19,12 @@ import com.speedrun.domain.data.database.entities.*
         UserEntity::class,
         GuestEntity::class,
         LeaderboardEntity::class,
+        LeaderboardPlaceEntity::class,
     ],
     version = 1
 )
 abstract class SpeedrunDatabase : RoomDatabase() {
+    abstract fun runDao(): RunDao
     abstract fun developerDao(): DeveloperDao
     abstract fun publisherDao(): PublisherDao
     abstract fun gameDao(): GameDao
@@ -32,4 +35,5 @@ abstract class SpeedrunDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao
     abstract fun guestDao(): GuestDao
     abstract fun leaderboardDao(): LeaderboardDao
+    abstract fun leaderboardPlaceDao(): LeaderboardPlaceDao
 }

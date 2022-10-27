@@ -1,6 +1,6 @@
 package com.speedrun.domain.networking.api.leaderboards
 
-import com.speedrun.data.common.enums.RunTypeEnum
+import com.speedrun.data.common.enums.RunTimeEnum
 import com.speedrun.domain.api.runs.models.FlatRunResponse
 import com.speedrun.domain.networking.api.common.LinkResponse
 import com.speedrun.domain.networking.api.players.PolymorphicPlayerResponse
@@ -31,7 +31,7 @@ data class LeaderboardResponse(
         @Json(name = "video-only")
         val videoOnly: Boolean,
         @Json(name = "timing")
-        val timing: RunTypeEnum,
+        val timing: RunTimeEnum,
         @Json(name = "runs")
         val runs: List<LeaderboardRun>,
         @Json(name = "links")

@@ -6,9 +6,9 @@ import retrofit2.http.Query
 
 interface RunsApiService {
 
-    @GET("runs?status=verified&orderby=verify-date&direction=desc&embed=category,game,players")
+    @GET("runs?status=verified&orderby=verify-date&direction=desc&embed=game,players")
     suspend fun getLatestVerifiedRuns(): DataRunResponse
 
-    @GET("runs?orderby=submitted&embed=category,game,players")
+    @GET("runs?orderby=submitted&embed=game,players")
     suspend fun getLatestRunsOfGame(@Query("game") gameId: String): DataRunResponse
 }
