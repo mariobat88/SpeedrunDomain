@@ -98,7 +98,7 @@ fun LeaderboardsScreen(
                             Log.d("BATBAT", "Success ${viewState.leaderboardsMap.toString()}")
                             LazyColumn{
                                 leaderboardAsync().runs.forEach { run ->
-                                    item(run.run.id) {
+                                    item(run.run?.id) {
                                         Column {
                                             Text(
                                                 text = run.place.toString(),

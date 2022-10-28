@@ -1,13 +1,10 @@
 package com.speedrun.domain.data.datasource.leaderboards.mapper
 
-import com.speedrun.domain.data.database.entities.GameEntity
 import com.speedrun.domain.data.database.entities.LeaderboardEntity
 import com.speedrun.domain.data.database.entities.LeaderboardPlaceEntity
-import com.speedrun.domain.data.database.entities.RunEntity
 import com.speedrun.domain.data.database.result.LeaderboardEntityResult
-import com.speedrun.domain.data.datasource.games.mapper.toModel
+import com.speedrun.domain.data.database.result.LeaderboardPlaceEntityResult
 import com.speedrun.domain.data.repo.leaderboards.model.LeaderboardModel
-import com.speedrun.domain.datasource.runs.mapper.toRunModel
 import com.speedrun.domain.networking.api.leaderboards.LeaderboardResponse
 
 fun LeaderboardResponse.Data.createId() = "$game$category"
@@ -34,16 +31,15 @@ fun LeaderboardResponse.Data.LeaderboardRun.toLeaderboardPlaceEntity(
 )
 
 fun LeaderboardEntityResult.toLeaderboardModel(): LeaderboardModel {
-    return leaderboardEntity.toLeaderboardModel(gameEntity, runs)
+    return leaderboardEntity.toLeaderboardModel(leaderboardPlaces)
 }
 
 fun LeaderboardEntity.toLeaderboardModel(
-    gameEntity: GameEntity?,
-    runEntities: List<RunEntity>?
+    leaderboardPlacesResult: List<LeaderboardPlaceEntityResult>
 ) = LeaderboardModel(
     id = id,
     weblink = weblink,
-    game = gameEntity?.toModel(),
+    game = null,
     category = category,
     level = level,
     platform = platform,
@@ -51,6 +47,6 @@ fun LeaderboardEntity.toLeaderboardModel(
     emulators = emulators,
     videoOnly = videoOnly,
     timing = timing,
-    runs = runEntities?.map { it.toRunModel() },
+    runs = leaderboardPlacesResult.map { it.leaderboardPlaceEntity.toLeaderboardPlaceModel(it.runEntityResult?.runEntity) },
     links = emptyList(),
 )

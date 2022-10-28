@@ -20,10 +20,7 @@ import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.android.EntryPointAccessors
 import dagger.hilt.android.components.ActivityComponent
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.filterIsInstance
-import kotlinx.coroutines.flow.flatMapConcat
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 class LeaderboardsViewModel @AssistedInject constructor(
@@ -100,17 +97,19 @@ class LeaderboardsViewModel @AssistedInject constructor(
 
                 }
 
-                leaderboardsRepository.getLeaderboard(gameId, category.id).asAsync()
-                    .collect { leaderboardAsync ->
-                        val leaderboardsMap = getViewState().leaderboardsMap
-                        leaderboardsMap[intent.index] = leaderboardAsync
+                viewModelScope.launch {
+                    leaderboardsRepository.getLeaderboard(gameId, category.id).asAsync()
+                        .collect { leaderboardAsync ->
+                            val leaderboardsMap = getViewState().leaderboardsMap
+                            leaderboardsMap[intent.index] = leaderboardAsync
 
-                        reduce {
-                            it.copy(
-                                leaderboardsMap = leaderboardsMap
-                            )
+                            reduce {
+                                it.copy(
+                                    leaderboardsMap = leaderboardsMap
+                                )
+                            }
                         }
-                    }
+                }
             }
     }
 }

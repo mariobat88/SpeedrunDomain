@@ -12,6 +12,7 @@ import com.speedrun.domain.data.datasource.players.mapper.toUserEntity
 import com.speedrun.domain.data.repo.leaderboards.LeaderboardsRepository
 import com.speedrun.domain.data.repo.leaderboards.model.LeaderboardModel
 import com.speedrun.domain.datasource.runs.mapper.toRunEntity
+import com.speedrun.domain.datasource.runs.mapper.toRunPlayerEntity
 import com.speedrun.domain.networking.api.leaderboards.LeaderboardsApiService
 import com.speedrun.domain.networking.api.players.PolymorphicPlayerResponse
 import kotlinx.coroutines.flow.Flow
@@ -28,6 +29,7 @@ class LeaderboardsRepositoryImpl @Inject constructor(
 ) : LeaderboardsRepository {
 
     private val runDao = speedrunDatabase.runDao()
+    private val runPlayerDao = speedrunDatabase.runPlayerDao()
     private val leaderboardDao = speedrunDatabase.leaderboardDao()
     private val leaderboardPlaceDao = speedrunDatabase.leaderboardPlaceDao()
     private val playerDao = speedrunDatabase.playerDao()
@@ -46,10 +48,13 @@ class LeaderboardsRepositoryImpl @Inject constructor(
         val playerEntities = userPlayerEntities + guestPlayerEntities
 
         val runEntities = response.data.runs.map { it.run.toRunEntity() }
+        val runPlayerEntities = response.data.runs.map { leaderboardRun -> leaderboardRun.run.players.map { it.toRunPlayerEntity(leaderboardRun.run.id) } }.flatten()
 
         leaderboardDao.upsert(leaderboardEntities)
         leaderboardPlaceDao.upsert(leaderboardPlaceEntities)
         playerDao.upsert(playerEntities)
+        runPlayerDao.upsert(runPlayerEntities)
+
         userDao.upsert(userEntities)
         guestDao.upsert(guestEntities)
         runDao.upsert(runEntities)
