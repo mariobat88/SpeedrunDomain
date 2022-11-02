@@ -11,12 +11,14 @@ sealed class PlayerModel {
         val role: String,
         val signup: String?,
         val location: Location?,
-        val twitch: LinkModel?,
-        val hitbox: LinkModel?,
-        val youtube: LinkModel?,
-        val twitter: LinkModel?,
-        val speedrunslive: LinkModel?,
-        val assets: Assets,
+        val twitch: String?,
+        val hitbox: String?,
+        val youtube: String?,
+        val twitter: String?,
+        val speedrunslive: String?,
+        val icon: String?,
+        val supporterIcon: String?,
+        val image: String?,
         val links: List<LinkModel>
     ) : PlayerModel() {
         data class NameStyle(

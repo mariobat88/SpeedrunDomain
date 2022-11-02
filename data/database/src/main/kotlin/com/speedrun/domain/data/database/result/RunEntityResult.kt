@@ -13,5 +13,5 @@ data class RunEntityResult(
         entityColumn = RunPlayerEntity.COLUMN_RUN_ID,
         parentColumn = RunEntity.COLUMN_ID,
     )
-    val players: List<RunPlayerEntity> = emptyList(),
+    val runPlayers: List<RunPlayerResult> = emptyList(),
 )

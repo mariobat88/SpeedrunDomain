@@ -97,9 +97,9 @@ data class UserEntity(
         }
 
         data class Color(
-            @Embedded(prefix = COLUMN_LIGHT)
+            @ColumnInfo(name = COLUMN_LIGHT)
             val light: String,
-            @Embedded(prefix = COLUMN_DARK)
+            @ColumnInfo(name = COLUMN_DARK)
             val dark: String
         ) {
             companion object {

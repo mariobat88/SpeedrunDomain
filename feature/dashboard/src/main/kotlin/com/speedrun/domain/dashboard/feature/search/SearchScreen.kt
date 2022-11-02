@@ -189,7 +189,7 @@ private fun SearchScreen(
                                         .align(Alignment.Center),
                                     horizontalArrangement = Arrangement.SpaceBetween,
                                 ) {
-                                    player.assets.image?.uri?.let { uri ->
+                                    player.image?.let { uri ->
                                         AsyncImage(
                                             model = uri,
                                             contentDescription = "",

@@ -20,6 +20,7 @@ import com.speedrun.domain.core.framework.Screen
 import com.speedrun.domain.core.framework.async.Loading
 import com.speedrun.domain.core.framework.async.Success
 import com.speedrun.domain.core.ui.SpeedrunScreen
+import com.speedrun.domain.kit.player.ui.PlayerName
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
 
@@ -104,6 +105,11 @@ fun LeaderboardsScreen(
                                                 text = run.place.toString(),
                                                 color = MaterialTheme.colorScheme.onPrimary
                                             )
+                                            Column {
+                                                run.run?.players?.forEach {
+                                                    PlayerName(player = it)
+                                                }
+                                            }
                                         }
                                     }
                                 }
