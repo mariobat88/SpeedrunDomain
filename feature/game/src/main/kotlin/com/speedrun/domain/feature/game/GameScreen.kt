@@ -61,157 +61,165 @@ fun GameScreen(
     intentChannel: MutableSharedFlow<Intent>,
 ) {
     SpeedrunScreen { screenPadding ->
-        Box(
-            modifier = Modifier.fillMaxSize()
-        ) {
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(
-                        bottom = screenPadding.calculateBottomPadding(),
-                    )
-            ) {
-                item("Header") {
-                    Header(
-                        viewState = viewState,
-                        intentChannel = intentChannel
-                    )
-                }
-                item("HeaderSpacer") {
-                    Spacer(
-                        modifier = Modifier.height(dimensionResource(DesignSystemResources.dimen.side_padding))
-                    )
-                }
-                item("GameInfo") {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .wrapContentHeight()
-                            .padding(
-                                start = dimensionResource(DesignSystemResources.dimen.side_padding),
-                                end = dimensionResource(DesignSystemResources.dimen.side_padding),
+        Scaffold(
+            modifier = Modifier
+                .fillMaxSize(),
+            topBar = {
+                SmallTopAppBar(
+                    title = { Text(text = "") },
+                    modifier = Modifier.padding(top = screenPadding.calculateTopPadding()),
+                    navigationIcon = {
+                        IconButton(
+                            onClick = { intentChannel.tryEmit(Intent.BackClicked) }
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.ArrowBack,
+                                contentDescription = "Navigate back"
                             )
-                    ) {
-                        GameInfo(viewState)
+                        }
+                    },
+                    colors = TopAppBarDefaults.smallTopAppBarColors(
+                        containerColor = Color.Transparent,
+                        navigationIconContentColor = MaterialTheme.colorScheme.onPrimary
+                    ),
+                )
+            },
+            content = { padding ->
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(
+                            bottom = screenPadding.calculateBottomPadding(),
+                        )
+                ) {
+                    item("Header") {
+                        Header(
+                            viewState = viewState,
+                            intentChannel = intentChannel
+                        )
                     }
-                }
-                item("GameInfoSpacer") {
-                    Spacer(
-                        modifier = Modifier.height(dimensionResource(DesignSystemResources.dimen.side_padding))
-                    )
-                }
-                item("RuleSet") {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .wrapContentHeight()
-                            .padding(horizontal = dimensionResource(DesignSystemResources.dimen.side_padding))
-                    ) {
-                        Tile(
-                            title = stringResource(GameScreenResources.string.ruleset),
+                    item("HeaderSpacer") {
+                        Spacer(
+                            modifier = Modifier.height(dimensionResource(DesignSystemResources.dimen.side_padding))
+                        )
+                    }
+                    item("GameInfo") {
+                        Column(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .wrapContentHeight(),
+                                .wrapContentHeight()
+                                .padding(
+                                    start = dimensionResource(DesignSystemResources.dimen.side_padding),
+                                    end = dimensionResource(DesignSystemResources.dimen.side_padding),
+                                )
                         ) {
-                            Column(
+                            GameInfo(viewState)
+                        }
+                    }
+                    item("GameInfoSpacer") {
+                        Spacer(
+                            modifier = Modifier.height(dimensionResource(DesignSystemResources.dimen.side_padding))
+                        )
+                    }
+                    item("RuleSet") {
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .wrapContentHeight()
+                                .padding(horizontal = dimensionResource(DesignSystemResources.dimen.side_padding))
+                        ) {
+                            Tile(
+                                title = stringResource(GameScreenResources.string.ruleset),
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .wrapContentHeight()
-                                    .padding(vertical = dimensionResource(DesignSystemResources.dimen.side_padding)),
-                                verticalArrangement = Arrangement.spacedBy(4.dp)
+                                    .wrapContentHeight(),
                             ) {
-                                Rule(
-                                    required = viewState.gameAsync()?.ruleset?.showMilliseconds,
-                                    title = stringResource(GameScreenResources.string.show_milliseconds),
-                                )
-                                Rule(
-                                    required = viewState.gameAsync()?.ruleset?.requireVerification,
-                                    title = stringResource(GameScreenResources.string.require_verification),
-                                )
-                                Rule(
-                                    required = viewState.gameAsync()?.ruleset?.requireVideo,
-                                    title = stringResource(GameScreenResources.string.require_video),
-                                )
-                                Rule(
-                                    required = viewState.gameAsync()?.ruleset?.emulatorsAllowed,
-                                    title = stringResource(GameScreenResources.string.emulators_allowed),
-                                )
-                                Row(
+                                Column(
                                     modifier = Modifier
                                         .fillMaxWidth()
                                         .wrapContentHeight()
+                                        .padding(vertical = dimensionResource(DesignSystemResources.dimen.side_padding)),
+                                    verticalArrangement = Arrangement.spacedBy(4.dp)
                                 ) {
-                                    viewState.gameAsync()?.ruleset?.runTimes?.forEachIndexed { index, runTime ->
-                                        Runtime(
-                                            runTime = runTime,
-                                            defaultRuntime = viewState.gameAsync()?.ruleset?.defaultTime
-                                        )
-                                        if (viewState.gameAsync()?.ruleset?.runTimes?.lastIndex != index) {
-                                            Spacer(modifier = Modifier.width(4.dp))
+                                    Rule(
+                                        required = viewState.gameAsync()?.ruleset?.showMilliseconds,
+                                        title = stringResource(GameScreenResources.string.show_milliseconds),
+                                    )
+                                    Rule(
+                                        required = viewState.gameAsync()?.ruleset?.requireVerification,
+                                        title = stringResource(GameScreenResources.string.require_verification),
+                                    )
+                                    Rule(
+                                        required = viewState.gameAsync()?.ruleset?.requireVideo,
+                                        title = stringResource(GameScreenResources.string.require_video),
+                                    )
+                                    Rule(
+                                        required = viewState.gameAsync()?.ruleset?.emulatorsAllowed,
+                                        title = stringResource(GameScreenResources.string.emulators_allowed),
+                                    )
+                                    Row(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .wrapContentHeight()
+                                    ) {
+                                        viewState.gameAsync()?.ruleset?.runTimes?.forEachIndexed { index, runTime ->
+                                            Runtime(
+                                                runTime = runTime,
+                                                defaultRuntime = viewState.gameAsync()?.ruleset?.defaultTime
+                                            )
+                                            if (viewState.gameAsync()?.ruleset?.runTimes?.lastIndex != index) {
+                                                Spacer(modifier = Modifier.width(4.dp))
+                                            }
                                         }
                                     }
                                 }
                             }
                         }
                     }
-                }
-                item("RuleSetSpacer") {
-                    Spacer(
-                        modifier = Modifier.height(dimensionResource(DesignSystemResources.dimen.side_padding))
-                    )
-                }
-                if (viewState.runsAsync is Success) {
-                    item("Runs") {
-                        Tile(
-                            title = stringResource(GameScreenResources.string.latest_runs),
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .wrapContentHeight()
-                                .padding(horizontal = dimensionResource(DesignSystemResources.dimen.side_padding))
+                    item("RuleSetSpacer") {
+                        Spacer(
+                            modifier = Modifier.height(dimensionResource(DesignSystemResources.dimen.side_padding))
                         )
                     }
-                    items(viewState.runsAsync()?.size ?: 0) { index ->
-                        val run = viewState.runsAsync()?.get(index)!!
-                        key(run.id) {
-                            Box(
+                    if (viewState.runsAsync is Success) {
+                        item("Runs") {
+                            Tile(
+                                title = stringResource(GameScreenResources.string.latest_runs),
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .wrapContentHeight()
                                     .padding(horizontal = dimensionResource(DesignSystemResources.dimen.side_padding))
-                                    .background(MaterialTheme.colorScheme.tertiary)
-                                    .padding(vertical = 4.dp),
-                            ) {
-                                Run(
-                                    run = run,
+                            )
+                        }
+                        items(viewState.runsAsync()?.size ?: 0) { index ->
+                            val run = viewState.runsAsync()?.get(index)!!
+                            key(run.id) {
+                                Box(
                                     modifier = Modifier
                                         .fillMaxWidth()
                                         .wrapContentHeight()
-                                )
+                                        .padding(
+                                            horizontal = dimensionResource(
+                                                DesignSystemResources.dimen.side_padding
+                                            )
+                                        )
+                                        .background(MaterialTheme.colorScheme.tertiary)
+                                        .padding(vertical = 4.dp),
+                                ) {
+                                    Run(
+                                        run = run,
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .wrapContentHeight()
+                                    )
+                                }
                             }
+                            Divider()
                         }
-                        Divider()
                     }
                 }
             }
-            SmallTopAppBar(
-                title = { Text(text = "") },
-                modifier = Modifier.padding(top = screenPadding.calculateTopPadding()),
-                navigationIcon = {
-                    IconButton(
-                        onClick = { intentChannel.tryEmit(Intent.BackClicked) }
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.ArrowBack,
-                            contentDescription = "Navigate back"
-                        )
-                    }
-                },
-                colors = TopAppBarDefaults.smallTopAppBarColors(
-                    containerColor = Color.Transparent,
-                    navigationIconContentColor = MaterialTheme.colorScheme.onPrimary
-                )
-            )
-        }
+        )
     }
 }
 
