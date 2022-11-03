@@ -22,6 +22,9 @@ class AndroidLibraryComposeConventionPlugin : Plugin<Project> {
             val libs = extensions.getByType(VersionCatalogsExtension::class).named("libs")
 
             dependencies {
+                val composeBom = platform(libs.findLibrary("androidx.compose.bom").get())
+                add("implementation", composeBom)
+
                 add("implementation", libs.findLibrary("androidx.compose.runtime").get())
             }
         }

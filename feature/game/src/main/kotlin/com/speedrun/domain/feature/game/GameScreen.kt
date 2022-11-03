@@ -65,9 +65,8 @@ fun GameScreen(
             modifier = Modifier
                 .fillMaxSize(),
             topBar = {
-                SmallTopAppBar(
+                TopAppBar(
                     title = { Text(text = "") },
-                    modifier = Modifier.padding(top = screenPadding.calculateTopPadding()),
                     navigationIcon = {
                         IconButton(
                             onClick = { intentChannel.tryEmit(Intent.BackClicked) }
