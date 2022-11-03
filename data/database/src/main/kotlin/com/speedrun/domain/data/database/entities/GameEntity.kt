@@ -42,7 +42,7 @@ data class GameEntity(
     //val moderators: Map<String, String>,
     val created: String?,
     @Embedded
-    val assets: Assets,
+    val assets: Assets?,
     //val links: List<LinkModel>
 ) {
     companion object {
@@ -78,33 +78,29 @@ data class GameEntity(
     }
 
     data class Assets(
-        @Embedded(prefix = "logo")
-        val logo: Asset,
-        @Embedded(prefix = "coverTiny")
-        val coverTiny: Asset,
-        @Embedded(prefix = "coverSmall")
-        val coverSmall: Asset,
-        @Embedded(prefix = "coverMedium")
-        val coverMedium: Asset,
-        @Embedded(prefix = "coverLarge")
-        val coverLarge: Asset,
-        @Embedded(prefix = "icon")
-        val icon: Asset,
-        @Embedded(prefix = "trophy1st")
-        val trophy1st: Asset,
-        @Embedded(prefix = "trophy2nd")
-        val trophy2nd: Asset,
-        @Embedded(prefix = "trophy3rd")
-        val trophy3rd: Asset,
-        @Embedded(prefix = "trophy4th")
-        val trophy4th: Asset?,
-        @Embedded(prefix = "background")
-        val background: Asset?,
-        @Embedded(prefix = "foreground")
-        val foreground: Asset?
-    ) {
-        data class Asset(
-            val uri: String?
-        )
-    }
+        @ColumnInfo(name = "logo")
+        val logo: String?,
+        @ColumnInfo(name = "coverTiny")
+        val coverTiny: String?,
+        @ColumnInfo(name = "coverSmall")
+        val coverSmall: String?,
+        @ColumnInfo(name = "coverMedium")
+        val coverMedium: String?,
+        @ColumnInfo(name = "coverLarge")
+        val coverLarge: String?,
+        @ColumnInfo(name = "icon")
+        val icon: String?,
+        @ColumnInfo(name = "trophy1st")
+        val trophy1st: String?,
+        @ColumnInfo(name = "trophy2nd")
+        val trophy2nd: String?,
+        @ColumnInfo(name = "trophy3rd")
+        val trophy3rd: String?,
+        @ColumnInfo(name = "trophy4th")
+        val trophy4th: String?,
+        @ColumnInfo(name = "background")
+        val background: String?,
+        @ColumnInfo(name = "foreground")
+        val foreground: String?
+    )
 }

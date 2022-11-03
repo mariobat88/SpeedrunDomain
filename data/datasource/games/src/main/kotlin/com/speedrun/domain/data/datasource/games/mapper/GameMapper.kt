@@ -54,22 +54,18 @@ private fun GameResponse.Ruleset.toGameEntity() = GameEntity.Ruleset(
 )
 
 fun GameResponse.Assets.toGameEntity() = GameEntity.Assets(
-    logo = logo.toGameEntity(),
-    coverTiny = coverTiny.toGameEntity(),
-    coverSmall = coverSmall.toGameEntity(),
-    coverMedium = coverMedium.toGameEntity(),
-    coverLarge = coverLarge.toGameEntity(),
-    icon = icon.toGameEntity(),
-    trophy1st = trophy1st.toGameEntity(),
-    trophy2nd = trophy2nd.toGameEntity(),
-    trophy3rd = trophy3rd.toGameEntity(),
-    trophy4th = trophy4th.toGameEntity(),
-    background = background.toGameEntity(),
-    foreground = foreground.toGameEntity(),
-)
-
-fun GameResponse.Assets.Asset.toGameEntity() = GameEntity.Assets.Asset(
-    uri = uri,
+    logo = logo.uri,
+    coverTiny = coverTiny.uri,
+    coverSmall = coverSmall.uri,
+    coverMedium = coverMedium.uri,
+    coverLarge = coverLarge.uri,
+    icon = icon.uri,
+    trophy1st = trophy1st.uri,
+    trophy2nd = trophy2nd.uri,
+    trophy3rd = trophy3rd.uri,
+    trophy4th = trophy4th.uri,
+    background = background.uri,
+    foreground = foreground.uri,
 )
 
 fun GameResponse.toModel() = GameModel(
@@ -113,22 +109,18 @@ fun GameResponse.Ruleset.toModel() = GameModel.Ruleset(
 )
 
 fun GameResponse.Assets.toModel() = GameModel.Assets(
-    logo = logo.toModel(),
-    coverTiny = coverTiny.toModel(),
-    coverSmall = coverSmall.toModel(),
-    coverMedium = coverMedium.toModel(),
-    coverLarge = coverLarge.toModel(),
-    icon = icon.toModel(),
-    trophy1st = trophy1st.toModel(),
-    trophy2nd = trophy2nd.toModel(),
-    trophy3rd = trophy3rd.toModel(),
-    trophy4th = trophy4th.toModel(),
-    background = background.toModel(),
-    foreground = foreground.toModel(),
-)
-
-fun GameResponse.Assets.Asset.toModel() = GameModel.Assets.Asset(
-    uri = uri,
+    logo = logo.uri,
+    coverTiny = coverTiny.uri,
+    coverSmall = coverSmall.uri,
+    coverMedium = coverMedium.uri,
+    coverLarge = coverLarge.uri,
+    icon = icon.uri,
+    trophy1st = trophy1st.uri,
+    trophy2nd = trophy2nd.uri,
+    trophy3rd = trophy3rd.uri,
+    trophy4th = trophy4th.uri,
+    background = background.uri,
+    foreground = foreground.uri,
 )
 
 fun GameEntity.toModel() = GameModel(
@@ -152,7 +144,7 @@ fun GameEntity.toModel() = GameModel(
     publishers = emptyList(),
     moderators = emptyMap(),
     created = created,
-    assets = assets.toGameEntity(),
+    assets = assets?.toGameEntity(),
     links = emptyList(),
 )
 
@@ -174,20 +166,16 @@ fun GameEntity.Ruleset.toGameEntity(
 )
 
 fun GameEntity.Assets.toGameEntity() = GameModel.Assets(
-    logo = logo.toGameEntity(),
-    coverTiny = coverTiny.toGameEntity(),
-    coverSmall = coverSmall.toGameEntity(),
-    coverMedium = coverMedium.toGameEntity(),
-    coverLarge = coverLarge.toGameEntity(),
-    icon = icon.toGameEntity(),
-    trophy1st = trophy1st.toGameEntity(),
-    trophy2nd = trophy2nd.toGameEntity(),
-    trophy3rd = trophy3rd.toGameEntity(),
-    trophy4th = trophy4th?.toGameEntity(),
-    background = background?.toGameEntity(),
-    foreground = foreground?.toGameEntity(),
-)
-
-fun GameEntity.Assets.Asset.toGameEntity() = GameModel.Assets.Asset(
-    uri = uri,
+    logo = logo,
+    coverTiny = coverTiny,
+    coverSmall = coverSmall,
+    coverMedium = coverMedium,
+    coverLarge = coverLarge,
+    icon = icon,
+    trophy1st = trophy1st,
+    trophy2nd = trophy2nd,
+    trophy3rd = trophy3rd,
+    trophy4th = trophy4th,
+    background = background,
+    foreground = foreground,
 )

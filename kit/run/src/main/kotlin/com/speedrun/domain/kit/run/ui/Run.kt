@@ -30,7 +30,7 @@ fun Run(
                     .height(dimensionResource(R.dimen.game_image_height))
             ) {
                 AsyncImage(
-                    model = run.game?.assets?.coverSmall?.uri ?: "",
+                    model = run.game?.assets?.coverSmall ?: "",
                     contentDescription = "",
                     modifier = Modifier.fillMaxSize(),
                     contentScale = ContentScale.Crop

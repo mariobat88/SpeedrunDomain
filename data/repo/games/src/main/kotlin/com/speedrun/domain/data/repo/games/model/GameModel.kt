@@ -24,7 +24,7 @@ data class GameModel(
     val publishers: List<String>?,
     val moderators: Map<String, String>,
     val created: String?,
-    val assets: Assets,
+    val assets: Assets?,
     val links: List<LinkModel>
 ) {
     data class Names(
@@ -43,21 +43,17 @@ data class GameModel(
     )
 
     data class Assets(
-        val logo: Asset,
-        val coverTiny: Asset,
-        val coverSmall: Asset,
-        val coverMedium: Asset,
-        val coverLarge: Asset,
-        val icon: Asset,
-        val trophy1st: Asset,
-        val trophy2nd: Asset,
-        val trophy3rd: Asset,
-        val trophy4th: Asset?,
-        val background: Asset?,
-        val foreground: Asset?
-    ) {
-        data class Asset(
-            val uri: String?
-        )
-    }
+        val logo: String?,
+        val coverTiny: String?,
+        val coverSmall: String?,
+        val coverMedium: String?,
+        val coverLarge: String?,
+        val icon: String?,
+        val trophy1st: String?,
+        val trophy2nd: String?,
+        val trophy3rd: String?,
+        val trophy4th: String?,
+        val background: String?,
+        val foreground: String?
+    )
 }

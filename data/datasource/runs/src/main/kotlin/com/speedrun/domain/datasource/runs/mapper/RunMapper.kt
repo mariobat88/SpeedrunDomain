@@ -1,6 +1,7 @@
 package com.speedrun.domain.datasource.runs.mapper
 
 import com.speedrun.domain.api.runs.models.*
+import com.speedrun.domain.data.database.entities.GameEntity
 import com.speedrun.domain.data.database.entities.RunEntity
 import com.speedrun.domain.data.database.result.RunPlayerResult
 import com.speedrun.domain.data.datasource.common.mapper.toModel
@@ -8,32 +9,13 @@ import com.speedrun.domain.data.datasource.games.mapper.toModel
 import com.speedrun.domain.data.datasource.players.mapper.toPlayerModel
 import com.speedrun.domain.repo.runs.model.RunModel
 
-fun RunEntity.toRunModel() = RunModel(
-    id = id,
-    weblink = weblink,
-    game = null,
-    level = level,
-    category = category,
-    //videos = videos?.toModel(),
-    videos = null,
-    comment = comment,
-    status = status.toModel(),
-    players = null,
-    date = date,
-    submitted = submitted,
-    times = times.toModel(),
-    system = system.toModel(),
-    splits = null,
-    values = null,
-    links = null,
-)
-
 fun RunEntity.toRunModel(
+    gameEntity: GameEntity?,
     runPlayerResults: List<RunPlayerResult>,
 ) = RunModel(
     id = id,
     weblink = weblink,
-    game = null,
+    game = gameEntity?.toModel(),
     level = level,
     category = category,
     //videos = videos?.toModel(),
@@ -49,7 +31,6 @@ fun RunEntity.toRunModel(
     values = null,
     links = null,
 )
-
 
 private fun RunEntity.Status.toModel() = RunModel.Status(
     status = status,
@@ -110,25 +91,6 @@ private fun SystemResponse.toEntity() = RunEntity.System(
     platform = platform,
     emulated = emulated,
     region = region,
-)
-
-fun FlatRunResponse.toModel() = RunModel(
-    id = id,
-    weblink = weblink,
-    game = null,
-    level = level,
-    category = category,
-    videos = videos?.toModel(),
-    comment = comment,
-    status = status.toModel(),
-    players = null,
-    date = date,
-    submitted = submitted,
-    times = times.toModel(),
-    system = system.toModel(),
-    splits = splits,
-    values = values,
-    links = null,
 )
 
 fun RunResponse.toModel() = RunModel(

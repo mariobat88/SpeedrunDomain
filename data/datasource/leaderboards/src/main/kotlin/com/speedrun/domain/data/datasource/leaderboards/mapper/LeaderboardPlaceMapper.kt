@@ -9,5 +9,5 @@ fun LeaderboardPlaceEntity.toLeaderboardPlaceModel(
     runEntityResult: RunEntityResult?
 ) = LeaderboardPlaceModel(
     place = place,
-    run = runEntityResult?.runEntity?.toRunModel(runEntityResult.runPlayers),
+    run = runEntityResult?.toRunModel(),
 )

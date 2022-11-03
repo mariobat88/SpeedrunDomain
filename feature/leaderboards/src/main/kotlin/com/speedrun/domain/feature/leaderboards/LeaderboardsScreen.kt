@@ -2,16 +2,15 @@
 
 package com.speedrun.domain.feature.leaderboards
 
-import android.util.Log
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.pagerTabIndicatorOffset
@@ -21,8 +20,10 @@ import com.speedrun.domain.core.framework.async.Loading
 import com.speedrun.domain.core.framework.async.Success
 import com.speedrun.domain.core.ui.SpeedrunScreen
 import com.speedrun.domain.kit.player.ui.PlayerName
+import com.speedrun.domain.core.designsystem.R as DesignSystemResources
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
+import kotlin.time.Duration
 
 @Composable
 internal fun LeaderboardsScreen(
@@ -81,7 +82,7 @@ fun LeaderboardsScreen(
                             text = {
                                 Text(
                                     text = category.name,
-                                    color =  MaterialTheme.colorScheme.onPrimary,
+                                    color = MaterialTheme.colorScheme.onPrimary,
                                 )
                             }
                         )
@@ -91,33 +92,72 @@ fun LeaderboardsScreen(
                     count = viewState.categoriesAsync()?.size ?: 0,
                     state = pagerState,
                 ) { page ->
-                    when(val leaderboardAsync = viewState.leaderboardsMap[page]){
-                        is Loading ->{
-                            Log.d("BATBAT", "LOADING ${viewState.leaderboardsMap.toString()}")
+                    when (val leaderboardAsync = viewState.leaderboardsMap[page]) {
+                        is Loading -> {
                         }
                         is Success -> {
-                            Log.d("BATBAT", "Success ${viewState.leaderboardsMap.toString()}")
-                            LazyColumn{
+                            LazyColumn {
                                 leaderboardAsync().runs.forEach { run ->
                                     item(run.run?.id) {
-                                        Column {
-                                            Text(
-                                                text = run.place.toString(),
-                                                color = MaterialTheme.colorScheme.onPrimary
-                                            )
+                                        Row(
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .height(40.dp)
+                                                .padding(horizontal = dimensionResource(DesignSystemResources.dimen.side_padding)),
+                                            verticalAlignment = Alignment.CenterVertically
+                                        ) {
+                                            Box(
+                                                modifier = Modifier.size(20.dp),
+                                                contentAlignment = Alignment.Center
+                                            ){
+                                                val imageUri = when (run.place) {
+                                                    1 -> run.run?.game?.assets?.trophy1st
+                                                    2 -> run.run?.game?.assets?.trophy2nd
+                                                    3 -> run.run?.game?.assets?.trophy3rd
+                                                    4 -> run.run?.game?.assets?.trophy4th
+                                                    else -> null
+                                                }
+                                                if (imageUri != null) {
+                                                    AsyncImage(
+                                                        model = imageUri,
+                                                        contentDescription = "",
+                                                        modifier = Modifier.fillMaxSize()
+                                                    )
+                                                } else {
+                                                    Text(
+                                                        text = run.place.toString(),
+                                                        color = MaterialTheme.colorScheme.onPrimary
+                                                    )
+                                                }
+                                            }
+                                            Spacer(modifier = Modifier.width(4.dp))
                                             Column {
                                                 run.run?.players?.forEach {
                                                     PlayerName(player = it)
                                                 }
                                             }
+                                            Spacer(modifier = Modifier.width(4.dp))
+                                            Text(
+                                                text = Duration.parseIsoString(run.run?.times?.primary ?: "").toString(),
+                                                color = MaterialTheme.colorScheme.onPrimary
+                                            )
+                                            Spacer(modifier = Modifier.width(4.dp))
+                                            Text(
+                                                text = run.run?.date ?: "",
+                                                color = MaterialTheme.colorScheme.onPrimary
+                                            )
+                                            Spacer(modifier = Modifier.width(4.dp))
+                                            Text(
+                                                text = run.run?.system?.platform ?: "",
+                                                color = MaterialTheme.colorScheme.onPrimary
+                                            )
                                         }
                                     }
                                 }
                             }
                         }
-                         else -> {
-                             Log.d("BATBAT", "ELSE ${viewState.leaderboardsMap.toString()}")
-                         }
+                        else -> {
+                        }
                     }
                 }
             }

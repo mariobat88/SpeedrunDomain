@@ -90,25 +90,28 @@ class LeaderboardsViewModel @AssistedInject constructor(
         return intents.filterIsInstance<Intent.CategorySelected>()
             .map { intent ->
                 val category = getViewState().categoriesAsync()!![intent.index]
+                val leaderboardsMap = getViewState().leaderboardsMap
+                val currentEntry = leaderboardsMap[intent.index]
 
-                suspend {
-                    leaderboardsRepository.refreshLeaderboards(gameId, category.id)
-                }.execute {
+                if (currentEntry == null) {
+                    suspend {
+                        leaderboardsRepository.refreshLeaderboards(gameId, category.id)
+                    }.execute {
 
-                }
+                    }
 
-                viewModelScope.launch {
-                    leaderboardsRepository.getLeaderboard(gameId, category.id).asAsync()
-                        .collect { leaderboardAsync ->
-                            val leaderboardsMap = getViewState().leaderboardsMap
-                            leaderboardsMap[intent.index] = leaderboardAsync
+                    viewModelScope.launch {
+                        leaderboardsRepository.getLeaderboard(gameId, category.id).asAsync()
+                            .collect { leaderboardAsync ->
+                                leaderboardsMap[intent.index] = leaderboardAsync
 
-                            reduce {
-                                it.copy(
-                                    leaderboardsMap = leaderboardsMap
-                                )
+                                reduce {
+                                    it.copy(
+                                        leaderboardsMap = leaderboardsMap
+                                    )
+                                }
                             }
-                        }
+                    }
                 }
             }
     }

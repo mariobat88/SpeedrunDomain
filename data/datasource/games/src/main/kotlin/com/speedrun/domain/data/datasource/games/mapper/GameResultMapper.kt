@@ -25,7 +25,7 @@ fun GameEntityResult.toGameModel(): GameModel {
         publishers = publishers?.map { it.publisherId },
         moderators = emptyMap(),
         created = gameEntity.created,
-        assets = gameEntity.assets.toGameEntity(),
+        assets = gameEntity.assets?.toGameEntity(),
         links = emptyList(),
     )
 }

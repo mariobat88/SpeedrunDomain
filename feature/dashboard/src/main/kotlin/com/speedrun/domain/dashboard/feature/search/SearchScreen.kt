@@ -142,7 +142,7 @@ private fun SearchScreen(
                                         horizontalAlignment = Alignment.CenterHorizontally,
                                     ) {
                                         AsyncImage(
-                                            model = gameModel.assets.coverMedium.uri,
+                                            model = gameModel.assets?.coverMedium,
                                             contentDescription = "",
                                             modifier = Modifier
                                                 .fillMaxWidth()

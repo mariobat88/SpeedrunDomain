@@ -231,7 +231,7 @@ private fun Header(
             }
             is Success -> {
                 SubcomposeAsyncImage(
-                    model = gameAsync().assets.coverLarge.uri,
+                    model = gameAsync().assets?.coverLarge,
                     contentDescription = "",
                     modifier = Modifier
                         .fillMaxWidth()
@@ -293,7 +293,7 @@ private fun Header(
                             borderColor = MaterialTheme.colorScheme.background,
                         ) {
                             AsyncImage(
-                                model = viewState.gameAsync()?.assets?.coverSmall?.uri,
+                                model = viewState.gameAsync()?.assets?.coverSmall,
                                 contentDescription = "",
                                 modifier = Modifier.fillMaxSize(),
                                 contentScale = ContentScale.Crop
