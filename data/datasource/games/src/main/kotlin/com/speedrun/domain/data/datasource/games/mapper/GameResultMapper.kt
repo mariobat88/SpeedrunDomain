@@ -1,9 +1,9 @@
 package com.speedrun.domain.data.datasource.games.mapper
 
-import com.speedrun.domain.data.database.result.GameEntityResult
+import com.speedrun.domain.data.database.result.GameResult
 import com.speedrun.domain.data.repo.games.model.GameModel
 
-fun GameEntityResult.toGameModel(): GameModel {
+fun GameResult.toGameModel(): GameModel {
     return GameModel(
         id = gameEntity.id,
         names = gameEntity.names.toGameEntity(),

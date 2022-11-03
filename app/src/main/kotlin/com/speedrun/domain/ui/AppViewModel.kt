@@ -60,6 +60,10 @@ class AppViewModel @AssistedInject constructor(
         }
     }
 
+    override fun backClicked() {
+        stateNavigator.navigateUp()
+    }
+
     override fun navigateToGameScreen(gameId: String) {
         stateNavigator.navigateToRoute(GameNavigation(gameId))
     }

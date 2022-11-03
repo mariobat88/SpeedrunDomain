@@ -7,7 +7,7 @@ import com.speedrun.domain.data.database.entities.RunPlayerEntity
 
 data class RunPlayerResult(
     @Embedded
-    val runPlayerEntity: RunPlayerEntity,
+    val runPlayer: RunPlayerEntity,
     @Relation(
         entity = PlayerEntity::class,
         entityColumn = PlayerEntity.COLUMN_ID,

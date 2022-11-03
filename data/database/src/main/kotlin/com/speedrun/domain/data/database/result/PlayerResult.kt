@@ -14,11 +14,11 @@ data class PlayerResult(
         entityColumn = UserEntity.COLUMN_ID,
         parentColumn = PlayerEntity.COLUMN_ID,
     )
-    val userEntity: UserEntity?,
+    val user: UserEntity?,
     @Relation(
         entity = GuestEntity::class,
         entityColumn = GuestEntity.COLUMN_ID,
         parentColumn = PlayerEntity.COLUMN_ID,
     )
-    val guestEntity: GuestEntity?,
+    val guest: GuestEntity?,
 )

@@ -2,8 +2,8 @@ package com.speedrun.domain.data.datasource.leaderboards.mapper
 
 import com.speedrun.domain.data.database.entities.LeaderboardEntity
 import com.speedrun.domain.data.database.entities.LeaderboardPlaceEntity
-import com.speedrun.domain.data.database.result.LeaderboardEntityResult
-import com.speedrun.domain.data.database.result.LeaderboardPlaceEntityResult
+import com.speedrun.domain.data.database.result.LeaderboardResult
+import com.speedrun.domain.data.database.result.LeaderboardPlaceResult
 import com.speedrun.domain.data.repo.leaderboards.model.LeaderboardModel
 import com.speedrun.domain.networking.api.leaderboards.LeaderboardResponse
 
@@ -30,12 +30,12 @@ fun LeaderboardResponse.Data.LeaderboardRun.toLeaderboardPlaceEntity(
     place = place,
 )
 
-fun LeaderboardEntityResult.toLeaderboardModel(): LeaderboardModel {
+fun LeaderboardResult.toLeaderboardModel(): LeaderboardModel {
     return leaderboardEntity.toLeaderboardModel(leaderboardPlaces)
 }
 
 fun LeaderboardEntity.toLeaderboardModel(
-    leaderboardPlacesResult: List<LeaderboardPlaceEntityResult>
+    leaderboardPlacesResult: List<LeaderboardPlaceResult>
 ) = LeaderboardModel(
     id = id,
     weblink = weblink,
@@ -47,6 +47,6 @@ fun LeaderboardEntity.toLeaderboardModel(
     emulators = emulators,
     videoOnly = videoOnly,
     timing = timing,
-    runs = leaderboardPlacesResult.map { it.leaderboardPlaceEntity.toLeaderboardPlaceModel(it.runs) },
+    runs = leaderboardPlacesResult.map { it.leaderboardPlace.toLeaderboardPlaceModel(it.runs) },
     links = emptyList(),
 )

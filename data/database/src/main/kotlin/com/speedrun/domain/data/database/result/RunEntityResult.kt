@@ -8,13 +8,13 @@ import com.speedrun.domain.data.database.entities.RunPlayerEntity
 
 data class RunEntityResult(
     @Embedded
-    val runEntity: RunEntity,
+    val run: RunEntity,
     @Relation(
         entity = GameEntity::class,
         entityColumn = GameEntity.COLUMN_ID,
         parentColumn = RunEntity.COLUMN_GAME,
     )
-    val gameEntity: GameEntity?,
+    val game: GameEntity?,
     @Relation(
         entity = RunPlayerEntity::class,
         entityColumn = RunPlayerEntity.COLUMN_RUN_ID,

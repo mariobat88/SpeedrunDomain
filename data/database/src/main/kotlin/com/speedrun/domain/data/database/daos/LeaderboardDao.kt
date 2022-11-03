@@ -4,7 +4,7 @@ import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Transaction
 import com.speedrun.domain.data.database.entities.LeaderboardEntity
-import com.speedrun.domain.data.database.result.LeaderboardEntityResult
+import com.speedrun.domain.data.database.result.LeaderboardResult
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -15,5 +15,5 @@ abstract class LeaderboardDao : BaseDao<LeaderboardEntity>() {
     abstract fun getLeaderboard(
         gameId: String,
         categoryId: String
-    ): Flow<LeaderboardEntityResult>
+    ): Flow<LeaderboardResult>
 }

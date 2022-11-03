@@ -5,9 +5,9 @@ import androidx.room.Relation
 import com.speedrun.domain.data.database.entities.LeaderboardPlaceEntity
 import com.speedrun.domain.data.database.entities.RunEntity
 
-data class LeaderboardPlaceEntityResult(
+data class LeaderboardPlaceResult(
     @Embedded
-    val leaderboardPlaceEntity: LeaderboardPlaceEntity,
+    val leaderboardPlace: LeaderboardPlaceEntity,
     @Relation(
         entity = RunEntity::class,
         entityColumn = RunEntity.COLUMN_ID,

@@ -5,7 +5,7 @@ import androidx.room.Junction
 import androidx.room.Relation
 import com.speedrun.domain.data.database.entities.*
 
-data class GameEntityResult(
+data class GameResult(
     @Embedded
     val gameEntity: GameEntity,
     @Relation(

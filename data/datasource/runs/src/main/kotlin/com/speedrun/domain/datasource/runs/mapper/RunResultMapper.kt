@@ -4,5 +4,5 @@ import com.speedrun.domain.data.database.result.RunEntityResult
 import com.speedrun.domain.repo.runs.model.RunModel
 
 fun RunEntityResult.toRunModel(): RunModel {
-    return runEntity.toRunModel(gameEntity, runPlayers)
+    return run.toRunModel(game, runPlayers)
 }

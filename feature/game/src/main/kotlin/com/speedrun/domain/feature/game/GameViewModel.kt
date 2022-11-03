@@ -152,7 +152,12 @@ class GameViewModel @AssistedInject constructor(
     }
 
     override suspend fun bind(intents: Flow<Intent>): Flow<Any> {
-        return intents.filterIsInstance<Intent.LeaderboardsClicked>()
+        val backClickedIntent = intents.filterIsInstance<Intent.BackClicked>()
+            .onEach { gameNavigator.backClicked() }
+
+        val leaderboardsClickedIntent = intents.filterIsInstance<Intent.LeaderboardsClicked>()
             .onEach { gameNavigator.navigateToLeaderboardsScreen(gameId) }
+
+        return merge(backClickedIntent, leaderboardsClickedIntent)
     }
 }

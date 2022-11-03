@@ -9,9 +9,9 @@ import com.speedrun.domain.networking.api.players.PlayerType
 
 fun PlayerResult.toPlayerModel(): PlayerModel {
     return if (player.rel == PlayerType.user.name) {
-        userEntity?.toUserModel()!!
+        user?.toUserModel()!!
     } else {
-        guestEntity?.toGuestModel()!!
+        guest?.toGuestModel()!!
     }
 }
 
