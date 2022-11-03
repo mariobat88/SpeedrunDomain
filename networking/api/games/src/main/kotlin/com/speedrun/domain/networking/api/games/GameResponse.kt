@@ -2,6 +2,7 @@ package com.speedrun.domain.networking.api.games
 
 import com.speedrun.data.common.enums.RunTimeEnum
 import com.speedrun.domain.networking.api.common.LinkResponse
+import com.speedrun.domain.networking.api.platforms.PlatformDataResponse
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
@@ -19,7 +20,7 @@ data class GameResponse(
     @Json(name = "ruleset") val ruleset: Ruleset,
     @Json(name = "romhack") val romhack: Boolean,
     @Json(name = "gametypes") val gametypes: List<String>,
-    @Json(name = "platforms") val platforms: List<String>,
+    @Json(name = "platforms") val platforms: PlatformDataResponse,
     @Json(name = "regions") val regions: List<String>,
     @Json(name = "genres") val genres: List<String>,
     @Json(name = "engines") val engines: List<String>,

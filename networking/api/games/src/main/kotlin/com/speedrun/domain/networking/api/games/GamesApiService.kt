@@ -6,7 +6,7 @@ import retrofit2.http.Header
 import retrofit2.http.Query
 
 interface GamesApiService {
-    @GET("games")
+    @GET("games?embed=platforms")
     suspend fun searchGames(
         @Header("Cache-Control") cacheControl: String? = "no-cache",
         @Query("name") name: String,
