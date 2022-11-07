@@ -2,6 +2,7 @@
 
 package com.speedrun.domain.feature.leaderboards
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.*
@@ -96,7 +97,7 @@ fun LeaderboardsScreen(
                             text = {
                                 Text(
                                     text = category.name,
-                                    color = MaterialTheme.colorScheme.onPrimary,
+                                    color = MaterialTheme.colorScheme.onBackground,
                                 )
                             }
                         )
@@ -113,12 +114,24 @@ fun LeaderboardsScreen(
                             LazyColumn(
                                 modifier = Modifier.fillMaxSize()
                             ) {
-                                leaderboardAsync().runs.forEach { run ->
+                                leaderboardAsync().runs.forEachIndexed { index, run ->
                                     item(run.run?.id) {
+                                        val background = if (index % 2 == 0) {
+                                            MaterialTheme.colorScheme.secondary
+                                        } else {
+                                            MaterialTheme.colorScheme.tertiary
+                                        }
+                                        val textColor = if (index % 2 == 0) {
+                                            MaterialTheme.colorScheme.onSecondary
+                                        } else {
+                                            MaterialTheme.colorScheme.onTertiary
+                                        }
+
                                         Row(
                                             modifier = Modifier
                                                 .fillMaxWidth()
                                                 .height(40.dp)
+                                                .background(background)
                                                 .padding(
                                                     horizontal = dimensionResource(
                                                         DesignSystemResources.dimen.side_padding
@@ -153,7 +166,7 @@ fun LeaderboardsScreen(
                                                     } else {
                                                         Text(
                                                             text = run.place.toString(),
-                                                            color = MaterialTheme.colorScheme.onPrimary
+                                                            color = textColor
                                                         )
                                                     }
                                                 }
@@ -164,7 +177,10 @@ fun LeaderboardsScreen(
                                                         Row {
                                                             if (player is PlayerModel.UserModel) {
                                                                 Text(
-                                                                    text = countryFlag(player.location?.country?.code ?: ""),
+                                                                    text = countryFlag(
+                                                                        player.location?.country?.code
+                                                                            ?: ""
+                                                                    ),
                                                                     modifier = Modifier.wrapContentSize()
                                                                 )
                                                             }
@@ -175,32 +191,43 @@ fun LeaderboardsScreen(
                                                     }
                                                 }
                                             }
-                                            Text(
-                                                text = Duration.parseIsoString(
-                                                    run.run?.times?.primary ?: ""
-                                                ).toString(),
+                                            Box(
                                                 modifier = Modifier
                                                     .weight(1f)
                                                     .fillMaxHeight(),
-                                                color = MaterialTheme.colorScheme.onPrimary,
-                                                textAlign = TextAlign.Center
-                                            )
-                                            Text(
-                                                text = buildAnnotatedString {
-                                                    append(run.run?.system?.platform?.name ?: "")
-                                                    if(run.run?.system?.emulated == true){
-                                                        withStyle(superscript){
-                                                            append(" EMU")
-                                                        }
-                                                    }
+                                                contentAlignment = Alignment.Center
+                                            ) {
+                                                Text(
+                                                    text = Duration.parseIsoString(
+                                                        run.run?.times?.primary ?: ""
+                                                    ).toString(),
 
-                                                },
+                                                    color = textColor,
+                                                    textAlign = TextAlign.Center
+                                                )
+                                            }
+                                            Box(
                                                 modifier = Modifier
                                                     .weight(1f)
                                                     .fillMaxHeight(),
-                                                color = MaterialTheme.colorScheme.onPrimary,
-                                                textAlign = TextAlign.Center
-                                            )
+                                                contentAlignment = Alignment.Center
+                                            ) {
+                                                Text(
+                                                    text = buildAnnotatedString {
+                                                        append(
+                                                            run.run?.system?.platform?.name ?: ""
+                                                        )
+                                                        if (run.run?.system?.emulated == true) {
+                                                            withStyle(superscript) {
+                                                                append(" EMU")
+                                                            }
+                                                        }
+
+                                                    },
+                                                    color = textColor,
+                                                    textAlign = TextAlign.Center
+                                                )
+                                            }
                                         }
                                     }
                                 }

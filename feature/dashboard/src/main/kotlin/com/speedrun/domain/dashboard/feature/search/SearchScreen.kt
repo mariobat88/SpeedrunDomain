@@ -77,7 +77,7 @@ private fun SearchScreen(
                     modifier = Modifier
                         .fillMaxWidth(),
                     containerColor = MaterialTheme.colorScheme.background,
-                    contentColor = MaterialTheme.colorScheme.onPrimary
+                    contentColor = MaterialTheme.colorScheme.onBackground
                 ) {
                     Tab(
                         selected = viewState.selectedTab == ViewState.TAB.GAMES,
@@ -157,7 +157,7 @@ private fun SearchScreen(
                                         ) {
                                             Text(
                                                 text = gameModel.names.international,
-                                                color = MaterialTheme.colorScheme.onPrimary,
+                                                color = MaterialTheme.colorScheme.onBackground,
                                                 fontSize = 12.sp,
                                                 textAlign = TextAlign.Center,
                                                 maxLines = 2
@@ -269,7 +269,7 @@ private fun SearchScreen(
                                             Text(
                                                 text = player.location?.country?.names?.international
                                                     ?: "",
-                                                color = MaterialTheme.colorScheme.onPrimary
+                                                color = MaterialTheme.colorScheme.onBackground
                                             )
                                         }
                                     }

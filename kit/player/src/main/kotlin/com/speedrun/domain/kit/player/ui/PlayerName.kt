@@ -1,5 +1,6 @@
 package com.speedrun.domain.kit.player.ui
 
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -15,20 +16,34 @@ fun PlayerName(
     modifier: Modifier = Modifier,
     player: PlayerModel,
 ) {
+    val darkTheme = isSystemInDarkTheme()
+
     if (player is PlayerModel.UserModel) {
-        val color = player.nameStyle.color
-        val colorFrom = player.nameStyle.colorFrom
-        val colorTo = player.nameStyle.colorTo
+        val color = if (darkTheme) {
+            player.nameStyle.color?.dark
+        } else {
+            player.nameStyle.color?.light
+        }
+        val colorFrom = if (darkTheme) {
+            player.nameStyle.colorFrom?.dark
+        } else {
+            player.nameStyle.colorFrom?.light
+        }
+        val colorTo = if (darkTheme) {
+            player.nameStyle.colorTo?.dark
+        } else {
+            player.nameStyle.colorTo?.light
+        }
         Text(
             text = player.names.international,
             modifier = modifier,
             style = if (color != null) {
-                TextStyle(color = Color(android.graphics.Color.parseColor(color.light)))
+                TextStyle(color = Color(android.graphics.Color.parseColor(color)))
             } else {
                 TextStyle(
                     brush = Brush.linearGradient(
-                        0.0f to Color(android.graphics.Color.parseColor(colorFrom?.light)),
-                        1.0f to Color(android.graphics.Color.parseColor(colorTo?.light))
+                        0.0f to Color(android.graphics.Color.parseColor(colorFrom)),
+                        1.0f to Color(android.graphics.Color.parseColor(colorTo))
                     ),
                 )
             }

@@ -8,4 +8,6 @@ object SpeedrunColors {
     val CoverOverlay = Color(0xB3000000)
     val Gunmetal = Color(0xFF252f37)
     val DarkGunmetal = Color(0xFF212529)
+    val BrightGray = Color(0xFFEDEDED)
+    val Platinum = Color(0xFFE4E4E4)
 }

@@ -3,6 +3,7 @@ package com.speedrun.domain.dashboard
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -35,16 +36,17 @@ fun DashboardScreen(
 fun DashboardScreen(
     dashboardViewModel: DashboardViewModel,
 ) = Screen(dashboardViewModel) { _, intentChannel, _ ->
+    val darkTheme = isSystemInDarkTheme()
     val systemUiController = rememberSystemUiController()
 
     systemUiController.setStatusBarColor(
         color = Color.Transparent,
-        //darkIcons = statusBarDarkIcons,
+        darkIcons = !darkTheme,
     )
 
     systemUiController.setNavigationBarColor(
         color = Color.Transparent,
-        //darkIcons = navigationBarDarkIcons,
+        darkIcons = false,
         navigationBarContrastEnforced = false,
     )
 
