@@ -1,5 +1,6 @@
 package com.speedrun.domain.feature.game
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -10,7 +11,6 @@ import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.key
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -34,7 +34,6 @@ import com.speedrun.domain.core.ui.SpeedrunScreen
 import com.speedrun.domain.core.ui.Tile
 import com.speedrun.domain.core.utils.capitalized
 import com.speedrun.domain.feature.game.navigation.GameNavigator
-import com.speedrun.domain.kit.run.ui.Run
 import kotlinx.coroutines.flow.MutableSharedFlow
 import com.speedrun.domain.core.designsystem.R as DesignSystemResources
 import com.speedrun.domain.feature.game.R as GameScreenResources
@@ -180,42 +179,6 @@ fun GameScreen(
                             modifier = Modifier.height(dimensionResource(DesignSystemResources.dimen.side_padding))
                         )
                     }
-                    if (viewState.runsAsync is Success) {
-                        item("Runs") {
-                            Tile(
-                                title = stringResource(GameScreenResources.string.latest_runs),
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .wrapContentHeight()
-                                    .padding(horizontal = dimensionResource(DesignSystemResources.dimen.side_padding))
-                            )
-                        }
-                        items(viewState.runsAsync()?.size ?: 0) { index ->
-                            val run = viewState.runsAsync()?.get(index)!!
-                            key(run.id) {
-                                Box(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .wrapContentHeight()
-                                        .padding(
-                                            horizontal = dimensionResource(
-                                                DesignSystemResources.dimen.side_padding
-                                            )
-                                        )
-                                        .background(MaterialTheme.colorScheme.tertiary)
-                                        .padding(vertical = 4.dp),
-                                ) {
-                                    Run(
-                                        run = run,
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .wrapContentHeight()
-                                    )
-                                }
-                            }
-                            Divider()
-                        }
-                    }
                 }
             }
         )
@@ -359,7 +322,7 @@ private fun GameInfo(
             ),
             color = MaterialTheme.colorScheme.onBackground,
         )
-        if (viewState.developersAsync() != null && viewState.developersAsync()!!.isNotEmpty()) {
+        AnimatedVisibility(visible = viewState.developersAsync() != null && viewState.developersAsync()!!.isNotEmpty()) {
             Text(
                 text = stringResource(
                     GameScreenResources.string.developed_by,
@@ -368,7 +331,7 @@ private fun GameInfo(
                 color = MaterialTheme.colorScheme.onBackground,
             )
         }
-        if (viewState.publishersAsync() != null && viewState.publishersAsync()!!.isNotEmpty()) {
+        AnimatedVisibility(visible = viewState.publishersAsync() != null && viewState.publishersAsync()!!.isNotEmpty()) {
             Text(
                 text = stringResource(
                     GameScreenResources.string.developed_by,

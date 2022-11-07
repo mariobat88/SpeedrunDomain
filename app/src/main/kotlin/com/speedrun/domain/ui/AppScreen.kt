@@ -24,7 +24,7 @@ fun AppScreen() {
     }
 
     MaterialTheme(
-        colorScheme = colors,
+        colorScheme = LightDefaultColorScheme,
     ) {
         val appViewModel = AppViewModel.create()
         val navController = rememberNavController()
