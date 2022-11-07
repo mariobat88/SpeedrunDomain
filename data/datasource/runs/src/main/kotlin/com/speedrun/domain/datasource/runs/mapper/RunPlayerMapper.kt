@@ -5,5 +5,5 @@ import com.speedrun.domain.networking.api.players.FlatPlayerResponse
 
 fun FlatPlayerResponse.toRunPlayerEntity(runId: String) = RunPlayerEntity(
     runId = runId,
-    playerId = id,
+    playerId = id ?: name!!,
 )
