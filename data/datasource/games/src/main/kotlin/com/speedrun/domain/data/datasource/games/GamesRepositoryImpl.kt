@@ -3,6 +3,7 @@ package com.speedrun.domain.data.datasource.games
 import com.speedrun.domain.core.wrapper.dispatchers.DispatcherProvider
 import com.speedrun.domain.data.database.SpeedrunDatabase
 import com.speedrun.domain.data.datasource.games.mapper.*
+import com.speedrun.domain.data.datasource.platforms.mapper.toPlatformEntity
 import com.speedrun.domain.data.pagination.PaginationModel
 import com.speedrun.domain.data.repo.games.GamesRepository
 import com.speedrun.domain.data.repo.games.model.GameModel
@@ -24,6 +25,7 @@ class GamesRepositoryImpl @Inject constructor(
     private val runTimeDao = speedrunDatabase.runTimeDao()
     private val gameRunTimeDao = speedrunDatabase.gameRunTimeDao()
     private val gameDeveloperDao = speedrunDatabase.gameDeveloperDao()
+    private val platformDao = speedrunDatabase.platformDao()
 
     override suspend fun searchGames(
         name: String,
@@ -43,11 +45,13 @@ class GamesRepositoryImpl @Inject constructor(
 
         val gameRunTimeEntities = searchedGames.data.map { it.toGameRunTimeEntity() }.flatten()
         val gameDeveloperEntities = searchedGames.data.map { it.toGameDeveloperEntity() }.flatten()
+        val platformEntities = searchedGames.data.map { it.platforms.data.map { it.toPlatformEntity() } }.flatten()
 
         runTimeDao.upsert(runTimeEntities)
         gameDao.upsert(gameEntities)
         gameRunTimeDao.upsert(gameRunTimeEntities)
         gameDeveloperDao.upsert(gameDeveloperEntities)
+        platformDao.upsert(platformEntities)
 
         searchedGames.toModel()
     }

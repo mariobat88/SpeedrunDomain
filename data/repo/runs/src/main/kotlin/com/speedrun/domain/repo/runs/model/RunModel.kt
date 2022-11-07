@@ -2,6 +2,7 @@ package com.speedrun.domain.repo.runs.model
 
 import com.speedrun.domain.data.repo.common.model.LinkModel
 import com.speedrun.domain.data.repo.games.model.GameModel
+import com.speedrun.domain.data.repo.platforms.model.PlatformModel
 import com.speedrun.domain.data.repo.players.model.PlayerModel
 
 data class RunModel(
@@ -45,7 +46,7 @@ data class RunModel(
     )
 
     data class System(
-        val platform: String?,
+        val platform: PlatformModel?,
         val emulated: Boolean,
         val region: String?
     )

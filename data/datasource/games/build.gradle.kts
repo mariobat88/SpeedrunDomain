@@ -4,6 +4,7 @@ plugins {
 
 dependencies{
     api(projects.data.datasource.developers)
+    api(projects.data.datasource.platforms)
     api(projects.data.repo.games)
     api(projects.networking.api.games)
 }

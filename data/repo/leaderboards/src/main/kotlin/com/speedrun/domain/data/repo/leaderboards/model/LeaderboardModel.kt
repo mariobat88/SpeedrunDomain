@@ -10,7 +10,7 @@ data class LeaderboardModel(
     val game: GameModel?,
     val category: String,
     val level: Any?,
-    val platform: Any?,
+    val platform: String?,
     val region: Any?,
     val emulators: Boolean?,
     val videoOnly: Boolean,

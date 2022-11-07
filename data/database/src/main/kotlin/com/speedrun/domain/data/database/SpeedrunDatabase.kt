@@ -11,6 +11,7 @@ import com.speedrun.domain.data.database.entities.*
         RunPlayerEntity::class,
         DeveloperEntity::class,
         PublisherEntity::class,
+        PlatformEntity::class,
         GameEntity::class,
         RunTimeEntity::class,
         GameRunTimeEntity::class,
@@ -29,6 +30,7 @@ abstract class SpeedrunDatabase : RoomDatabase() {
     abstract fun runPlayerDao(): RunPlayerDao
     abstract fun developerDao(): DeveloperDao
     abstract fun publisherDao(): PublisherDao
+    abstract fun platformDao(): PlatformDao
     abstract fun gameDao(): GameDao
     abstract fun runTimeDao(): RunTimeDao
     abstract fun gameRunTimeDao(): GameRunTimeDao

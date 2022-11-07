@@ -104,7 +104,8 @@ fun LeaderboardsScreen(
                                                 .fillMaxWidth()
                                                 .height(40.dp)
                                                 .padding(horizontal = dimensionResource(DesignSystemResources.dimen.side_padding)),
-                                            verticalAlignment = Alignment.CenterVertically
+                                            verticalAlignment = Alignment.CenterVertically,
+                                            horizontalArrangement = Arrangement.SpaceAround
                                         ) {
                                             Box(
                                                 modifier = Modifier.size(20.dp),
@@ -130,25 +131,21 @@ fun LeaderboardsScreen(
                                                     )
                                                 }
                                             }
-                                            Spacer(modifier = Modifier.width(4.dp))
                                             Column {
                                                 run.run?.players?.forEach {
                                                     PlayerName(player = it)
                                                 }
                                             }
-                                            Spacer(modifier = Modifier.width(4.dp))
                                             Text(
                                                 text = Duration.parseIsoString(run.run?.times?.primary ?: "").toString(),
                                                 color = MaterialTheme.colorScheme.onPrimary
                                             )
-                                            Spacer(modifier = Modifier.width(4.dp))
                                             Text(
                                                 text = run.run?.date ?: "",
                                                 color = MaterialTheme.colorScheme.onPrimary
                                             )
-                                            Spacer(modifier = Modifier.width(4.dp))
                                             Text(
-                                                text = run.run?.system?.platform ?: "",
+                                                text = run.run?.system?.platform?.name ?: "",
                                                 color = MaterialTheme.colorScheme.onPrimary
                                             )
                                         }

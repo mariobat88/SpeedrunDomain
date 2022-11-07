@@ -2,15 +2,18 @@ package com.speedrun.domain.datasource.runs.mapper
 
 import com.speedrun.domain.api.runs.models.*
 import com.speedrun.domain.data.database.entities.GameEntity
+import com.speedrun.domain.data.database.entities.PlatformEntity
 import com.speedrun.domain.data.database.entities.RunEntity
 import com.speedrun.domain.data.database.result.RunPlayerResult
 import com.speedrun.domain.data.datasource.common.mapper.toModel
 import com.speedrun.domain.data.datasource.games.mapper.toModel
+import com.speedrun.domain.data.datasource.platforms.mapper.toPlatformModel
 import com.speedrun.domain.data.datasource.players.mapper.toPlayerModel
 import com.speedrun.domain.repo.runs.model.RunModel
 
 fun RunEntity.toRunModel(
     gameEntity: GameEntity?,
+    platformEntity: PlatformEntity?,
     runPlayerResults: List<RunPlayerResult>,
 ) = RunModel(
     id = id,
@@ -26,7 +29,7 @@ fun RunEntity.toRunModel(
     date = date,
     submitted = submitted,
     times = times.toModel(),
-    system = system.toModel(),
+    system = system.toModel(platformEntity),
     splits = null,
     values = null,
     links = null,
@@ -49,8 +52,10 @@ private fun RunEntity.Times.toModel() = RunModel.Times(
     ingameT = ingameT,
 )
 
-private fun RunEntity.System.toModel() = RunModel.System(
-    platform = platform,
+private fun RunEntity.System.toModel(
+    platformEntity: PlatformEntity?,
+) = RunModel.System(
+    platform = platformEntity?.toPlatformModel(),
     emulated = emulated,
     region = region,
 )
@@ -134,7 +139,7 @@ fun TimesResponse.toModel() = RunModel.Times(
 )
 
 fun SystemResponse.toModel() = RunModel.System(
-    platform = platform,
+    platform = null,
     emulated = emulated,
     region = region,
 )

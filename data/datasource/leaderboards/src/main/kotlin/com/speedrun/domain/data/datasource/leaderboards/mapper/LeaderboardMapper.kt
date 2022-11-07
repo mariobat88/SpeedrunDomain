@@ -2,8 +2,8 @@ package com.speedrun.domain.data.datasource.leaderboards.mapper
 
 import com.speedrun.domain.data.database.entities.LeaderboardEntity
 import com.speedrun.domain.data.database.entities.LeaderboardPlaceEntity
-import com.speedrun.domain.data.database.result.LeaderboardResult
 import com.speedrun.domain.data.database.result.LeaderboardPlaceResult
+import com.speedrun.domain.data.database.result.LeaderboardResult
 import com.speedrun.domain.data.repo.leaderboards.model.LeaderboardModel
 import com.speedrun.domain.networking.api.leaderboards.LeaderboardResponse
 
