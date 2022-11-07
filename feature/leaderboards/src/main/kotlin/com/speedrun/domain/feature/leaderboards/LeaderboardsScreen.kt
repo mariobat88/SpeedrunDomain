@@ -9,6 +9,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.google.accompanist.pager.ExperimentalPagerApi
@@ -18,12 +19,14 @@ import com.google.accompanist.pager.rememberPagerState
 import com.speedrun.domain.core.framework.Screen
 import com.speedrun.domain.core.framework.async.Loading
 import com.speedrun.domain.core.framework.async.Success
+import com.speedrun.domain.core.framework.countryFlag
 import com.speedrun.domain.core.ui.SpeedrunScreen
+import com.speedrun.domain.data.repo.players.model.PlayerModel
 import com.speedrun.domain.kit.player.ui.PlayerName
-import com.speedrun.domain.core.designsystem.R as DesignSystemResources
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
 import kotlin.time.Duration
+import com.speedrun.domain.core.designsystem.R as DesignSystemResources
 
 @Composable
 internal fun LeaderboardsScreen(
@@ -103,50 +106,79 @@ fun LeaderboardsScreen(
                                             modifier = Modifier
                                                 .fillMaxWidth()
                                                 .height(40.dp)
-                                                .padding(horizontal = dimensionResource(DesignSystemResources.dimen.side_padding)),
+                                                .padding(
+                                                    horizontal = dimensionResource(
+                                                        DesignSystemResources.dimen.side_padding
+                                                    )
+                                                ),
                                             verticalAlignment = Alignment.CenterVertically,
-                                            horizontalArrangement = Arrangement.SpaceAround
                                         ) {
-                                            Box(
-                                                modifier = Modifier.size(20.dp),
-                                                contentAlignment = Alignment.Center
-                                            ){
-                                                val imageUri = when (run.place) {
-                                                    1 -> run.run?.game?.assets?.trophy1st
-                                                    2 -> run.run?.game?.assets?.trophy2nd
-                                                    3 -> run.run?.game?.assets?.trophy3rd
-                                                    4 -> run.run?.game?.assets?.trophy4th
-                                                    else -> null
+                                            Row(
+                                                modifier = Modifier
+                                                    .weight(1f)
+                                                    .fillMaxHeight(),
+                                                horizontalArrangement = Arrangement.Start,
+                                                verticalAlignment = Alignment.CenterVertically
+                                            ) {
+                                                Box(
+                                                    modifier = Modifier.size(20.dp),
+                                                    contentAlignment = Alignment.CenterStart
+                                                ) {
+                                                    val imageUri = when (run.place) {
+                                                        1 -> run.run?.game?.assets?.trophy1st
+                                                        2 -> run.run?.game?.assets?.trophy2nd
+                                                        3 -> run.run?.game?.assets?.trophy3rd
+                                                        4 -> run.run?.game?.assets?.trophy4th
+                                                        else -> null
+                                                    }
+                                                    if (imageUri != null) {
+                                                        AsyncImage(
+                                                            model = imageUri,
+                                                            contentDescription = "",
+                                                            modifier = Modifier.fillMaxSize()
+                                                        )
+                                                    } else {
+                                                        Text(
+                                                            text = run.place.toString(),
+                                                            color = MaterialTheme.colorScheme.onPrimary
+                                                        )
+                                                    }
                                                 }
-                                                if (imageUri != null) {
-                                                    AsyncImage(
-                                                        model = imageUri,
-                                                        contentDescription = "",
-                                                        modifier = Modifier.fillMaxSize()
-                                                    )
-                                                } else {
-                                                    Text(
-                                                        text = run.place.toString(),
-                                                        color = MaterialTheme.colorScheme.onPrimary
-                                                    )
-                                                }
-                                            }
-                                            Column {
-                                                run.run?.players?.forEach {
-                                                    PlayerName(player = it)
+                                                Column(
+                                                    modifier = Modifier.wrapContentSize(),
+                                                ) {
+                                                    run.run?.players?.forEach { player ->
+                                                        Row {
+                                                            if (player is PlayerModel.UserModel) {
+                                                                Text(
+                                                                    text = countryFlag(player.location?.country?.code ?: ""),
+                                                                    modifier = Modifier.wrapContentSize()
+                                                                )
+                                                            }
+                                                            Spacer(modifier = Modifier.width(2.dp))
+                                                            PlayerName(player = player)
+                                                        }
+
+                                                    }
                                                 }
                                             }
                                             Text(
-                                                text = Duration.parseIsoString(run.run?.times?.primary ?: "").toString(),
-                                                color = MaterialTheme.colorScheme.onPrimary
-                                            )
-                                            Text(
-                                                text = run.run?.date ?: "",
-                                                color = MaterialTheme.colorScheme.onPrimary
+                                                text = Duration.parseIsoString(
+                                                    run.run?.times?.primary ?: ""
+                                                ).toString(),
+                                                modifier = Modifier
+                                                    .weight(1f)
+                                                    .fillMaxHeight(),
+                                                color = MaterialTheme.colorScheme.onPrimary,
+                                                textAlign = TextAlign.Center
                                             )
                                             Text(
                                                 text = run.run?.system?.platform?.name ?: "",
-                                                color = MaterialTheme.colorScheme.onPrimary
+                                                modifier = Modifier
+                                                    .weight(1f)
+                                                    .fillMaxHeight(),
+                                                color = MaterialTheme.colorScheme.onPrimary,
+                                                textAlign = TextAlign.Center
                                             )
                                         }
                                     }
