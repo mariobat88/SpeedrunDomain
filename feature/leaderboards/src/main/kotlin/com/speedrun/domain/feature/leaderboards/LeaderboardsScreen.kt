@@ -9,8 +9,13 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.style.BaselineShift
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
@@ -49,6 +54,12 @@ fun LeaderboardsScreen(
     viewState: ViewState,
     intentChannel: MutableSharedFlow<Intent>,
 ) {
+    val superscript = SpanStyle(
+        baselineShift = BaselineShift.Superscript,
+        fontSize = 10.sp,
+        color = MaterialTheme.colorScheme.onBackground
+    )
+
     SpeedrunScreen(
         modifier = Modifier.fillMaxSize()
     ) { screenPadding ->
@@ -99,7 +110,9 @@ fun LeaderboardsScreen(
                         is Loading -> {
                         }
                         is Success -> {
-                            LazyColumn {
+                            LazyColumn(
+                                modifier = Modifier.fillMaxSize()
+                            ) {
                                 leaderboardAsync().runs.forEach { run ->
                                     item(run.run?.id) {
                                         Row(
@@ -173,7 +186,15 @@ fun LeaderboardsScreen(
                                                 textAlign = TextAlign.Center
                                             )
                                             Text(
-                                                text = run.run?.system?.platform?.name ?: "",
+                                                text = buildAnnotatedString {
+                                                    append(run.run?.system?.platform?.name ?: "")
+                                                    if(run.run?.system?.emulated == true){
+                                                        withStyle(superscript){
+                                                            append(" EMU")
+                                                        }
+                                                    }
+
+                                                },
                                                 modifier = Modifier
                                                     .weight(1f)
                                                     .fillMaxHeight(),
