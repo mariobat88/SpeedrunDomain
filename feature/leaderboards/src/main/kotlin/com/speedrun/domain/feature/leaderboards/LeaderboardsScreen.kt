@@ -147,7 +147,7 @@ fun LeaderboardsScreen(
                                             ) {
                                                 Box(
                                                     modifier = Modifier.size(20.dp),
-                                                    contentAlignment = Alignment.CenterStart
+                                                    contentAlignment = Alignment.Center
                                                 ) {
                                                     val imageUri = when (run.place) {
                                                         1 -> run.run?.game?.assets?.trophy1st
@@ -169,24 +169,29 @@ fun LeaderboardsScreen(
                                                         )
                                                     }
                                                 }
+                                                Spacer(modifier = Modifier.width(4.dp))
                                                 Column(
                                                     modifier = Modifier.wrapContentSize(),
                                                 ) {
                                                     run.run?.players?.forEach { player ->
-                                                        Row {
+                                                        Row(
+                                                            modifier = Modifier.wrapContentSize(),
+                                                            verticalAlignment = Alignment.CenterVertically
+                                                        ) {
                                                             if (player is PlayerModel.UserModel) {
                                                                 Text(
                                                                     text = countryFlag(
                                                                         player.location?.country?.code
                                                                             ?: ""
                                                                     ),
-                                                                    modifier = Modifier.wrapContentSize()
                                                                 )
                                                             }
                                                             Spacer(modifier = Modifier.width(2.dp))
-                                                            PlayerName(player = player)
+                                                            PlayerName(
+                                                                modifier = Modifier.wrapContentSize(),
+                                                                player = player,
+                                                            )
                                                         }
-
                                                     }
                                                 }
                                             }
