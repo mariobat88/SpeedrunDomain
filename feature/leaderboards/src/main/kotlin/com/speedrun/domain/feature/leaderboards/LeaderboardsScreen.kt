@@ -65,7 +65,7 @@ fun LeaderboardsScreen(
         modifier = Modifier.fillMaxSize()
     ) { screenPadding ->
         Column(
-            modifier = Modifier.padding(screenPadding)
+            modifier = Modifier.padding(top = screenPadding.calculateTopPadding())
         ) {
             viewState.categoriesAsync()?.let {
                 val pagerState = rememberPagerState()
@@ -112,7 +112,8 @@ fun LeaderboardsScreen(
                         }
                         is Success -> {
                             LazyColumn(
-                                modifier = Modifier.fillMaxSize()
+                                modifier = Modifier.fillMaxSize(),
+                                contentPadding = PaddingValues(bottom = screenPadding.calculateBottomPadding())
                             ) {
                                 leaderboardAsync().runs.forEachIndexed { index, run ->
                                     item(run.run?.id) {

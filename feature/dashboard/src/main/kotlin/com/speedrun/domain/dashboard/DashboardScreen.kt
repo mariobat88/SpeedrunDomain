@@ -3,7 +3,6 @@ package com.speedrun.domain.dashboard
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -11,12 +10,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.rememberNavController
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.speedrun.domain.core.framework.Screen
 import com.speedrun.domain.core.ui.SpeedrunScreen
 import com.speedrun.domain.dashboard.navigation.DashboardNavigator
@@ -36,24 +33,12 @@ fun DashboardScreen(
 fun DashboardScreen(
     dashboardViewModel: DashboardViewModel,
 ) = Screen(dashboardViewModel) { _, intentChannel, _ ->
-    val darkTheme = isSystemInDarkTheme()
-    val systemUiController = rememberSystemUiController()
-
-    systemUiController.setStatusBarColor(
-        color = Color.Transparent,
-        darkIcons = !darkTheme,
-    )
-
-    systemUiController.setNavigationBarColor(
-        color = Color.Transparent,
-        darkIcons = false,
-        navigationBarContrastEnforced = false,
-    )
-
     val dashboardNavController = rememberNavController()
     val bottomBarHeight = dimensionResource(DashboardResources.dimen.bottom_bar_height)
 
-    SpeedrunScreen { screenPadding ->
+    SpeedrunScreen(
+        navigationBarDarkIcons = false,
+    ) { screenPadding ->
         Scaffold(
             modifier = Modifier
                 .fillMaxSize()

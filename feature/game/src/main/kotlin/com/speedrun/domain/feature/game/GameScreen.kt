@@ -59,7 +59,9 @@ fun GameScreen(
     viewState: ViewState,
     intentChannel: MutableSharedFlow<Intent>,
 ) {
-    SpeedrunScreen { screenPadding ->
+    SpeedrunScreen(
+        statusBarDarkIcons = false
+    ) { screenPadding ->
         Scaffold(
             modifier = Modifier
                 .fillMaxSize(),
@@ -239,7 +241,7 @@ private fun Header(
                                                 DesignSystemResources.dimen.side_padding
                                             )
                                         ),
-                                    color = MaterialTheme.colorScheme.onBackground,
+                                    color = Color.White,
                                     textAlign = TextAlign.Center,
                                 )
                             }
