@@ -3,9 +3,7 @@ package com.speedrun.domain.feature.game
 import android.app.Activity
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import androidx.lifecycle.viewmodel.CreationExtras
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.speedrun.domain.core.framework.SpeedrunViewModel
@@ -15,6 +13,7 @@ import com.speedrun.domain.data.repo.developers.DevelopersRepository
 import com.speedrun.domain.data.repo.games.GamesRepository
 import com.speedrun.domain.data.repo.games.model.GameModel
 import com.speedrun.domain.data.repo.publishers.PublishersRepository
+import com.speedrun.domain.feature.game.navigation.GameNavigation
 import com.speedrun.domain.feature.game.navigation.GameNavigator
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -29,7 +28,7 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 class GameViewModel @AssistedInject constructor(
-    @Assisted("gameId") private val gameId: String,
+    @Assisted("savedStateHandle") private val savedStateHandle: SavedStateHandle,
     @Assisted("gameNavigator") private val gameNavigator: GameNavigator,
     private val developersRepository: DevelopersRepository,
     private val publishersRepository: PublishersRepository,
@@ -47,15 +46,14 @@ class GameViewModel @AssistedInject constructor(
     @AssistedFactory
     interface Factory {
         fun create(
-            @Assisted("gameId") gameId: String,
             @Assisted("gameNavigator") gameNavigator: GameNavigator,
+            @Assisted("savedStateHandle") savedStateHandle: SavedStateHandle,
         ): GameViewModel
     }
 
     companion object {
         @Composable
         fun create(
-            gameId: String,
             gameNavigator: GameNavigator,
         ): GameViewModel {
             val activity = LocalContext.current as Activity
@@ -71,15 +69,18 @@ class GameViewModel @AssistedInject constructor(
                             activity,
                             ViewModelFactoryProvider::class.java
                         )
+                        val savedStateHandle = extras.createSavedStateHandle()
                         return entryPoint.gameViewModelFactory()
                             .create(
-                                gameId = gameId,
-                                gameNavigator = gameNavigator
+                                savedStateHandle = savedStateHandle,
+                                gameNavigator = gameNavigator,
                             ) as T
                     }
                 })
         }
     }
+
+    private val gameId = savedStateHandle.get<String>(GameNavigation.gameIdArg)!!
 
     init {
         viewModelScope.launch(dispatcherProvider.main()) {

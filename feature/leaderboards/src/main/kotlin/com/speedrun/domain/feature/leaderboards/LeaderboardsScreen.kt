@@ -35,10 +35,8 @@ import kotlin.time.Duration
 import com.speedrun.domain.core.designsystem.R as DesignSystemResources
 
 @Composable
-internal fun LeaderboardsScreen(
-    gameId: String
-) {
-    val leaderboardsViewModel = LeaderboardsViewModel.create(gameId)
+internal fun LeaderboardsScreen() {
+    val leaderboardsViewModel = LeaderboardsViewModel.create()
     LeaderboardsScreen(leaderboardsViewModel)
 }
 

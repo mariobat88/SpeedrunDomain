@@ -24,9 +24,8 @@ fun NavGraphBuilder.leaderboardsNavigation() {
         startDestination = LeaderboardsNavigation.destination,
         arguments = listOf(navArgument(LeaderboardsNavigation.gameIdArg) { type = NavType.StringType })
     ) {
-        composable(route = LeaderboardsNavigation.destination) { backStackEntry ->
-            val gameId = backStackEntry.arguments?.getString(LeaderboardsNavigation.gameIdArg)!!
-            LeaderboardsScreen(gameId)
+        composable(route = LeaderboardsNavigation.destination) {
+            LeaderboardsScreen()
         }
     }
 }

@@ -26,9 +26,8 @@ fun NavGraphBuilder.gameNavigation(
         startDestination = GameNavigation.destination,
         arguments = listOf(navArgument(GameNavigation.gameIdArg) { type = NavType.StringType })
     ) {
-        composable(route = GameNavigation.destination) { backStackEntry ->
-            val gameId = backStackEntry.arguments?.getString(GameNavigation.gameIdArg)!!
-            GameScreen(gameId, gameNavigator)
+        composable(route = GameNavigation.destination) {
+            GameScreen(gameNavigator)
         }
     }
 }

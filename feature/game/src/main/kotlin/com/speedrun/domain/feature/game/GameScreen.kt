@@ -40,10 +40,9 @@ import com.speedrun.domain.feature.game.R as GameScreenResources
 
 @Composable
 internal fun GameScreen(
-    gameId: String,
     gameNavigator: GameNavigator,
 ) {
-    val gameViewModel = GameViewModel.create(gameId, gameNavigator)
+    val gameViewModel = GameViewModel.create(gameNavigator)
     GameScreen(gameViewModel)
 }
 
