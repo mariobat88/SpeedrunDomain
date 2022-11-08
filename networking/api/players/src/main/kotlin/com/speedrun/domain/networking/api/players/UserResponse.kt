@@ -1,6 +1,7 @@
 package com.speedrun.domain.networking.api.players
 
 import com.speedrun.domain.networking.api.common.LinkResponse
+import com.speedrun.domain.networking.api.common.NamesResponse
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 

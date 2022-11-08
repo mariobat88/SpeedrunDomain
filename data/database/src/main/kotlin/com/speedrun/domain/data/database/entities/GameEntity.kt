@@ -2,6 +2,7 @@ package com.speedrun.domain.data.database.entities
 
 import androidx.room.*
 import com.speedrun.data.common.enums.RunTimeEnum
+import com.speedrun.domain.data.database.entities.embeds.Names
 
 @Entity(
     tableName = GameEntity.TABLE_NAME,
@@ -49,12 +50,6 @@ data class GameEntity(
         const val TABLE_NAME = "game"
         const val COLUMN_ID = "${TABLE_NAME}_id"
     }
-
-    data class Names(
-        val international: String,
-        val japanese: String?,
-        val twitch: String?
-    )
 
     data class Ruleset(
         @ColumnInfo(name = COLUMN_SHOW_MILLISECONDS)

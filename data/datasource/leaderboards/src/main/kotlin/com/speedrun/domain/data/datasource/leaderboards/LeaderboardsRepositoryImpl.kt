@@ -6,9 +6,7 @@ import com.speedrun.domain.data.datasource.leaderboards.mapper.createId
 import com.speedrun.domain.data.datasource.leaderboards.mapper.toLeaderboardEntity
 import com.speedrun.domain.data.datasource.leaderboards.mapper.toLeaderboardModel
 import com.speedrun.domain.data.datasource.leaderboards.mapper.toLeaderboardPlaceEntity
-import com.speedrun.domain.data.datasource.players.mapper.toGuestEntity
-import com.speedrun.domain.data.datasource.players.mapper.toPlayerEntity
-import com.speedrun.domain.data.datasource.players.mapper.toUserEntity
+import com.speedrun.domain.data.datasource.players.mapper.*
 import com.speedrun.domain.data.repo.leaderboards.LeaderboardsRepository
 import com.speedrun.domain.data.repo.leaderboards.model.LeaderboardModel
 import com.speedrun.domain.datasource.runs.mapper.toRunEntity
@@ -35,6 +33,8 @@ class LeaderboardsRepositoryImpl @Inject constructor(
     private val playerDao = speedrunDatabase.playerDao()
     private val userDao = speedrunDatabase.userDao()
     private val guestDao = speedrunDatabase.guestDao()
+    private val countryDao = speedrunDatabase.countryDao()
+    private val regionDao = speedrunDatabase.regionDao()
 
     override suspend fun refreshLeaderboards(gameId: String, categoryId: String) = withContext(dispatcherProvider.io()) {
         val response = leaderboardsApiService.getLeaderboard(gameId, categoryId)
@@ -47,11 +47,16 @@ class LeaderboardsRepositoryImpl @Inject constructor(
         val guestEntities = response.data.players.data.filterIsInstance<PolymorphicPlayerResponse.GuestResponse>().map { it.toGuestEntity() }
         val playerEntities = userPlayerEntities + guestPlayerEntities
 
+        val countryEntities = response.data.players.data.filterIsInstance<PolymorphicPlayerResponse.UserResponse>().mapNotNull { it.location?.country?.toCountryEntity() }
+        val regionEntities = response.data.players.data.filterIsInstance<PolymorphicPlayerResponse.UserResponse>().mapNotNull { it.location?.region?.toRegionEntity() }
+
         val runEntities = response.data.runs.map { it.run.toRunEntity() }
         val runPlayerEntities = response.data.runs.map { leaderboardRun -> leaderboardRun.run.players.map { it.toRunPlayerEntity(leaderboardRun.run.id) } }.flatten()
 
         leaderboardDao.upsert(leaderboardEntities)
         leaderboardPlaceDao.upsert(leaderboardPlaceEntities)
+        countryDao.upsert(countryEntities)
+        regionDao.upsert(regionEntities)
         playerDao.upsert(playerEntities)
         runPlayerDao.upsert(runPlayerEntities)
 

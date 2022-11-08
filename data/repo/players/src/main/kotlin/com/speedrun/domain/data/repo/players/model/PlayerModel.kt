@@ -1,6 +1,7 @@
 package com.speedrun.domain.data.repo.players.model
 
 import com.speedrun.domain.data.repo.common.model.LinkModel
+import com.speedrun.domain.data.repo.common.model.NamesModel
 
 sealed class PlayerModel {
     data class UserModel(

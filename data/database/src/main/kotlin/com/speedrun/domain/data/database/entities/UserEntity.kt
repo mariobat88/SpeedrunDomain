@@ -5,6 +5,7 @@ import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
+import com.speedrun.domain.data.database.entities.embeds.Names
 
 @Entity(
     tableName = UserEntity.TABLE_NAME,
@@ -30,8 +31,10 @@ data class UserEntity(
     val role: String,
     @ColumnInfo(name = COLUMN_SIGNUP)
     val signup: String?,
-//    @ColumnInfo(name = COLUMN_ID)
-//    val location: Location?,
+    @ColumnInfo(name = COLUMN_COUNTRY_CODE)
+    val countryCode: String?,
+    @ColumnInfo(name = COLUMN_REGION_CODE)
+    val regionCode: String?,
     @ColumnInfo(name = COLUMN_TWITCH)
     val twitch: String?,
     @ColumnInfo(name = COLUMN_HITBOX)
@@ -55,6 +58,8 @@ data class UserEntity(
         const val COLUMN_WEBLINK = "${TABLE_NAME}_weblink"
         const val COLUMN_ROLE = "${TABLE_NAME}_role"
         const val COLUMN_SIGNUP = "${TABLE_NAME}_signup"
+        const val COLUMN_COUNTRY_CODE = "${TABLE_NAME}_countryCode"
+        const val COLUMN_REGION_CODE = "${TABLE_NAME}_regionCode"
         const val COLUMN_TWITCH = "${TABLE_NAME}_twitch"
         const val COLUMN_HITBOX = "${TABLE_NAME}_hitbox"
         const val COLUMN_YOUTUBE = "${TABLE_NAME}_youtube"
@@ -63,20 +68,8 @@ data class UserEntity(
         const val COLUMN_ICON = "${TABLE_NAME}_icon"
         const val COLUMN_SUPPORTER_ICON = "${TABLE_NAME}_supporterIcon"
         const val COLUMN_IMAGE = "${TABLE_NAME}_image"
-        const val PREFIX_NAMES = "${TABLE_NAME}_name"
+        const val PREFIX_NAMES = TABLE_NAME
         const val PREFIX_NAME_STYLE = "${TABLE_NAME}_nameStyle"
-    }
-
-    data class Names(
-        @ColumnInfo(name = COLUMN_INTERNATION)
-        val international: String,
-        @ColumnInfo(name = COLUMN_JAPANESE)
-        val japanese: String?
-    ) {
-        companion object {
-            const val COLUMN_INTERNATION = "International"
-            const val COLUMN_JAPANESE = "Japanese"
-        }
     }
 
     data class NameStyle(

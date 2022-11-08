@@ -22,6 +22,8 @@ import com.speedrun.domain.data.database.entities.*
         GuestEntity::class,
         LeaderboardEntity::class,
         LeaderboardPlaceEntity::class,
+        CountryEntity::class,
+        RegionEntity::class
     ],
     version = 1
 )
@@ -40,4 +42,6 @@ abstract class SpeedrunDatabase : RoomDatabase() {
     abstract fun guestDao(): GuestDao
     abstract fun leaderboardDao(): LeaderboardDao
     abstract fun leaderboardPlaceDao(): LeaderboardPlaceDao
+    abstract fun countryDao(): CountryDao
+    abstract fun regionDao(): RegionDao
 }

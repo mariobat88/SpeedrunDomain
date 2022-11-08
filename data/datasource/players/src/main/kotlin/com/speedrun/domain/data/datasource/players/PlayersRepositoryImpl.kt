@@ -2,9 +2,7 @@ package com.speedrun.domain.data.datasource.players
 
 import com.speedrun.domain.core.wrapper.dispatchers.DispatcherProvider
 import com.speedrun.domain.data.database.SpeedrunDatabase
-import com.speedrun.domain.data.datasource.players.mapper.toPaginationModel
-import com.speedrun.domain.data.datasource.players.mapper.toPlayerEntity
-import com.speedrun.domain.data.datasource.players.mapper.toUserEntity
+import com.speedrun.domain.data.datasource.players.mapper.*
 import com.speedrun.domain.data.pagination.PaginationModel
 import com.speedrun.domain.data.repo.players.PlayersRepository
 import com.speedrun.domain.data.repo.players.model.PlayerModel
@@ -20,8 +18,10 @@ class PlayersRepositoryImpl @Inject constructor(
     speedrunDatabase: SpeedrunDatabase,
 ) : PlayersRepository {
 
-    val playerDao = speedrunDatabase.playerDao()
-    val userDao = speedrunDatabase.userDao()
+    private val playerDao = speedrunDatabase.playerDao()
+    private val userDao = speedrunDatabase.userDao()
+    private val countryDao = speedrunDatabase.countryDao()
+    private val regionDao = speedrunDatabase.regionDao()
 
     override suspend fun searchPlayers(
         name: String,
@@ -33,7 +33,11 @@ class PlayersRepositoryImpl @Inject constructor(
 
         val playerEntities = searchedPlayers.data.map { it.toPlayerEntity() }
         val userEntities = searchedPlayers.data.map { it.toUserEntity() }
+        val countryEntities = searchedPlayers.data.mapNotNull { it.location?.country?.toCountryEntity() }
+        val regionEntities = searchedPlayers.data.mapNotNull { it.location?.region?.toRegionEntity() }
 
+        countryDao.upsert(countryEntities)
+        regionDao.upsert(regionEntities)
         playerDao.upsert(playerEntities)
         userDao.upsert(userEntities)
 

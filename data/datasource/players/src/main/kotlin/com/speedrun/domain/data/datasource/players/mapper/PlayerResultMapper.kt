@@ -3,7 +3,7 @@ package com.speedrun.domain.data.datasource.players.mapper
 import com.speedrun.domain.data.database.entities.GuestEntity
 import com.speedrun.domain.data.database.entities.UserEntity
 import com.speedrun.domain.data.database.result.PlayerResult
-import com.speedrun.domain.data.repo.players.model.NamesModel
+import com.speedrun.domain.data.datasource.common.mapper.toNamesModel
 import com.speedrun.domain.data.repo.players.model.PlayerModel
 import com.speedrun.domain.networking.api.players.PlayerType
 
@@ -17,7 +17,7 @@ fun PlayerResult.toPlayerModel(): PlayerModel {
 
 private fun UserEntity.toUserModel() = PlayerModel.UserModel(
     id = id,
-    names = names.toModel(),
+    names = names.toNamesModel(),
     weblink = weblink,
     nameStyle = nameStyle.toModel(),
     role = role,
@@ -33,11 +33,6 @@ private fun UserEntity.toUserModel() = PlayerModel.UserModel(
     icon = icon,
     supporterIcon = supporterIcon,
     image = image,
-)
-
-private fun UserEntity.Names.toModel() = NamesModel(
-    international = international,
-    japanese = japanese,
 )
 
 private fun UserEntity.NameStyle.toModel() =
