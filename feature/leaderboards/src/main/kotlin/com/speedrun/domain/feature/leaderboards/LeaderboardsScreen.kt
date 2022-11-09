@@ -140,7 +140,7 @@ fun LeaderboardsScreen(
                                         ) {
                                             Row(
                                                 modifier = Modifier
-                                                    .weight(1f)
+                                                    .weight(1.5f)
                                                     .fillMaxHeight(),
                                                 horizontalArrangement = Arrangement.Start,
                                                 verticalAlignment = Alignment.CenterVertically
@@ -188,8 +188,8 @@ fun LeaderboardsScreen(
                                                             }
                                                             Spacer(modifier = Modifier.width(2.dp))
                                                             PlayerName(
-                                                                modifier = Modifier.wrapContentSize(),
                                                                 player = player,
+                                                                modifier = Modifier.wrapContentSize(),
                                                             )
                                                         }
                                                     }

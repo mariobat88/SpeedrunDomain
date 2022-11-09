@@ -13,8 +13,8 @@ import com.speedrun.domain.data.repo.players.model.PlayerModel
 @OptIn(ExperimentalTextApi::class)
 @Composable
 fun PlayerName(
-    modifier: Modifier = Modifier,
     player: PlayerModel,
+    modifier: Modifier = Modifier,
 ) {
     val darkTheme = isSystemInDarkTheme()
 
