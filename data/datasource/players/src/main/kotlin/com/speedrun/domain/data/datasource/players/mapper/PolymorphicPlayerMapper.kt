@@ -5,6 +5,7 @@ import com.speedrun.domain.data.database.entities.PlayerEntity
 import com.speedrun.domain.data.database.entities.UserEntity
 import com.speedrun.domain.data.datasource.common.mapper.toModel
 import com.speedrun.domain.data.datasource.common.mapper.toNamesEntity
+import com.speedrun.domain.data.datasource.common.mapper.toNamesModel
 import com.speedrun.domain.data.pagination.PaginationModel
 import com.speedrun.domain.data.pagination.toModel
 import com.speedrun.domain.data.repo.players.model.PlayerModel
@@ -27,7 +28,7 @@ fun PolymorphicPlayerResponse.toPlayerModel(): PlayerModel {
 fun PaginationResponse<PolymorphicPlayerResponse.UserResponse>.toPaginationModel() =
     PaginationModel(
         data = data.map { it.toUserModel() },
-        pagination = pagination.toModel()
+        pagination = pagination.toModel(),
     )
 
 fun PolymorphicPlayerResponse.UserResponse.toPlayerEntity() = PlayerEntity(
@@ -42,12 +43,13 @@ fun PolymorphicPlayerResponse.GuestResponse.toPlayerEntity() = PlayerEntity(
 
 fun PolymorphicPlayerResponse.UserResponse.toUserModel() = PlayerModel.UserModel(
     id = id,
-    names = names.toModel(),
+    names = names.toNamesModel(),
     weblink = weblink,
     nameStyle = nameStyle.toModel(),
     role = role,
     signup = signup,
-    location = location?.toModel(),
+    country = location?.country?.toCountryModel(),
+    region = location?.region?.toRegionModel(),
     twitch = twitch?.uri,
     hitbox = hitbox?.uri,
     youtube = youtube?.uri,
@@ -61,7 +63,7 @@ fun PolymorphicPlayerResponse.UserResponse.toUserModel() = PlayerModel.UserModel
 
 fun PolymorphicPlayerResponse.GuestResponse.toGuestModel() = PlayerModel.GuestModel(
     name = name,
-    links = links.map { it.toModel() }
+    links = links.map { it.toModel() },
 )
 
 private fun PolymorphicPlayerResponse.UserResponse.NameStyle.toModel() =
@@ -75,25 +77,7 @@ private fun PolymorphicPlayerResponse.UserResponse.NameStyle.toModel() =
 private fun PolymorphicPlayerResponse.UserResponse.NameStyle.Color.toModel() =
     PlayerModel.UserModel.NameStyle.Color(
         light = light,
-        dark = dark
-    )
-
-private fun PolymorphicPlayerResponse.UserResponse.Location.toModel() =
-    PlayerModel.UserModel.Location(
-        country = country.toModel(),
-        region = region?.toModel(),
-    )
-
-private fun PolymorphicPlayerResponse.UserResponse.Location.Country.toModel() =
-    PlayerModel.UserModel.Location.Country(
-        code = code,
-        names = names.toModel(),
-    )
-
-private fun PolymorphicPlayerResponse.UserResponse.Location.Region.toModel() =
-    PlayerModel.UserModel.Location.Region(
-        code = code,
-        names = names.toModel(),
+        dark = dark,
     )
 
 private fun PolymorphicPlayerResponse.UserResponse.Assets.toModel() = PlayerModel.UserModel.Assets(

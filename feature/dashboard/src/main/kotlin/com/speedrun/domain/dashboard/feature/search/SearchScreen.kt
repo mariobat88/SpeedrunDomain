@@ -261,13 +261,13 @@ private fun SearchScreen(
                                         ) {
                                             Text(
                                                 text = countryFlag(
-                                                    player.location?.country?.code ?: ""
+                                                    player.country?.code ?: ""
                                                 ),
                                                 modifier = Modifier.wrapContentSize()
                                             )
                                             Spacer(modifier = Modifier.width(4.dp))
                                             Text(
-                                                text = player.location?.country?.names?.international
+                                                text = player.country?.names?.international
                                                     ?: "",
                                                 color = MaterialTheme.colorScheme.onBackground
                                             )

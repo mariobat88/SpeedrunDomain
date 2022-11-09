@@ -181,7 +181,7 @@ fun LeaderboardsScreen(
                                                             if (player is PlayerModel.UserModel) {
                                                                 Text(
                                                                     text = countryFlag(
-                                                                        player.location?.country?.code
+                                                                        player.country?.code
                                                                             ?: ""
                                                                     ),
                                                                 )

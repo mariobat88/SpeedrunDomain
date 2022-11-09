@@ -66,7 +66,7 @@ fun GameResponse.Assets.toEntity() = GameEntity.Assets(
 
 fun GameResponse.toModel() = GameModel(
     id = id,
-    names = names.toModel(),
+    names = names.toNamesModel(),
     boostReceived = boostReceived,
     boostDistinctDonors = boostDistinctDonors,
     abbreviation = abbreviation,
