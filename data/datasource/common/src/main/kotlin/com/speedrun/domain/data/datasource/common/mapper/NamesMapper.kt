@@ -9,6 +9,11 @@ fun NamesResponse.toModel()  = NamesModel(
     japanese = japanese
 )
 
+fun NamesResponse.toNamesEntity()  = Names(
+    international = international,
+    japanese = japanese
+)
+
 fun Names.toNamesModel()  = NamesModel(
     international = international,
     japanese = japanese

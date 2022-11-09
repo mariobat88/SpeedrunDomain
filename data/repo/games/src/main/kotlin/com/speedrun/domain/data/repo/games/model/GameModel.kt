@@ -2,10 +2,11 @@ package com.speedrun.domain.data.repo.games.model
 
 import com.speedrun.data.common.enums.RunTimeEnum
 import com.speedrun.domain.data.repo.common.model.LinkModel
+import com.speedrun.domain.data.repo.common.model.NamesModel
 
 data class GameModel(
     val id: String,
-    val names: Names,
+    val names: NamesModel,
     val boostReceived: Int,
     val boostDistinctDonors: Int,
     val abbreviation: String,
@@ -27,12 +28,6 @@ data class GameModel(
     val assets: Assets?,
     val links: List<LinkModel>
 ) {
-    data class Names(
-        val international: String,
-        val japanese: String?,
-        val twitch: String?
-    )
-
     data class Ruleset(
         val showMilliseconds: Boolean,
         val requireVerification: Boolean,

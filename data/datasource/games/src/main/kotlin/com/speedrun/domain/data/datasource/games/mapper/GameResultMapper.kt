@@ -1,12 +1,13 @@
 package com.speedrun.domain.data.datasource.games.mapper
 
 import com.speedrun.domain.data.database.result.GameResult
+import com.speedrun.domain.data.datasource.common.mapper.toNamesModel
 import com.speedrun.domain.data.repo.games.model.GameModel
 
 fun GameResult.toGameModel(): GameModel {
     return GameModel(
         id = gameEntity.id,
-        names = gameEntity.names.toGameEntity(),
+        names = gameEntity.names.toNamesModel(),
         boostReceived = gameEntity.boostReceived,
         boostDistinctDonors = gameEntity.boostDistinctDonors,
         abbreviation = gameEntity.abbreviation,

@@ -2,6 +2,7 @@ package com.speedrun.domain.networking.api.games
 
 import com.speedrun.data.common.enums.RunTimeEnum
 import com.speedrun.domain.networking.api.common.LinkResponse
+import com.speedrun.domain.networking.api.common.NamesResponse
 import com.speedrun.domain.networking.api.platforms.PlatformDataResponse
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
@@ -9,7 +10,7 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class GameResponse(
     @Json(name = "id") val id: String,
-    @Json(name = "names") val names: Names,
+    @Json(name = "names") val names: NamesResponse,
     @Json(name = "boostReceived") val boostReceived: Int,
     @Json(name = "boostDistinctDonors") val boostDistinctDonors: Int,
     @Json(name = "abbreviation") val abbreviation: String,
@@ -31,12 +32,6 @@ data class GameResponse(
     @Json(name = "assets") val assets: Assets,
     @Json(name = "links") val links: List<LinkResponse>
 ) {
-    @JsonClass(generateAdapter = true)
-    data class Names(
-        @Json(name = "international") val international: String,
-        @Json(name = "japanese") val japanese: String?,
-        @Json(name = "twitch") val twitch: String?
-    )
 
     @JsonClass(generateAdapter = true)
     data class Ruleset(

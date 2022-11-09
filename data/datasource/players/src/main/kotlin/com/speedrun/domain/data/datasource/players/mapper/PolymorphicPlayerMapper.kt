@@ -4,6 +4,7 @@ import com.speedrun.domain.data.database.entities.GuestEntity
 import com.speedrun.domain.data.database.entities.PlayerEntity
 import com.speedrun.domain.data.database.entities.UserEntity
 import com.speedrun.domain.data.datasource.common.mapper.toModel
+import com.speedrun.domain.data.datasource.common.mapper.toNamesEntity
 import com.speedrun.domain.data.pagination.PaginationModel
 import com.speedrun.domain.data.pagination.toModel
 import com.speedrun.domain.data.repo.players.model.PlayerModel
@@ -113,6 +114,8 @@ fun PolymorphicPlayerResponse.UserResponse.toUserEntity() = UserEntity(
     nameStyle = nameStyle.toEntity(),
     role = role,
     signup = signup,
+    countryCode = location?.country?.code,
+    regionCode = location?.region?.code,
     //location = location?.toModel(),
     twitch = twitch?.uri,
     hitbox = hitbox?.uri,

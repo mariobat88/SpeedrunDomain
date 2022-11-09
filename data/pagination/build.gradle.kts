@@ -4,6 +4,6 @@ plugins {
 
 dependencies{
     api(projects.networking.api.pagination)
-    implementation(projects.data.datasource.common)
+    implementation(projects.networking.api.common)
     implementation(projects.data.repo.common)
 }
