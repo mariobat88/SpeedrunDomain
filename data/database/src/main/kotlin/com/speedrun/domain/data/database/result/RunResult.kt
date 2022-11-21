@@ -7,7 +7,7 @@ import com.speedrun.domain.data.database.entities.PlatformEntity
 import com.speedrun.domain.data.database.entities.RunEntity
 import com.speedrun.domain.data.database.entities.RunPlayerEntity
 
-data class RunEntityResult(
+data class RunResult(
     @Embedded
     val run: RunEntity,
     @Relation(

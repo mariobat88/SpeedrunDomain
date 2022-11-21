@@ -13,5 +13,5 @@ data class LeaderboardPlaceResult(
         entityColumn = RunEntity.COLUMN_ID,
         parentColumn = LeaderboardPlaceEntity.COLUMN_RUN_ID,
     )
-    val runs: RunEntityResult?,
+    val runs: RunResult?,
 )

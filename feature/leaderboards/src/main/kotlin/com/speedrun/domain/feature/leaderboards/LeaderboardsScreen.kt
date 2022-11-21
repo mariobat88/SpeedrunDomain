@@ -3,6 +3,7 @@
 package com.speedrun.domain.feature.leaderboards
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.*
@@ -28,6 +29,7 @@ import com.speedrun.domain.core.framework.async.Success
 import com.speedrun.domain.core.framework.countryFlag
 import com.speedrun.domain.core.ui.SpeedrunScreen
 import com.speedrun.domain.data.repo.players.model.PlayerModel
+import com.speedrun.domain.feature.leaderboards.navigation.LeaderboardNavigator
 import com.speedrun.domain.kit.player.ui.PlayerName
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
@@ -35,8 +37,10 @@ import kotlin.time.Duration
 import com.speedrun.domain.core.designsystem.R as DesignSystemResources
 
 @Composable
-internal fun LeaderboardsScreen() {
-    val leaderboardsViewModel = LeaderboardsViewModel.create()
+internal fun LeaderboardsScreen(
+    leaderboardNavigator: LeaderboardNavigator
+) {
+    val leaderboardsViewModel = LeaderboardsViewModel.create(leaderboardNavigator)
     LeaderboardsScreen(leaderboardsViewModel)
 }
 
@@ -131,11 +135,8 @@ fun LeaderboardsScreen(
                                                 .fillMaxWidth()
                                                 .height(40.dp)
                                                 .background(background)
-                                                .padding(
-                                                    horizontal = dimensionResource(
-                                                        DesignSystemResources.dimen.side_padding
-                                                    )
-                                                ),
+                                                .padding(horizontal = dimensionResource(DesignSystemResources.dimen.side_padding))
+                                                .clickable { intentChannel.tryEmit(Intent.RunClicked(run.run?.id)) },
                                             verticalAlignment = Alignment.CenterVertically,
                                         ) {
                                             Row(

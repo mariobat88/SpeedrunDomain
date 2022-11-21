@@ -11,6 +11,7 @@ import com.speedrun.domain.core.framework.SpeedrunViewModel
 import com.speedrun.domain.core.wrapper.dispatchers.DispatcherProvider
 import com.speedrun.domain.data.repo.categories.CategoriesRepository
 import com.speedrun.domain.data.repo.leaderboards.LeaderboardsRepository
+import com.speedrun.domain.feature.leaderboards.navigation.LeaderboardNavigator
 import com.speedrun.domain.feature.leaderboards.navigation.LeaderboardsNavigation
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -24,6 +25,7 @@ import kotlinx.coroutines.launch
 
 class LeaderboardsViewModel @AssistedInject constructor(
     @Assisted("savedStateHandle") private val savedStateHandle: SavedStateHandle,
+    @Assisted("leaderboardNavigator") private val leaderboardNavigator: LeaderboardNavigator,
     private val categoriesRepository: CategoriesRepository,
     private val leaderboardsRepository: LeaderboardsRepository,
     dispatcherProvider: DispatcherProvider,
@@ -40,12 +42,15 @@ class LeaderboardsViewModel @AssistedInject constructor(
     interface Factory {
         fun create(
             @Assisted("savedStateHandle") savedStateHandle: SavedStateHandle,
+            @Assisted("leaderboardNavigator") leaderboardNavigator: LeaderboardNavigator,
         ): LeaderboardsViewModel
     }
 
     companion object {
         @Composable
-        fun create(): LeaderboardsViewModel {
+        fun create(
+            leaderboardNavigator: LeaderboardNavigator,
+        ): LeaderboardsViewModel {
             val activity = LocalContext.current as Activity
 
             return viewModel(
@@ -61,7 +66,10 @@ class LeaderboardsViewModel @AssistedInject constructor(
                         )
                         val savedStateHandle = extras.createSavedStateHandle()
                         return entryPoint.leaderboardsViewModelFactory()
-                            .create(savedStateHandle) as T
+                            .create(
+                                savedStateHandle = savedStateHandle,
+                                leaderboardNavigator = leaderboardNavigator,
+                            ) as T
                     }
                 })
         }
@@ -87,7 +95,7 @@ class LeaderboardsViewModel @AssistedInject constructor(
     }
 
     override suspend fun bind(intents: Flow<Intent>): Flow<Any> {
-        return intents.filterIsInstance<Intent.CategorySelected>()
+        val categorySelected = intents.filterIsInstance<Intent.CategorySelected>()
             .map { intent ->
                 val category = getViewState().categoriesAsync()!![intent.index]
                 val leaderboardsMap = getViewState().leaderboardsMap
@@ -114,5 +122,17 @@ class LeaderboardsViewModel @AssistedInject constructor(
                     }
                 }
             }
+
+        val runClicked = intents.filterIsInstance<Intent.RunClicked>()
+            .onEach { intent ->
+                intent.runId?.let { runId ->
+                    leaderboardNavigator.navigateToRunScreen(runId)
+                }
+            }
+
+        return merge(
+            categorySelected,
+            runClicked,
+        )
     }
 }

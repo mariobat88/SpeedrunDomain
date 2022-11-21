@@ -18,14 +18,16 @@ object LeaderboardsNavigation : Destination {
     override val destination = "leaderboards_destination"
 }
 
-fun NavGraphBuilder.leaderboardsNavigation() {
+fun NavGraphBuilder.leaderboardsNavigation(
+    leaderboardNavigator: LeaderboardNavigator
+) {
     navigation(
         route = LeaderboardsNavigation.route,
         startDestination = LeaderboardsNavigation.destination,
         arguments = listOf(navArgument(LeaderboardsNavigation.gameIdArg) { type = NavType.StringType })
     ) {
         composable(route = LeaderboardsNavigation.destination) {
-            LeaderboardsScreen()
+            LeaderboardsScreen(leaderboardNavigator)
         }
     }
 }
