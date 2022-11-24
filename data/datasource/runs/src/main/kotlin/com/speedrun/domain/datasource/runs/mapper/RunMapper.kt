@@ -1,10 +1,9 @@
 package com.speedrun.domain.datasource.runs.mapper
 
 import com.speedrun.domain.api.runs.models.*
-import com.speedrun.domain.data.database.entities.GameEntity
-import com.speedrun.domain.data.database.entities.PlatformEntity
-import com.speedrun.domain.data.database.entities.RunEntity
+import com.speedrun.domain.data.database.entities.*
 import com.speedrun.domain.data.database.result.RunPlayerResult
+import com.speedrun.domain.data.datasource.categories.mapper.toModel
 import com.speedrun.domain.data.datasource.common.mapper.toModel
 import com.speedrun.domain.data.datasource.games.mapper.toModel
 import com.speedrun.domain.data.datasource.platforms.mapper.toPlatformModel
@@ -13,16 +12,17 @@ import com.speedrun.domain.repo.runs.model.RunModel
 
 fun RunEntity.toRunModel(
     gameEntity: GameEntity?,
+    categoryEntity: CategoryEntity?,
     platformEntity: PlatformEntity?,
     runPlayerResults: List<RunPlayerResult>,
+    videos:List<VideoEntity>,
 ) = RunModel(
     id = id,
     weblink = weblink,
     game = gameEntity?.toModel(),
     level = level,
-    category = category,
-    //videos = videos?.toModel(),
-    videos = null,
+    category = categoryEntity?.toModel(),
+    videos = videos.map { it.link },
     comment = comment,
     status = status.toModel(),
     players = runPlayerResults.map { it.players.map { it.toPlayerModel() } }.flatten(),
@@ -75,6 +75,10 @@ fun FlatRunResponse.toRunEntity() = RunEntity(
     system = system.toEntity(),
 )
 
+fun VideosResponse.toEntity(runId: String): List<VideoEntity> {
+    return links.map { VideoEntity(runId = runId, link = it.uri) }
+}
+
 private fun StatusResponse.toEntity() = RunEntity.Status(
     status = status,
     examiner = examiner,
@@ -103,8 +107,9 @@ fun RunResponse.toModel() = RunModel(
     weblink = weblink,
     game = game.data.toModel(),
     level = level,
-    category = category,
-    videos = videos?.toModel(),
+    category = null,
+    //category = category,
+    videos = videos?.links?.map { it.uri } ?: emptyList(),
     comment = comment,
     status = status.toModel(),
     players = players.data.map { it.toPlayerModel() },
@@ -115,10 +120,6 @@ fun RunResponse.toModel() = RunModel(
     splits = splits,
     values = values,
     links = links.map { it.toModel() },
-)
-
-fun VideosResponse.toModel() = RunModel.Videos(
-    links = links.map { it.toModel() }
 )
 
 fun StatusResponse.toModel() = RunModel.Status(

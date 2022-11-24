@@ -5,7 +5,7 @@ import retrofit2.http.Path
 
 interface LeaderboardsApiService {
 
-    @GET("leaderboards/{gameId}/category/{categoryId}?embed=players")
+    @GET("leaderboards/{gameId}/category/{categoryId}?embed=players,category")
     suspend fun getLeaderboard(
         @Path("gameId") gameId: String,
         @Path("categoryId") categoryId: String,

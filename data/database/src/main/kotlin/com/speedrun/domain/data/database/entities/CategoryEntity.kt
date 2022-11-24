@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.speedrun.data.common.enums.RunTypeEnum
 
 @Entity(tableName = CategoryEntity.TABLE_NAME)
 data class CategoryEntity(
@@ -15,9 +16,9 @@ data class CategoryEntity(
     @ColumnInfo(name = COLUMN_WEBLINK)
     val weblink: String,
     @ColumnInfo(name = COLUMN_TYPE)
-    val type: String,
+    val type: RunTypeEnum,
     @ColumnInfo(name = COLUMN_RULES)
-    val rules: String,
+    val rules: String?,
     @Embedded(prefix = PREFIX_PLAYERS)
     val players: Players,
     @ColumnInfo(name = COLUMN_MISCELLANEOUS)

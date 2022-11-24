@@ -6,5 +6,5 @@ import retrofit2.http.Path
 interface CategoriesApiService {
 
     @GET("games/{gameId}/categories")
-    suspend fun getCategoriesByGame(@Path("gameId") id: String): CategoryResponse
+    suspend fun getCategoriesByGame(@Path("gameId") id: String): CategoriesResponse
 }

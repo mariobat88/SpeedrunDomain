@@ -8,9 +8,9 @@ import androidx.lifecycle.viewmodel.CreationExtras
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.speedrun.domain.core.framework.SpeedrunViewModel
 import com.speedrun.domain.core.wrapper.dispatchers.DispatcherProvider
+import com.speedrun.domain.data.repo.leaderboards.LeaderboardsRepository
 import com.speedrun.domain.feature.run.navigation.RunNavigation
 import com.speedrun.domain.feature.run.navigation.RunNavigator
-import com.speedrun.domain.repo.runs.RunsRepository
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -24,7 +24,7 @@ import kotlinx.coroutines.launch
 class RunViewModel @AssistedInject constructor(
     @Assisted("savedStateHandle") private val savedStateHandle: SavedStateHandle,
     @Assisted("runNavigator") private val runNavigator: RunNavigator,
-    private val runsRepository: RunsRepository,
+    private val leaderboardsRepository: LeaderboardsRepository,
     private val dispatcherProvider: DispatcherProvider,
 ) : SpeedrunViewModel<ViewState, Intent, Unit>(
     viewState = ViewState()
@@ -78,10 +78,10 @@ class RunViewModel @AssistedInject constructor(
     init {
         viewModelScope.launch(dispatcherProvider.main()) {
             launch {
-                runsRepository.observeRun(runId)
+                leaderboardsRepository.observeLeaderboardPlace(runId)
                     .asAsync()
-                    .collect { runAsync ->
-                        _viewState.update { it.copy(runAsync = runAsync) }
+                    .collect { leaderboardPlaceAsync ->
+                        _viewState.update { it.copy(leaderboardPlaceAsync = leaderboardPlaceAsync) }
                     }
             }
         }

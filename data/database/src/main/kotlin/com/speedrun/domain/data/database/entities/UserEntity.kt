@@ -30,8 +30,8 @@ data class UserEntity(
     val role: String,
     @ColumnInfo(name = COLUMN_SIGNUP)
     val signup: String?,
-//    @ColumnInfo(name = COLUMN_ID)
-//    val location: Location?,
+    @ColumnInfo(name = COLUMN_LOCATION)
+    val location: String?,
     @ColumnInfo(name = COLUMN_TWITCH)
     val twitch: String?,
     @ColumnInfo(name = COLUMN_HITBOX)
@@ -55,6 +55,7 @@ data class UserEntity(
         const val COLUMN_WEBLINK = "${TABLE_NAME}_weblink"
         const val COLUMN_ROLE = "${TABLE_NAME}_role"
         const val COLUMN_SIGNUP = "${TABLE_NAME}_signup"
+        const val COLUMN_LOCATION = "${TABLE_NAME}_location"
         const val COLUMN_TWITCH = "${TABLE_NAME}_twitch"
         const val COLUMN_HITBOX = "${TABLE_NAME}_hitbox"
         const val COLUMN_YOUTUBE = "${TABLE_NAME}_youtube"

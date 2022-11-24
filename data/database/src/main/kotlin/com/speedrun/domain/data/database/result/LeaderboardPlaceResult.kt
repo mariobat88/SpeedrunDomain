@@ -7,11 +7,11 @@ import com.speedrun.domain.data.database.entities.RunEntity
 
 data class LeaderboardPlaceResult(
     @Embedded
-    val leaderboardPlace: LeaderboardPlaceEntity,
+    val leaderboardPlaceEntity: LeaderboardPlaceEntity,
     @Relation(
         entity = RunEntity::class,
         entityColumn = RunEntity.COLUMN_ID,
         parentColumn = LeaderboardPlaceEntity.COLUMN_RUN_ID,
     )
-    val runs: RunResult?,
+    val runResult: RunResult?,
 )

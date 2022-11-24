@@ -26,7 +26,7 @@ import com.google.accompanist.pager.rememberPagerState
 import com.speedrun.domain.core.framework.Screen
 import com.speedrun.domain.core.framework.async.Loading
 import com.speedrun.domain.core.framework.async.Success
-import com.speedrun.domain.core.framework.countryFlag
+import com.speedrun.domain.kit.player.ui.CountryFlag
 import com.speedrun.domain.core.ui.SpeedrunScreen
 import com.speedrun.domain.data.repo.players.model.PlayerModel
 import com.speedrun.domain.feature.leaderboards.navigation.LeaderboardNavigator
@@ -135,8 +135,18 @@ fun LeaderboardsScreen(
                                                 .fillMaxWidth()
                                                 .height(40.dp)
                                                 .background(background)
-                                                .padding(horizontal = dimensionResource(DesignSystemResources.dimen.side_padding))
-                                                .clickable { intentChannel.tryEmit(Intent.RunClicked(run.run?.id)) },
+                                                .padding(
+                                                    horizontal = dimensionResource(
+                                                        DesignSystemResources.dimen.side_padding
+                                                    )
+                                                )
+                                                .clickable {
+                                                    intentChannel.tryEmit(
+                                                        Intent.RunClicked(
+                                                            run.run?.id
+                                                        )
+                                                    )
+                                                },
                                             verticalAlignment = Alignment.CenterVertically,
                                         ) {
                                             Row(
@@ -180,11 +190,9 @@ fun LeaderboardsScreen(
                                                             verticalAlignment = Alignment.CenterVertically
                                                         ) {
                                                             if (player is PlayerModel.UserModel) {
-                                                                Text(
-                                                                    text = countryFlag(
-                                                                        player.location?.country?.code
-                                                                            ?: ""
-                                                                    ),
+                                                                CountryFlag(
+                                                                    modifier = Modifier.wrapContentSize(),
+                                                                    countryCode = player.location?.country?.code
                                                                 )
                                                             }
                                                             Spacer(modifier = Modifier.width(2.dp))

@@ -18,7 +18,6 @@ data class RunEntity(
     val level: String?,
     @ColumnInfo(name = COLUMN_CATEGORY)
     val category: String,
-    //val videos: VideosResponse?,
     @ColumnInfo(name = COLUMN_COMMENT)
     val comment: String?,
     @Embedded

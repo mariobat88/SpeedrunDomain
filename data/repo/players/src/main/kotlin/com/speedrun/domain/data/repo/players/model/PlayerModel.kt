@@ -39,12 +39,14 @@ sealed class PlayerModel {
         ) {
             data class Country(
                 val code: String,
-                val names: NamesModel
+                val international: String,
+                val japanese: String?,
             )
 
             data class Region(
                 val code: String,
-                val names: NamesModel
+                val international: String,
+                val japanese: String?,
             )
         }
 

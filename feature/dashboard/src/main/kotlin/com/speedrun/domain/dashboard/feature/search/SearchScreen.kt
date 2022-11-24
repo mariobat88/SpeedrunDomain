@@ -1,14 +1,11 @@
 package com.speedrun.domain.dashboard.feature.search
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.key
@@ -17,7 +14,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -31,12 +27,10 @@ import com.google.accompanist.placeholder.PlaceholderHighlight
 import com.google.accompanist.placeholder.material.shimmer
 import com.google.accompanist.placeholder.placeholder
 import com.speedrun.domain.core.framework.Compose
-import com.speedrun.domain.core.framework.countryFlag
 import com.speedrun.domain.core.ui.RoundedCornerBox
 import com.speedrun.domain.dashboard.feature.search.navigation.SearchNavigator
-import com.speedrun.domain.kit.player.ui.PlayerName
+import com.speedrun.domain.kit.player.ui.UserRow
 import com.speedrun.domain.core.designsystem.R as DesignSystemResources
-import com.speedrun.domain.core.ui.R as UIResources
 import com.speedrun.domain.feature.dashboard.R as DashboardResources
 
 @Composable
@@ -135,8 +129,14 @@ private fun SearchScreen(
                                 RoundedCornerBox(
                                     modifier = Modifier
                                         .height(dimensionResource(DashboardResources.dimen.item_height))
-                                        .clickable { intentChannel.tryEmit(Intent.NavigateToGameScreen(gameModel.id)) },
-                                    ) {
+                                        .clickable {
+                                            intentChannel.tryEmit(
+                                                Intent.NavigateToGameScreen(
+                                                    gameModel.id
+                                                )
+                                            )
+                                        },
+                                ) {
                                     Column(
                                         modifier = Modifier.fillMaxSize(),
                                         horizontalAlignment = Alignment.CenterHorizontally,
@@ -182,98 +182,7 @@ private fun SearchScreen(
                                     .fillMaxWidth()
                                     .height(60.dp),
                             ) {
-                                Row(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .height(50.dp)
-                                        .align(Alignment.Center),
-                                    horizontalArrangement = Arrangement.SpaceBetween,
-                                ) {
-                                    player.image?.let { uri ->
-                                        AsyncImage(
-                                            model = uri,
-                                            contentDescription = "",
-                                            modifier = Modifier.size(50.dp),
-                                            contentScale = ContentScale.Inside
-                                        )
-                                        Spacer(modifier = Modifier.width(4.dp))
-                                    } ?: run {
-                                        Icon(
-                                            imageVector = Icons.Default.Person,
-                                            contentDescription = "",
-                                            modifier = Modifier.size(50.dp)
-                                        )
-                                    }
-                                    Column(
-                                        modifier = Modifier
-                                            .fillMaxHeight()
-                                            .wrapContentWidth(),
-                                        verticalArrangement = Arrangement.SpaceBetween
-                                    ) {
-                                        Row(
-                                            modifier = Modifier
-                                                .fillMaxWidth()
-                                                .wrapContentHeight(),
-                                            horizontalArrangement = Arrangement.SpaceBetween,
-                                            verticalAlignment = Alignment.CenterVertically,
-                                        ) {
-                                            PlayerName(
-                                                modifier = Modifier.wrapContentSize(),
-                                                player = player
-                                            )
-                                            Row(
-                                                modifier = Modifier.wrapContentSize()
-                                            ) {
-                                                if (player.twitch != null) {
-                                                    Image(
-                                                        painter = painterResource(UIResources.drawable.icon_twitch_20),
-                                                        contentDescription = "",
-                                                        modifier = Modifier
-                                                            .wrapContentHeight()
-                                                            .width(25.dp),
-                                                        contentScale = ContentScale.Inside
-                                                    )
-                                                }
-                                                if (player.twitter != null) {
-                                                    Image(
-                                                        painter = painterResource(UIResources.drawable.icon_twitter_20),
-                                                        contentDescription = "",
-                                                        modifier = Modifier
-                                                            .wrapContentHeight()
-                                                            .width(25.dp),
-                                                        contentScale = ContentScale.Inside
-                                                    )
-                                                }
-                                                if (player.youtube != null) {
-                                                    Image(
-                                                        painter = painterResource(UIResources.drawable.icon_youtube_20),
-                                                        contentDescription = "",
-                                                        modifier = Modifier
-                                                            .wrapContentHeight()
-                                                            .width(25.dp),
-                                                        contentScale = ContentScale.Inside
-                                                    )
-                                                }
-                                            }
-                                        }
-                                        Row(
-                                            modifier = Modifier.wrapContentSize()
-                                        ) {
-                                            Text(
-                                                text = countryFlag(
-                                                    player.location?.country?.code ?: ""
-                                                ),
-                                                modifier = Modifier.wrapContentSize()
-                                            )
-                                            Spacer(modifier = Modifier.width(4.dp))
-                                            Text(
-                                                text = player.location?.country?.names?.international
-                                                    ?: "",
-                                                color = MaterialTheme.colorScheme.onBackground
-                                            )
-                                        }
-                                    }
-                                }
+                                UserRow(player)
                                 Divider(
                                     modifier = Modifier.align(Alignment.BottomCenter),
                                     color = Color.DarkGray,

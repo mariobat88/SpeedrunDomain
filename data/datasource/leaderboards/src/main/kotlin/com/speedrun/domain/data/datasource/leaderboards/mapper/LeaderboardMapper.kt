@@ -13,7 +13,7 @@ fun LeaderboardResponse.Data.toLeaderboardEntity() = LeaderboardEntity(
     id = createId(),
     weblink = weblink,
     game = game,
-    category = category,
+    category = category.data.id,
     level = level,
     platform = platform,
     region = region,
@@ -47,6 +47,6 @@ fun LeaderboardEntity.toLeaderboardModel(
     emulators = emulators,
     videoOnly = videoOnly,
     timing = timing,
-    runs = leaderboardPlacesResult.map { it.leaderboardPlace.toLeaderboardPlaceModel(it.runs) },
+    runs = leaderboardPlacesResult.map { it.leaderboardPlaceEntity.toLeaderboardPlaceModel(it.runResult) },
     links = emptyList(),
 )

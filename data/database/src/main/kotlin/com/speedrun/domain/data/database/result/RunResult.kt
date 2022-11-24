@@ -2,10 +2,7 @@ package com.speedrun.domain.data.database.result
 
 import androidx.room.Embedded
 import androidx.room.Relation
-import com.speedrun.domain.data.database.entities.GameEntity
-import com.speedrun.domain.data.database.entities.PlatformEntity
-import com.speedrun.domain.data.database.entities.RunEntity
-import com.speedrun.domain.data.database.entities.RunPlayerEntity
+import com.speedrun.domain.data.database.entities.*
 
 data class RunResult(
     @Embedded
@@ -16,6 +13,12 @@ data class RunResult(
         parentColumn = RunEntity.COLUMN_GAME,
     )
     val game: GameEntity?,
+    @Relation(
+        entity = CategoryEntity::class,
+        entityColumn = CategoryEntity.COLUMN_ID,
+        parentColumn = RunEntity.COLUMN_CATEGORY,
+    )
+    val category: CategoryEntity?,
     @Relation(
         entity = PlatformEntity::class,
         entityColumn = PlatformEntity.COLUMN_ID,
@@ -28,4 +31,10 @@ data class RunResult(
         parentColumn = RunEntity.COLUMN_ID,
     )
     val runPlayers: List<RunPlayerResult> = emptyList(),
+    @Relation(
+        entity = VideoEntity::class,
+        entityColumn = VideoEntity.COLUMN_RUN_ID,
+        parentColumn = RunEntity.COLUMN_ID,
+    )
+    val videos: List<VideoEntity> = emptyList(),
 )

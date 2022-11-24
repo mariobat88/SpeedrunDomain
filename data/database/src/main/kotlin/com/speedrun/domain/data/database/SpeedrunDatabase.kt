@@ -20,14 +20,19 @@ import com.speedrun.domain.data.database.entities.*
         PlayerEntity::class,
         UserEntity::class,
         GuestEntity::class,
+        LocationEntity::class,
+        UserLocationEntity::class,
         LeaderboardEntity::class,
         LeaderboardPlaceEntity::class,
+        VideoEntity::class,
+        CategoryEntity::class,
     ],
     version = 1
 )
 abstract class SpeedrunDatabase : RoomDatabase() {
     abstract fun runDao(): RunDao
     abstract fun runPlayerDao(): RunPlayerDao
+    abstract fun videoDao(): VideoDao
     abstract fun developerDao(): DeveloperDao
     abstract fun publisherDao(): PublisherDao
     abstract fun platformDao(): PlatformDao
@@ -38,6 +43,9 @@ abstract class SpeedrunDatabase : RoomDatabase() {
     abstract fun playerDao(): PlayerDao
     abstract fun userDao(): UserDao
     abstract fun guestDao(): GuestDao
+    abstract fun locationDao(): LocationDao
+    abstract fun userLocationDao(): UserLocationDao
     abstract fun leaderboardDao(): LeaderboardDao
     abstract fun leaderboardPlaceDao(): LeaderboardPlaceDao
+    abstract fun categoryDao(): CategoryDao
 }

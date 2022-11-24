@@ -109,7 +109,7 @@ class LeaderboardsViewModel @AssistedInject constructor(
                     }
 
                     viewModelScope.launch {
-                        leaderboardsRepository.getLeaderboard(gameId, category.id).asAsync()
+                        leaderboardsRepository.observeLeaderboard(gameId, category.id).asAsync()
                             .collect { leaderboardAsync ->
                                 leaderboardsMap[intent.index] = leaderboardAsync
 

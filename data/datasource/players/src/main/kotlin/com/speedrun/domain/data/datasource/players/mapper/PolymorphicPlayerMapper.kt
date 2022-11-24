@@ -86,13 +86,15 @@ private fun PolymorphicPlayerResponse.UserResponse.Location.toModel() =
 private fun PolymorphicPlayerResponse.UserResponse.Location.Country.toModel() =
     PlayerModel.UserModel.Location.Country(
         code = code,
-        names = names.toModel(),
+        international = names.international,
+        japanese = names.japanese,
     )
 
 private fun PolymorphicPlayerResponse.UserResponse.Location.Region.toModel() =
     PlayerModel.UserModel.Location.Region(
         code = code,
-        names = names.toModel(),
+        international = names.international,
+        japanese = names.japanese,
     )
 
 private fun PolymorphicPlayerResponse.UserResponse.Assets.toModel() = PlayerModel.UserModel.Assets(
@@ -113,7 +115,7 @@ fun PolymorphicPlayerResponse.UserResponse.toUserEntity() = UserEntity(
     nameStyle = nameStyle.toEntity(),
     role = role,
     signup = signup,
-    //location = location?.toModel(),
+    location = location?.createLocationId(),
     twitch = twitch?.uri,
     hitbox = hitbox?.uri,
     youtube = youtube?.uri,

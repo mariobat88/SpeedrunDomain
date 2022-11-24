@@ -3,6 +3,7 @@ plugins {
 }
 
 dependencies{
+    api(projects.data.datasource.categories)
     api(projects.data.datasource.games)
     api(projects.data.datasource.players)
     api(projects.data.datasource.runs)
