@@ -28,15 +28,16 @@ class LeaderboardsRepositoryImpl @Inject constructor(
     speedrunDatabase: SpeedrunDatabase,
 ) : LeaderboardsRepository {
 
-    private val runDao = speedrunDatabase.runDao()
-    private val runPlayerDao = speedrunDatabase.runPlayerDao()
-    private val videoDao = speedrunDatabase.videoDao()
+    private val categoryDao = speedrunDatabase.categoryDao()
+    private val guestDao = speedrunDatabase.guestDao()
     private val leaderboardDao = speedrunDatabase.leaderboardDao()
     private val leaderboardPlaceDao = speedrunDatabase.leaderboardPlaceDao()
     private val playerDao = speedrunDatabase.playerDao()
+    private val runDao = speedrunDatabase.runDao()
+    private val runPlayerDao = speedrunDatabase.runPlayerDao()
     private val userDao = speedrunDatabase.userDao()
-    private val guestDao = speedrunDatabase.guestDao()
-    private val categoryDao = speedrunDatabase.categoryDao()
+    private val variableDao  = speedrunDatabase.variableDao()
+    private val videoDao = speedrunDatabase.videoDao()
 
     override suspend fun refreshLeaderboards(gameId: String, categoryId: String) = withContext(dispatcherProvider.io()) {
         val response = leaderboardsApiService.getLeaderboard(gameId, categoryId)
@@ -51,8 +52,9 @@ class LeaderboardsRepositoryImpl @Inject constructor(
 
         val runEntities = response.data.runs.map { it.run.toRunEntity() }
         val runPlayerEntities = response.data.runs.map { leaderboardRun -> leaderboardRun.run.players.map { it.toRunPlayerEntity(leaderboardRun.run.id) } }.flatten()
-        val runCategoryEntity = response.data.category.data.toEntity()
+        val runCategoryEntity = response.data.category.data.toEntity(gameId)
         val runVideoEntities =  response.data.runs.mapNotNull { it.run.videos?.toEntity(it.run.id) }.flatten()
+        val variableEntities = response.data.variables.data.map { it.toVariableEntity() }
 
         leaderboardDao.upsert(leaderboardEntities)
         leaderboardPlaceDao.upsert(leaderboardPlaceEntities)
@@ -60,6 +62,7 @@ class LeaderboardsRepositoryImpl @Inject constructor(
         runPlayerDao.upsert(runPlayerEntities)
         videoDao.upsert(runVideoEntities)
         categoryDao.upsert(runCategoryEntity)
+        variableDao.upsert(variableEntities)
 
         userDao.upsert(userEntities)
         guestDao.upsert(guestEntities)

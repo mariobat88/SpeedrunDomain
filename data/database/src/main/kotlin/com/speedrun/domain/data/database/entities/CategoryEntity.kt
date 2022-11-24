@@ -23,6 +23,8 @@ data class CategoryEntity(
     val players: Players,
     @ColumnInfo(name = COLUMN_MISCELLANEOUS)
     val miscellaneous: Boolean,
+    @ColumnInfo(name = COLUMN_GAME_ID)
+    val gameId: String,
 ) {
     companion object {
         const val TABLE_NAME = "category"
@@ -32,6 +34,7 @@ data class CategoryEntity(
         const val COLUMN_TYPE = "${TABLE_NAME}_type"
         const val COLUMN_RULES = "${TABLE_NAME}_rules"
         const val COLUMN_MISCELLANEOUS = "${TABLE_NAME}_miscellaneous"
+        const val COLUMN_GAME_ID = "${TABLE_NAME}_gameId"
         const val PREFIX_PLAYERS = "${TABLE_NAME}_players"
     }
 

@@ -38,6 +38,7 @@ class NetworkingModule {
     @Provides
     fun provideOkHttpClient(
         @AppVersionName versionName: String,
+        @DebugBuild isDebug: Boolean,
         application: Application,
         httpLoggingInterceptor: HttpLoggingInterceptor?,
     ): OkHttpClient {
@@ -51,7 +52,11 @@ class NetworkingModule {
                     addInterceptor(httpLoggingInterceptor)
                 }
             }
-            .cache(cache)
+            .apply {
+                if(!isDebug){
+                    cache(cache)
+                }
+            }
             .addNetworkInterceptor { chain ->
                 val request = chain.request().newBuilder()
                     .removeHeader("user-agent")

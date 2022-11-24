@@ -11,7 +11,8 @@ data class CategoryModel(
     val players: Players,
     val rules: String?,
     val type: RunTypeEnum,
-    val weblink: String
+    val weblink: String,
+    val variables: List<VariableModel>
 ) {
     data class Players(
         val type: String,

@@ -2,7 +2,7 @@ package com.speedrun.domain.networking.api.leaderboards
 
 import com.speedrun.data.common.enums.RunTimeEnum
 import com.speedrun.domain.api.runs.models.FlatRunResponse
-import com.speedrun.domain.networking.api.categories.CategoryResponse
+import com.speedrun.domain.networking.api.categories.CategoryDataResponse
 import com.speedrun.domain.networking.api.common.LinkResponse
 import com.speedrun.domain.networking.api.players.PolymorphicPlayerResponse
 import com.squareup.moshi.Json
@@ -20,7 +20,7 @@ data class LeaderboardResponse(
         @Json(name = "game")
         val game: String,
         @Json(name = "category")
-        val category: CategoryResponse,
+        val category: CategoryDataResponse,
         @Json(name = "level")
         val level: String?,
         @Json(name = "platform")
@@ -39,6 +39,8 @@ data class LeaderboardResponse(
         val links: List<LinkResponse>,
         @Json(name = "players")
         val players: Players,
+        @Json(name = "variables")
+        val variables: VariablesDataListResponse
     ) {
         @JsonClass(generateAdapter = true)
         data class LeaderboardRun(

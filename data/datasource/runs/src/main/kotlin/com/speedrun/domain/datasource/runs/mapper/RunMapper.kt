@@ -1,9 +1,13 @@
 package com.speedrun.domain.datasource.runs.mapper
 
 import com.speedrun.domain.api.runs.models.*
-import com.speedrun.domain.data.database.entities.*
+import com.speedrun.domain.data.database.entities.GameEntity
+import com.speedrun.domain.data.database.entities.PlatformEntity
+import com.speedrun.domain.data.database.entities.RunEntity
+import com.speedrun.domain.data.database.entities.VideoEntity
+import com.speedrun.domain.data.database.result.CategoryResult
 import com.speedrun.domain.data.database.result.RunPlayerResult
-import com.speedrun.domain.data.datasource.categories.mapper.toModel
+import com.speedrun.domain.data.datasource.categories.mapper.toCategoryModel
 import com.speedrun.domain.data.datasource.common.mapper.toModel
 import com.speedrun.domain.data.datasource.games.mapper.toModel
 import com.speedrun.domain.data.datasource.platforms.mapper.toPlatformModel
@@ -12,7 +16,7 @@ import com.speedrun.domain.repo.runs.model.RunModel
 
 fun RunEntity.toRunModel(
     gameEntity: GameEntity?,
-    categoryEntity: CategoryEntity?,
+    categoryResult: CategoryResult?,
     platformEntity: PlatformEntity?,
     runPlayerResults: List<RunPlayerResult>,
     videos:List<VideoEntity>,
@@ -21,7 +25,7 @@ fun RunEntity.toRunModel(
     weblink = weblink,
     game = gameEntity?.toModel(),
     level = level,
-    category = categoryEntity?.toModel(),
+    category = categoryResult?.toCategoryModel(),
     videos = videos.map { it.link },
     comment = comment,
     status = status.toModel(),

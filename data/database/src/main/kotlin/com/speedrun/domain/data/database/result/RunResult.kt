@@ -18,7 +18,7 @@ data class RunResult(
         entityColumn = CategoryEntity.COLUMN_ID,
         parentColumn = RunEntity.COLUMN_CATEGORY,
     )
-    val category: CategoryEntity?,
+    val categoryResult: CategoryResult?,
     @Relation(
         entity = PlatformEntity::class,
         entityColumn = PlatformEntity.COLUMN_ID,

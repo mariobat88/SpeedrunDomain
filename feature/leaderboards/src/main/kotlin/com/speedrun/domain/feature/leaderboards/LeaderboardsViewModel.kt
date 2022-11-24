@@ -80,16 +80,17 @@ class LeaderboardsViewModel @AssistedInject constructor(
     init {
         viewModelScope.launch(dispatcherProvider.main()) {
             launch {
-                suspend {
-                    categoriesRepository.getCategoriesByGame(gameId)
-                        .filter { it.type == RunTypeEnum.PER_GAME }
-                }.execute { categoriesAsync ->
-                    reduce {
-                        it.copy(
-                            categoriesAsync = categoriesAsync
-                        )
+                categoriesRepository.refreshCategoriesByGame(gameId)
+                categoriesRepository.observeCategoriesByGame(gameId)
+                    .map { it.filter { it.type == RunTypeEnum.PER_GAME } }
+                    .asAsync()
+                    .collect{ categoriesAsync ->
+                        reduce {
+                            it.copy(
+                                categoriesAsync = categoriesAsync
+                            )
+                        }
                     }
-                }
             }
         }
     }

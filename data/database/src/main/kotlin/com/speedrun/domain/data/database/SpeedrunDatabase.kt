@@ -7,45 +7,47 @@ import com.speedrun.domain.data.database.entities.*
 
 @Database(
     entities = [
-        RunEntity::class,
-        RunPlayerEntity::class,
+        CategoryEntity::class,
         DeveloperEntity::class,
-        PublisherEntity::class,
-        PlatformEntity::class,
-        GameEntity::class,
-        RunTimeEntity::class,
-        GameRunTimeEntity::class,
         GameDeveloperEntity::class,
+        GameEntity::class,
         GamePublisherEntity::class,
-        PlayerEntity::class,
-        UserEntity::class,
+        GameRunTimeEntity::class,
         GuestEntity::class,
-        LocationEntity::class,
-        UserLocationEntity::class,
         LeaderboardEntity::class,
         LeaderboardPlaceEntity::class,
+        LocationEntity::class,
+        PlatformEntity::class,
+        PlayerEntity::class,
+        PublisherEntity::class,
+        RunEntity::class,
+        RunPlayerEntity::class,
+        RunTimeEntity::class,
+        UserEntity::class,
+        UserLocationEntity::class,
+        VariableEntity::class,
         VideoEntity::class,
-        CategoryEntity::class,
     ],
     version = 1
 )
 abstract class SpeedrunDatabase : RoomDatabase() {
-    abstract fun runDao(): RunDao
-    abstract fun runPlayerDao(): RunPlayerDao
-    abstract fun videoDao(): VideoDao
+    abstract fun categoryDao(): CategoryDao
     abstract fun developerDao(): DeveloperDao
-    abstract fun publisherDao(): PublisherDao
-    abstract fun platformDao(): PlatformDao
     abstract fun gameDao(): GameDao
-    abstract fun runTimeDao(): RunTimeDao
-    abstract fun gameRunTimeDao(): GameRunTimeDao
     abstract fun gameDeveloperDao(): GameDeveloperDao
-    abstract fun playerDao(): PlayerDao
-    abstract fun userDao(): UserDao
+    abstract fun gameRunTimeDao(): GameRunTimeDao
     abstract fun guestDao(): GuestDao
-    abstract fun locationDao(): LocationDao
-    abstract fun userLocationDao(): UserLocationDao
     abstract fun leaderboardDao(): LeaderboardDao
     abstract fun leaderboardPlaceDao(): LeaderboardPlaceDao
-    abstract fun categoryDao(): CategoryDao
+    abstract fun locationDao(): LocationDao
+    abstract fun platformDao(): PlatformDao
+    abstract fun playerDao(): PlayerDao
+    abstract fun publisherDao(): PublisherDao
+    abstract fun runDao(): RunDao
+    abstract fun runPlayerDao(): RunPlayerDao
+    abstract fun runTimeDao(): RunTimeDao
+    abstract fun userDao(): UserDao
+    abstract fun userLocationDao(): UserLocationDao
+    abstract fun variableDao(): VariableDao
+    abstract fun videoDao(): VideoDao
 }

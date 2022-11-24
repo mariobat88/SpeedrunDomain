@@ -63,10 +63,12 @@ fun LeaderboardsScreen(
                 val pagerState = rememberPagerState()
                 val coroutineScope = rememberCoroutineScope()
 
-                LaunchedEffect(pagerState) {
-                    // Collect from the pager state a snapshotFlow reading the currentPage
-                    snapshotFlow { pagerState.currentPage }.collect { page ->
-                        intentChannel.tryEmit(Intent.CategorySelected(page))
+                if (viewState.categoriesAsync()?.isNotEmpty() == true) {
+                    LaunchedEffect(pagerState) {
+                        // Collect from the pager state a snapshotFlow reading the currentPage
+                        snapshotFlow { pagerState.currentPage }.collect { page ->
+                            intentChannel.tryEmit(Intent.CategorySelected(page))
+                        }
                     }
                 }
 
