@@ -8,6 +8,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.unit.TextUnit
 import com.speedrun.domain.data.repo.players.model.PlayerModel
 
 @OptIn(ExperimentalTextApi::class)
@@ -15,6 +16,7 @@ import com.speedrun.domain.data.repo.players.model.PlayerModel
 fun PlayerName(
     modifier: Modifier = Modifier,
     player: PlayerModel,
+    fontSize: TextUnit = TextUnit.Unspecified,
 ) {
     val darkTheme = isSystemInDarkTheme()
 
@@ -38,13 +40,17 @@ fun PlayerName(
             text = player.names.international,
             modifier = modifier,
             style = if (color != null) {
-                TextStyle(color = Color(android.graphics.Color.parseColor(color)))
+                TextStyle(
+                    color = Color(android.graphics.Color.parseColor(color)),
+                    fontSize = fontSize,
+                )
             } else {
                 TextStyle(
                     brush = Brush.linearGradient(
                         0.0f to Color(android.graphics.Color.parseColor(colorFrom)),
                         1.0f to Color(android.graphics.Color.parseColor(colorTo))
                     ),
+                    fontSize = fontSize,
                 )
             }
         )
@@ -53,6 +59,7 @@ fun PlayerName(
             Text(
                 text = player.name,
                 modifier = modifier,
+                fontSize = fontSize,
             )
         }
     }

@@ -19,7 +19,6 @@ sealed class PlayerModel {
         val icon: String?,
         val supporterIcon: String?,
         val image: String?,
-        val links: List<LinkModel>
     ) : PlayerModel() {
         data class NameStyle(
             val style: String,

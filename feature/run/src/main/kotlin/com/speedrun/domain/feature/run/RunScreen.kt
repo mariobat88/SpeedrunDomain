@@ -2,7 +2,9 @@ package com.speedrun.domain.feature.run
 
 import android.widget.FrameLayout
 import androidx.activity.ComponentActivity
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.*
+import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -10,6 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import coil.compose.AsyncImage
@@ -22,7 +25,10 @@ import com.speedrun.domain.core.framework.async.Success
 import com.speedrun.domain.core.ui.SpeedrunScreen
 import com.speedrun.domain.data.repo.players.model.PlayerModel
 import com.speedrun.domain.feature.run.navigation.RunNavigator
+import com.speedrun.domain.kit.player.ui.PlayerImage
+import com.speedrun.domain.kit.player.ui.PlayerName
 import com.speedrun.domain.kit.player.ui.UserRow
+import com.speedrun.domain.kit.run.ui.System
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlin.time.Duration
 import com.speedrun.domain.core.designsystem.R as DesignSystemResources
@@ -106,8 +112,9 @@ internal fun RunScreen(
                     Column(
                         modifier = Modifier
                             .fillMaxSize()
-                            .padding(dimensionResource(DesignSystemResources.dimen.side_padding))
+                            .padding(horizontal = dimensionResource(DesignSystemResources.dimen.side_padding))
                     ) {
+                        Spacer(modifier = Modifier.height(dimensionResource(DesignSystemResources.dimen.medium_spacing)))
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -118,45 +125,49 @@ internal fun RunScreen(
                                 text = "${run?.category?.name} in ${Duration.parseIsoString(run?.times?.primary ?: "")} - ",
                                 color = MaterialTheme.colorScheme.onBackground
                             )
-                            Box(
-                                modifier = Modifier.size(20.dp),
-                                contentAlignment = Alignment.Center
-                            ) {
-                                val imageUri = when (leaderboardPlace.place) {
-                                    1 -> run?.game?.assets?.trophy1st
-                                    2 -> run?.game?.assets?.trophy2nd
-                                    3 -> run?.game?.assets?.trophy3rd
-                                    4 -> run?.game?.assets?.trophy4th
-                                    else -> null
-                                }
-                                if (imageUri != null) {
+                            val imageUri = when (leaderboardPlace.place) {
+                                1 -> run?.game?.assets?.trophy1st
+                                2 -> run?.game?.assets?.trophy2nd
+                                3 -> run?.game?.assets?.trophy3rd
+                                4 -> run?.game?.assets?.trophy4th
+                                else -> null
+                            }
+                            if (imageUri != null) {
+                                Row(
+                                    modifier = Modifier.wrapContentSize(),
+                                    verticalAlignment = Alignment.CenterVertically,
+                                ) {
                                     AsyncImage(
                                         model = imageUri,
                                         contentDescription = "",
-                                        modifier = Modifier.fillMaxSize()
+                                        modifier = Modifier.size(20.dp)
                                     )
-                                } else {
+                                    Spacer(
+                                        modifier = Modifier.width(
+                                            dimensionResource(
+                                                DesignSystemResources.dimen.small_spacing
+                                            )
+                                        )
+                                    )
                                     Text(
-                                        text = leaderboardPlace.place.toString(),
+                                        text = stringResource(
+                                            RunResources.string.place,
+                                            toOrdinal(leaderboardPlace.place)
+                                        ),
                                         color = MaterialTheme.colorScheme.onBackground
                                     )
                                 }
+                            } else {
+                                Text(
+                                    text = stringResource(
+                                        RunResources.string.place,
+                                        toOrdinal(leaderboardPlace.place)
+                                    ),
+                                    color = MaterialTheme.colorScheme.onBackground
+                                )
                             }
-                            Spacer(modifier = Modifier.width(4.dp))
-                            Text(
-                                text = stringResource(
-                                    RunResources.string.place,
-                                    toOrdinal(leaderboardPlace.place)
-                                ),
-                                color = MaterialTheme.colorScheme.onBackground
-                            )
                         }
-                        Spacer(modifier = Modifier.height(4.dp))
-                        Text(
-                            text = stringResource(RunResources.string.run_by),
-                            color = MaterialTheme.colorScheme.onBackground
-                        )
-                        Spacer(modifier = Modifier.height(4.dp))
+                        Spacer(modifier = Modifier.height(dimensionResource(DesignSystemResources.dimen.medium_spacing)))
                         run?.players?.forEach { player ->
                             when (player) {
                                 is PlayerModel.UserModel -> {
@@ -167,23 +178,135 @@ internal fun RunScreen(
                                 }
                             }
                         }
-                        Spacer(modifier = Modifier.height(4.dp))
-                        Text(
-                            text = stringResource(RunResources.string.notes),
-                            color = MaterialTheme.colorScheme.onBackground
-                        )
-                        Text(
-                            text = run?.comment ?: "",
-                            color = MaterialTheme.colorScheme.onBackground
-                        )
-                        Text(
-                            text = stringResource(RunResources.string.played_on),
-                            color = MaterialTheme.colorScheme.onBackground
-                        )
-                        Text(
-                            text = run?.system?.platform?.name ?: "",
-                            color = MaterialTheme.colorScheme.onBackground
-                        )
+                        Spacer(modifier = Modifier.height(dimensionResource(DesignSystemResources.dimen.medium_spacing)))
+                        Divider()
+                        Spacer(modifier = Modifier.height(dimensionResource(DesignSystemResources.dimen.medium_spacing)))
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .wrapContentHeight(),
+                            horizontalArrangement = Arrangement.SpaceBetween
+                        ) {
+                            Column(
+                                modifier = Modifier.wrapContentSize()
+                            ) {
+                                Text(
+                                    text = stringResource(RunResources.string.played_on),
+                                    color = MaterialTheme.colorScheme.onBackground,
+                                    fontSize = MaterialTheme.typography.bodySmall.fontSize,
+                                )
+                                Spacer(
+                                    modifier = Modifier.width(
+                                        dimensionResource(
+                                            DesignSystemResources.dimen.small_spacing
+                                        )
+                                    )
+                                )
+                                Row(
+                                    modifier = Modifier
+                                        .wrapContentSize(),
+                                    verticalAlignment = Alignment.Bottom
+                                ) {
+                                    System(
+                                        system = run?.system,
+                                        color = MaterialTheme.colorScheme.onBackground,
+                                        fontSize = MaterialTheme.typography.bodySmall.fontSize,
+                                        textAlign = TextAlign.Center
+                                    )
+                                    Spacer(
+                                        modifier = Modifier.width(
+                                            dimensionResource(
+                                                DesignSystemResources.dimen.small_spacing
+                                            )
+                                        )
+                                    )
+                                    Text(
+                                        text = stringResource(
+                                            RunResources.string.on_date,
+                                            run?.date ?: ""
+                                        ),
+                                        color = MaterialTheme.colorScheme.onBackground,
+                                        fontSize = MaterialTheme.typography.bodySmall.fontSize,
+                                    )
+                                }
+                            }
+                            AnimatedVisibility(
+                                visible = viewState.examinerAsync is Success,
+                            ) {
+                                val examiner = viewState.examinerAsync()!!
+                                Column(
+                                    modifier = Modifier.wrapContentSize()
+                                ) {
+                                    Text(
+                                        text = stringResource(RunResources.string.verified_by),
+                                        color = MaterialTheme.colorScheme.onBackground,
+                                        fontSize = MaterialTheme.typography.bodySmall.fontSize,
+                                    )
+                                    Spacer(
+                                        modifier = Modifier.width(
+                                            dimensionResource(
+                                                DesignSystemResources.dimen.small_spacing
+                                            )
+                                        )
+                                    )
+                                    Row(
+                                        modifier = Modifier.wrapContentSize(),
+                                        verticalAlignment = Alignment.CenterVertically
+                                    ) {
+                                        PlayerImage(
+                                            modifier = Modifier.size(20.dp),
+                                            uri = examiner.image,
+                                        )
+                                        Spacer(
+                                            modifier = Modifier.width(
+                                                dimensionResource(
+                                                    DesignSystemResources.dimen.small_spacing
+                                                )
+                                            )
+                                        )
+                                        PlayerName(
+                                            player = examiner,
+                                            fontSize = MaterialTheme.typography.bodySmall.fontSize,
+                                        )
+                                        Spacer(
+                                            modifier = Modifier.width(
+                                                dimensionResource(
+                                                    DesignSystemResources.dimen.small_spacing
+                                                )
+                                            )
+                                        )
+                                        Text(
+                                            text = stringResource(
+                                                RunResources.string.on_date,
+                                                viewState.verifyDate ?: ""
+                                            ),
+                                            color = MaterialTheme.colorScheme.onBackground,
+                                            fontSize = MaterialTheme.typography.bodySmall.fontSize,
+                                        )
+                                    }
+                                }
+                            }
+                        }
+                        run?.comment?.let { comment ->
+                            Spacer(
+                                modifier = Modifier.height(
+                                    dimensionResource(
+                                        DesignSystemResources.dimen.medium_spacing
+                                    )
+                                )
+                            )
+                            Text(
+                                text = stringResource(RunResources.string.notes),
+                                color = MaterialTheme.colorScheme.onBackground,
+                                fontSize = MaterialTheme.typography.bodySmall.fontSize,
+                            )
+                            Spacer(modifier = Modifier.width(dimensionResource(DesignSystemResources.dimen.small_spacing)))
+                            Text(
+                                text = comment,
+                                color = MaterialTheme.colorScheme.onBackground,
+                                fontSize = MaterialTheme.typography.bodySmall.fontSize,
+                            )
+                        }
                     }
                 }
                 else -> {

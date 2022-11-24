@@ -10,7 +10,7 @@ import com.speedrun.domain.networking.api.players.PlayerType
 
 fun PlayerResult.toPlayerModel(): PlayerModel {
     return if (player.rel == PlayerType.user.name) {
-        userResult.user?.toUserModel(userResult.location)!!
+        userResult.userEntity?.toUserModel(userResult.locationEntity)!!
     } else {
         guest?.toGuestModel()!!
     }
@@ -31,18 +31,17 @@ private fun UserEntity.toUserModel(
     youtube = youtube,
     twitter = twitter,
     speedrunslive = speedrunslive,
-    links = emptyList(),
     icon = icon,
     supporterIcon = supporterIcon,
     image = image,
 )
 
-private fun UserEntity.Names.toModel() = NamesModel(
+fun UserEntity.Names.toModel() = NamesModel(
     international = international,
     japanese = japanese,
 )
 
-private fun UserEntity.NameStyle.toModel() =
+fun UserEntity.NameStyle.toModel() =
     PlayerModel.UserModel.NameStyle(
         style = style,
         color = color?.toModel(),

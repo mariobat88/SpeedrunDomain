@@ -4,4 +4,6 @@
     <string name="run_by">Run by:</string>
     <string name="notes">Notes:</string>
     <string name="played_on">Played on:</string>
+    <string name="verified_by">Verified by:</string>
+    <string name="on_date">on %1$s</string>
 </resources>

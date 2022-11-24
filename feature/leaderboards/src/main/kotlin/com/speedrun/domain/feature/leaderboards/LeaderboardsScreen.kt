@@ -11,13 +11,8 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.style.BaselineShift
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
@@ -26,11 +21,12 @@ import com.google.accompanist.pager.rememberPagerState
 import com.speedrun.domain.core.framework.Screen
 import com.speedrun.domain.core.framework.async.Loading
 import com.speedrun.domain.core.framework.async.Success
-import com.speedrun.domain.kit.player.ui.CountryFlag
 import com.speedrun.domain.core.ui.SpeedrunScreen
 import com.speedrun.domain.data.repo.players.model.PlayerModel
 import com.speedrun.domain.feature.leaderboards.navigation.LeaderboardNavigator
+import com.speedrun.domain.kit.player.ui.CountryFlag
 import com.speedrun.domain.kit.player.ui.PlayerName
+import com.speedrun.domain.kit.run.ui.System
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
 import kotlin.time.Duration
@@ -57,12 +53,6 @@ fun LeaderboardsScreen(
     viewState: ViewState,
     intentChannel: MutableSharedFlow<Intent>,
 ) {
-    val superscript = SpanStyle(
-        baselineShift = BaselineShift.Superscript,
-        fontSize = 10.sp,
-        color = MaterialTheme.colorScheme.onBackground
-    )
-
     SpeedrunScreen(
         modifier = Modifier.fillMaxSize()
     ) { screenPadding ->
@@ -225,18 +215,8 @@ fun LeaderboardsScreen(
                                                     .fillMaxHeight(),
                                                 contentAlignment = Alignment.Center
                                             ) {
-                                                Text(
-                                                    text = buildAnnotatedString {
-                                                        append(
-                                                            run.run?.system?.platform?.name ?: ""
-                                                        )
-                                                        if (run.run?.system?.emulated == true) {
-                                                            withStyle(superscript) {
-                                                                append(" EMU")
-                                                            }
-                                                        }
-
-                                                    },
+                                                System(
+                                                    system = run.run?.system,
                                                     color = textColor,
                                                     textAlign = TextAlign.Center
                                                 )

@@ -7,8 +7,11 @@ import androidx.lifecycle.*
 import androidx.lifecycle.viewmodel.CreationExtras
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.speedrun.domain.core.framework.SpeedrunViewModel
+import com.speedrun.domain.core.framework.async.Success
 import com.speedrun.domain.core.wrapper.dispatchers.DispatcherProvider
 import com.speedrun.domain.data.repo.leaderboards.LeaderboardsRepository
+import com.speedrun.domain.data.repo.leaderboards.model.LeaderboardPlaceModel
+import com.speedrun.domain.data.repo.players.PlayersRepository
 import com.speedrun.domain.feature.run.navigation.RunNavigation
 import com.speedrun.domain.feature.run.navigation.RunNavigator
 import dagger.assisted.Assisted
@@ -18,13 +21,16 @@ import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.android.EntryPointAccessors
 import dagger.hilt.android.components.ActivityComponent
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.*
 
 class RunViewModel @AssistedInject constructor(
     @Assisted("savedStateHandle") private val savedStateHandle: SavedStateHandle,
     @Assisted("runNavigator") private val runNavigator: RunNavigator,
     private val leaderboardsRepository: LeaderboardsRepository,
+    private val playersRepository: PlayersRepository,
     private val dispatcherProvider: DispatcherProvider,
 ) : SpeedrunViewModel<ViewState, Intent, Unit>(
     viewState = ViewState()
@@ -74,15 +80,47 @@ class RunViewModel @AssistedInject constructor(
     }
 
     private val runId = savedStateHandle.get<String>(RunNavigation.runIdArg)!!
+    private val simpleTimeFormatLong =
+        SimpleDateFormat("yyyy-MM-dd'T'ss:mm:HH'Z'", Locale.getDefault())
+    private val simpleTimeFormatShort = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
 
     init {
         viewModelScope.launch(dispatcherProvider.main()) {
-            launch {
-                leaderboardsRepository.observeLeaderboardPlace(runId)
+            val leaderboardPlace =
+                leaderboardsRepository.observeLeaderboardPlace(runId).stateIn(this)
                     .asAsync()
+
+            launch {
+                leaderboardPlace
                     .collect { leaderboardPlaceAsync ->
-                        _viewState.update { it.copy(leaderboardPlaceAsync = leaderboardPlaceAsync) }
+                        val verifyDate = runCatching {
+                            val longDate = simpleTimeFormatLong.parse(
+                                leaderboardPlaceAsync()?.run?.status?.verifyDate ?: ""
+                            )
+                            simpleTimeFormatShort.format(longDate!!)
+                        }.getOrNull()
+
+                        _viewState.update {
+                            it.copy(
+                                leaderboardPlaceAsync = leaderboardPlaceAsync,
+                                verifyDate = verifyDate
+                            )
+                        }
                     }
+            }
+
+            launch {
+                leaderboardPlace
+                    .filterIsInstance<Success<LeaderboardPlaceModel>>()
+                    .mapNotNull { it().run?.status?.examiner }
+                    .flatMapConcat { examiner ->
+                        playersRepository.refreshPlayer(examiner)
+                        playersRepository.observePlayer(examiner)
+                    }.asAsync()
+                    .collect { examinerAsync ->
+                        _viewState.update { it.copy(examinerAsync = examinerAsync) }
+                    }
+
             }
         }
     }

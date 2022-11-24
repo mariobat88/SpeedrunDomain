@@ -55,7 +55,6 @@ fun PolymorphicPlayerResponse.UserResponse.toUserModel() = PlayerModel.UserModel
     icon = assets.icon?.uri,
     supporterIcon = assets.supporterIcon?.uri,
     image = assets.image?.uri,
-    links = links.map { it.toModel() },
 )
 
 fun PolymorphicPlayerResponse.GuestResponse.toGuestModel() = PlayerModel.GuestModel(

@@ -9,4 +9,5 @@ dependencies{
     implementation(projects.data.repo.categories)
     implementation(projects.data.repo.leaderboards)
     implementation(projects.kit.player)
+    implementation(projects.kit.run)
 }
