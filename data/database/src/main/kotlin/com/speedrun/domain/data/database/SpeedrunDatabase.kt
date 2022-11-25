@@ -26,6 +26,7 @@ import com.speedrun.domain.data.database.entities.*
         UserEntity::class,
         UserLocationEntity::class,
         VariableEntity::class,
+        VariableValueEntity::class,
         VideoEntity::class,
     ],
     version = 1
@@ -49,5 +50,6 @@ abstract class SpeedrunDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao
     abstract fun userLocationDao(): UserLocationDao
     abstract fun variableDao(): VariableDao
+    abstract fun variableValueDao(): VariableValueDao
     abstract fun videoDao(): VideoDao
 }

@@ -9,4 +9,10 @@ data class VariableModel(
     val userDefined: Boolean,
     val obsoletes: Boolean,
     val isSubcategory: Boolean,
-)
+    val values: List<Value>
+) {
+    data class Value(
+        val id: String,
+        val label: String,
+    )
+}

@@ -10,8 +10,8 @@ data class CategoryResult(
     val categoryEntity: CategoryEntity?,
     @Relation(
         entity = VariableEntity::class,
-        entityColumn = VariableEntity.COLUMN_ID,
+        entityColumn = VariableEntity.COLUMN_CATEGORY,
         parentColumn = CategoryEntity.COLUMN_ID,
     )
-    val variableEntities: List<VariableEntity> = emptyList(),
+    val variableResults: List<VariableResult> = emptyList(),
 )

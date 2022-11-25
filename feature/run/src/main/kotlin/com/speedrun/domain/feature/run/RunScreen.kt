@@ -287,6 +287,26 @@ internal fun RunScreen(
                                 }
                             }
                         }
+                        Spacer(modifier = Modifier.height(dimensionResource(DesignSystemResources.dimen.medium_spacing)))
+                        run?.category?.variables?.forEach { variable ->
+                            val selectedValue = run.values?.get(variable.id)
+                            Row(
+                                modifier = Modifier.wrapContentSize()
+                            ) {
+                                Text(
+                                    text = variable.name,
+                                    color = MaterialTheme.colorScheme.onBackground,
+                                    fontSize = MaterialTheme.typography.bodySmall.fontSize,
+                                )
+                                Spacer(modifier = Modifier.height(dimensionResource(DesignSystemResources.dimen.small_spacing)))
+                                Text(
+                                    text = variable.values.find { it.id == selectedValue }?.label ?: "",
+                                    color = MaterialTheme.colorScheme.onBackground,
+                                    fontSize = MaterialTheme.typography.bodySmall.fontSize,
+                                )
+                            }
+                        }
+                        Spacer(modifier = Modifier.height(dimensionResource(DesignSystemResources.dimen.medium_spacing)))
                         run?.comment?.let { comment ->
                             Spacer(
                                 modifier = Modifier.height(

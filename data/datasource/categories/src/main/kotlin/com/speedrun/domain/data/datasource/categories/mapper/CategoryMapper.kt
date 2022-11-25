@@ -1,7 +1,7 @@
 package com.speedrun.domain.data.datasource.categories.mapper
 
 import com.speedrun.domain.data.database.entities.CategoryEntity
-import com.speedrun.domain.data.database.entities.VariableEntity
+import com.speedrun.domain.data.database.result.VariableResult
 import com.speedrun.domain.data.repo.categories.model.CategoryModel
 import com.speedrun.domain.networking.api.categories.CategoryResponse
 
@@ -22,7 +22,7 @@ private fun CategoryResponse.Players.toEntity() = CategoryEntity.Players(
 )
 
 fun CategoryEntity.toModel(
-    variableEntities: List<VariableEntity> = emptyList()
+    variableEntities: List<VariableResult> = emptyList()
 ) = CategoryModel(
     id = id,
     links = emptyList(),

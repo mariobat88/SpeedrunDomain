@@ -37,6 +37,7 @@ class LeaderboardsRepositoryImpl @Inject constructor(
     private val runPlayerDao = speedrunDatabase.runPlayerDao()
     private val userDao = speedrunDatabase.userDao()
     private val variableDao  = speedrunDatabase.variableDao()
+    private val variableValueDao = speedrunDatabase.variableValueDao()
     private val videoDao = speedrunDatabase.videoDao()
 
     override suspend fun refreshLeaderboards(gameId: String, categoryId: String) = withContext(dispatcherProvider.io()) {
@@ -55,6 +56,7 @@ class LeaderboardsRepositoryImpl @Inject constructor(
         val runCategoryEntity = response.data.category.data.toEntity(gameId)
         val runVideoEntities =  response.data.runs.mapNotNull { it.run.videos?.toEntity(it.run.id) }.flatten()
         val variableEntities = response.data.variables.data.map { it.toVariableEntity() }
+        val variableValueEntities = response.data.variables.data.map { it.toVariableValueEntity() }.flatten()
 
         leaderboardDao.upsert(leaderboardEntities)
         leaderboardPlaceDao.upsert(leaderboardPlaceEntities)
@@ -63,6 +65,7 @@ class LeaderboardsRepositoryImpl @Inject constructor(
         videoDao.upsert(runVideoEntities)
         categoryDao.upsert(runCategoryEntity)
         variableDao.upsert(variableEntities)
+        variableValueDao.upsert(variableValueEntities)
 
         userDao.upsert(userEntities)
         guestDao.upsert(guestEntities)
