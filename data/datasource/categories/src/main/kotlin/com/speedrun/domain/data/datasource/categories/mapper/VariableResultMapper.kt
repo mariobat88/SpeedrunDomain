@@ -14,7 +14,7 @@ fun VariableResult.toVariableModel(): VariableModel{
             userDefined = userDefined,
             obsoletes = obsoletes,
             isSubcategory = isSubcategory,
-            values = valueEntities.map { it.toVariableValueModel() }
+            values = valueEntities.map { it.toValueModel() }
         )
     }
 }

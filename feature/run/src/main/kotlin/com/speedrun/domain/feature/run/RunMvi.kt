@@ -11,6 +11,6 @@ sealed class Intent {
 
 data class ViewState(
     val leaderboardPlaceAsync: Async<LeaderboardPlaceModel> = Loading(),
-    val examinerAsync: Async<PlayerModel.UserModel> = Loading(),
+    val examinerAsync: Async<PlayerModel.UserModel?> = Loading(),
     val verifyDate: String? = null
 )

@@ -31,7 +31,6 @@ data class RunEntity(
     @Embedded
     val system: System,
     //val splits: Any?,
-    //val values: Map<String, String>?,
     //val links: List<LinkResponse>
 ) {
     companion object {

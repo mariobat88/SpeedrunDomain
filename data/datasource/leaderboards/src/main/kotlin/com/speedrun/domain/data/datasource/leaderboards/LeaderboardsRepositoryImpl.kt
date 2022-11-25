@@ -35,7 +35,9 @@ class LeaderboardsRepositoryImpl @Inject constructor(
     private val playerDao = speedrunDatabase.playerDao()
     private val runDao = speedrunDatabase.runDao()
     private val runPlayerDao = speedrunDatabase.runPlayerDao()
+    private val runValueDao = speedrunDatabase.runValueDao()
     private val userDao = speedrunDatabase.userDao()
+    private val valueDao  = speedrunDatabase.valueDao()
     private val variableDao  = speedrunDatabase.variableDao()
     private val variableValueDao = speedrunDatabase.variableValueDao()
     private val videoDao = speedrunDatabase.videoDao()
@@ -53,18 +55,22 @@ class LeaderboardsRepositoryImpl @Inject constructor(
 
         val runEntities = response.data.runs.map { it.run.toRunEntity() }
         val runPlayerEntities = response.data.runs.map { leaderboardRun -> leaderboardRun.run.players.map { it.toRunPlayerEntity(leaderboardRun.run.id) } }.flatten()
+        val runValueEntities = response.data.runs.mapNotNull { it.run.toRunValueEntities() }.flatten()
         val runCategoryEntity = response.data.category.data.toEntity(gameId)
         val runVideoEntities =  response.data.runs.mapNotNull { it.run.videos?.toEntity(it.run.id) }.flatten()
         val variableEntities = response.data.variables.data.map { it.toVariableEntity() }
+        val valueEntities = response.data.variables.data.map { it.toValueEntities() }.flatten()
         val variableValueEntities = response.data.variables.data.map { it.toVariableValueEntity() }.flatten()
 
         leaderboardDao.upsert(leaderboardEntities)
         leaderboardPlaceDao.upsert(leaderboardPlaceEntities)
         playerDao.upsert(playerEntities)
         runPlayerDao.upsert(runPlayerEntities)
+        runValueDao.upsert(runValueEntities)
         videoDao.upsert(runVideoEntities)
         categoryDao.upsert(runCategoryEntity)
         variableDao.upsert(variableEntities)
+        valueDao.upsert(valueEntities)
         variableValueDao.upsert(variableValueEntities)
 
         userDao.upsert(userEntities)

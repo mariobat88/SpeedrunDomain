@@ -8,9 +8,9 @@ import com.speedrun.domain.data.repo.players.model.NamesModel
 import com.speedrun.domain.data.repo.players.model.PlayerModel
 import com.speedrun.domain.networking.api.players.PlayerType
 
-fun PlayerResult.toPlayerModel(): PlayerModel {
+fun PlayerResult.toPlayerModel(): PlayerModel? {
     return if (player.rel == PlayerType.user.name) {
-        userResult.userEntity?.toUserModel(userResult.locationEntity)!!
+        userResult?.userEntity?.toUserModel(userResult?.locationEntity)
     } else {
         guest?.toGuestModel()!!
     }

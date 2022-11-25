@@ -4,17 +4,20 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 
 @Entity(
-    tableName = VariableValueEntity.TABLE_NAME,
-    primaryKeys = [VariableValueEntity.COLUMN_VARIABLE_ID, VariableValueEntity.COLUMN_VALUE_ID]
+    tableName = RunValueEntity.TABLE_NAME,
+    primaryKeys = [RunValueEntity.COLUMN_RUN_ID, RunValueEntity.COLUMN_VARIABLE_ID, RunValueEntity.COLUMN_VALUE_ID]
 )
-data class VariableValueEntity(
+data class RunValueEntity(
+    @ColumnInfo(name = COLUMN_RUN_ID)
+    val runId: String,
     @ColumnInfo(name = COLUMN_VARIABLE_ID)
     val variableId: String,
     @ColumnInfo(name = COLUMN_VALUE_ID)
     val valueId: String,
 ) {
-    companion object{
-        const val TABLE_NAME = "variableValue"
+    companion object {
+        const val TABLE_NAME = "runValue"
+        const val COLUMN_RUN_ID = RunEntity.COLUMN_ID
         const val COLUMN_VARIABLE_ID = VariableEntity.COLUMN_ID
         const val COLUMN_VALUE_ID = ValueEntity.COLUMN_ID
     }

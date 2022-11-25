@@ -37,4 +37,10 @@ data class RunResult(
         parentColumn = RunEntity.COLUMN_ID,
     )
     val videos: List<VideoEntity> = emptyList(),
+    @Relation(
+        entity = RunValueEntity::class,
+        entityColumn = RunValueEntity.COLUMN_RUN_ID,
+        parentColumn = RunEntity.COLUMN_ID,
+    )
+    val runValueEntities: List<RunValueEntity> = emptyList()
 )

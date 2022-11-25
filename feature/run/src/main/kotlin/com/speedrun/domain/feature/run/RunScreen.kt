@@ -294,13 +294,7 @@ internal fun RunScreen(
                                 modifier = Modifier.wrapContentSize()
                             ) {
                                 Text(
-                                    text = variable.name,
-                                    color = MaterialTheme.colorScheme.onBackground,
-                                    fontSize = MaterialTheme.typography.bodySmall.fontSize,
-                                )
-                                Spacer(modifier = Modifier.height(dimensionResource(DesignSystemResources.dimen.small_spacing)))
-                                Text(
-                                    text = variable.values.find { it.id == selectedValue }?.label ?: "",
+                                    text = "${variable.name} : ${variable.values.find { it.id == selectedValue }?.label}",
                                     color = MaterialTheme.colorScheme.onBackground,
                                     fontSize = MaterialTheme.typography.bodySmall.fontSize,
                                 )

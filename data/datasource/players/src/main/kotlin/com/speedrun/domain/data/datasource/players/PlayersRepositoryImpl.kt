@@ -56,7 +56,7 @@ class PlayersRepositoryImpl @Inject constructor(
         searchedPlayers.toPaginationModel()
     }
 
-    override suspend fun observePlayer(playerId: String): Flow<PlayerModel.UserModel> = withContext(dispatcherProvider.io()) {
-        playerDao.observePlayer(playerId).map { it.userResult.toUserModel()}
+    override suspend fun observePlayer(playerId: String): Flow<PlayerModel.UserModel?> = withContext(dispatcherProvider.io()) {
+        playerDao.observePlayer(playerId).map { it.userResult?.toUserModel()}
     }
 }
