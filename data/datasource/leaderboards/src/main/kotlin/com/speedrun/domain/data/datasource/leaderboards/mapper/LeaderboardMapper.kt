@@ -2,8 +2,10 @@ package com.speedrun.domain.data.datasource.leaderboards.mapper
 
 import com.speedrun.domain.data.database.entities.LeaderboardEntity
 import com.speedrun.domain.data.database.entities.LeaderboardPlaceEntity
+import com.speedrun.domain.data.database.result.CategoryResult
 import com.speedrun.domain.data.database.result.LeaderboardPlaceResult
 import com.speedrun.domain.data.database.result.LeaderboardResult
+import com.speedrun.domain.data.datasource.categories.mapper.toCategoryModel
 import com.speedrun.domain.data.repo.leaderboards.model.LeaderboardModel
 import com.speedrun.domain.networking.api.leaderboards.LeaderboardResponse
 
@@ -31,16 +33,17 @@ fun LeaderboardResponse.Data.LeaderboardRun.toLeaderboardPlaceEntity(
 )
 
 fun LeaderboardResult.toLeaderboardModel(): LeaderboardModel {
-    return leaderboardEntity.toLeaderboardModel(leaderboardPlaces)
+    return leaderboardEntity.toLeaderboardModel(leaderboardPlaces, categoryResult)
 }
 
 fun LeaderboardEntity.toLeaderboardModel(
-    leaderboardPlacesResult: List<LeaderboardPlaceResult>
+    leaderboardPlacesResult: List<LeaderboardPlaceResult>,
+    categoryResult: CategoryResult?,
 ) = LeaderboardModel(
     id = id,
     weblink = weblink,
     game = null,
-    category = categoryId,
+    category = categoryResult?.toCategoryModel(),
     level = level,
     platform = platform,
     region = region,

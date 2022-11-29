@@ -11,6 +11,8 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
@@ -31,6 +33,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
 import kotlin.time.Duration
 import com.speedrun.domain.core.designsystem.R as DesignSystemResources
+import com.speedrun.domain.feature.leaderboards.R as LeaderboardsResources
 
 @Composable
 internal fun LeaderboardsScreen(
@@ -105,123 +108,149 @@ fun LeaderboardsScreen(
                         is Loading -> {
                         }
                         is Success -> {
-                            LazyColumn(
-                                modifier = Modifier.fillMaxSize(),
-                                contentPadding = PaddingValues(bottom = screenPadding.calculateBottomPadding())
-                            ) {
-                                leaderboardAsync().runs.forEachIndexed { index, run ->
-                                    item(run.run?.id) {
-                                        val background = if (index % 2 == 0) {
-                                            MaterialTheme.colorScheme.secondary
-                                        } else {
-                                            MaterialTheme.colorScheme.tertiary
-                                        }
-                                        val textColor = if (index % 2 == 0) {
-                                            MaterialTheme.colorScheme.onSecondary
-                                        } else {
-                                            MaterialTheme.colorScheme.onTertiary
-                                        }
+                            Column {
+                                Row(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .height(60.dp),
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Button(
+                                        onClick = { /*TODO*/ }
+                                    ) {
+                                        Icon(
+                                            painter = painterResource(LeaderboardsResources.drawable.ic_baseline_filter_list_24),
+                                            contentDescription = "",
+                                            tint = MaterialTheme.colorScheme.onBackground
+                                        )
+                                        Spacer(
+                                            modifier = Modifier.width(dimensionResource(DesignSystemResources.dimen.small_spacing)))
+                                                    Text (
+                                                    text =
+                                                        stringResource(LeaderboardsResources.string.filters),
+                                            color = MaterialTheme.colorScheme.onBackground,
+                                        )
+                                    }
+                                }
 
-                                        Row(
-                                            modifier = Modifier
-                                                .fillMaxWidth()
-                                                .height(40.dp)
-                                                .background(background)
-                                                .padding(
-                                                    horizontal = dimensionResource(
-                                                        DesignSystemResources.dimen.side_padding
-                                                    )
-                                                )
-                                                .clickable {
-                                                    intentChannel.tryEmit(
-                                                        Intent.RunClicked(
-                                                            run.run?.id
-                                                        )
-                                                    )
-                                                },
-                                            verticalAlignment = Alignment.CenterVertically,
-                                        ) {
+                                LazyColumn(
+                                    modifier = Modifier.fillMaxSize(),
+                                    contentPadding = PaddingValues(bottom = screenPadding.calculateBottomPadding())
+                                ) {
+                                    leaderboardAsync().runs.forEachIndexed { index, run ->
+                                        item(run.run?.id) {
+                                            val background = if (index % 2 == 0) {
+                                                MaterialTheme.colorScheme.secondary
+                                            } else {
+                                                MaterialTheme.colorScheme.tertiary
+                                            }
+                                            val textColor = if (index % 2 == 0) {
+                                                MaterialTheme.colorScheme.onSecondary
+                                            } else {
+                                                MaterialTheme.colorScheme.onTertiary
+                                            }
+
                                             Row(
                                                 modifier = Modifier
-                                                    .weight(1f)
-                                                    .fillMaxHeight(),
-                                                horizontalArrangement = Arrangement.Start,
-                                                verticalAlignment = Alignment.CenterVertically
+                                                    .fillMaxWidth()
+                                                    .height(40.dp)
+                                                    .background(background)
+                                                    .padding(
+                                                        horizontal = dimensionResource(
+                                                            DesignSystemResources.dimen.side_padding
+                                                        )
+                                                    )
+                                                    .clickable {
+                                                        intentChannel.tryEmit(
+                                                            Intent.RunClicked(
+                                                                run.run?.id
+                                                            )
+                                                        )
+                                                    },
+                                                verticalAlignment = Alignment.CenterVertically,
                                             ) {
-                                                Box(
-                                                    modifier = Modifier.size(20.dp),
-                                                    contentAlignment = Alignment.Center
+                                                Row(
+                                                    modifier = Modifier
+                                                        .weight(1f)
+                                                        .fillMaxHeight(),
+                                                    horizontalArrangement = Arrangement.Start,
+                                                    verticalAlignment = Alignment.CenterVertically
                                                 ) {
-                                                    val imageUri = when (run.place) {
-                                                        1 -> run.run?.game?.assets?.trophy1st
-                                                        2 -> run.run?.game?.assets?.trophy2nd
-                                                        3 -> run.run?.game?.assets?.trophy3rd
-                                                        4 -> run.run?.game?.assets?.trophy4th
-                                                        else -> null
-                                                    }
-                                                    if (imageUri != null) {
-                                                        AsyncImage(
-                                                            model = imageUri,
-                                                            contentDescription = "",
-                                                            modifier = Modifier.fillMaxSize()
-                                                        )
-                                                    } else {
-                                                        Text(
-                                                            text = run.place.toString(),
-                                                            color = textColor
-                                                        )
-                                                    }
-                                                }
-                                                Spacer(modifier = Modifier.width(4.dp))
-                                                Column(
-                                                    modifier = Modifier.wrapContentSize(),
-                                                ) {
-                                                    run.run?.players?.forEach { player ->
-                                                        Row(
-                                                            modifier = Modifier.wrapContentSize(),
-                                                            verticalAlignment = Alignment.CenterVertically
-                                                        ) {
-                                                            if (player is PlayerModel.UserModel) {
-                                                                CountryFlag(
-                                                                    modifier = Modifier.wrapContentSize(),
-                                                                    countryCode = player.location?.country?.code
-                                                                )
-                                                            }
-                                                            Spacer(modifier = Modifier.width(2.dp))
-                                                            PlayerName(
-                                                                modifier = Modifier.wrapContentSize(),
-                                                                player = player,
+                                                    Box(
+                                                        modifier = Modifier.size(20.dp),
+                                                        contentAlignment = Alignment.Center
+                                                    ) {
+                                                        val imageUri = when (run.place) {
+                                                            1 -> run.run?.game?.assets?.trophy1st
+                                                            2 -> run.run?.game?.assets?.trophy2nd
+                                                            3 -> run.run?.game?.assets?.trophy3rd
+                                                            4 -> run.run?.game?.assets?.trophy4th
+                                                            else -> null
+                                                        }
+                                                        if (imageUri != null) {
+                                                            AsyncImage(
+                                                                model = imageUri,
+                                                                contentDescription = "",
+                                                                modifier = Modifier.fillMaxSize()
+                                                            )
+                                                        } else {
+                                                            Text(
+                                                                text = run.place.toString(),
+                                                                color = textColor
                                                             )
                                                         }
                                                     }
+                                                    Spacer(modifier = Modifier.width(4.dp))
+                                                    Column(
+                                                        modifier = Modifier.wrapContentSize(),
+                                                    ) {
+                                                        run.run?.players?.forEach { player ->
+                                                            Row(
+                                                                modifier = Modifier.wrapContentSize(),
+                                                                verticalAlignment = Alignment.CenterVertically
+                                                            ) {
+                                                                if (player is PlayerModel.UserModel) {
+                                                                    CountryFlag(
+                                                                        modifier = Modifier.wrapContentSize(),
+                                                                        countryCode = player.location?.country?.code
+                                                                    )
+                                                                }
+                                                                Spacer(modifier = Modifier.width(2.dp))
+                                                                PlayerName(
+                                                                    modifier = Modifier.wrapContentSize(),
+                                                                    player = player,
+                                                                )
+                                                            }
+                                                        }
+                                                    }
                                                 }
-                                            }
-                                            Box(
-                                                modifier = Modifier
-                                                    .weight(1f)
-                                                    .fillMaxHeight(),
-                                                contentAlignment = Alignment.Center
-                                            ) {
-                                                Text(
-                                                    text = Duration.parseIsoString(
-                                                        run.run?.times?.primary ?: ""
-                                                    ).toString(),
+                                                Box(
+                                                    modifier = Modifier
+                                                        .weight(1f)
+                                                        .fillMaxHeight(),
+                                                    contentAlignment = Alignment.Center
+                                                ) {
+                                                    Text(
+                                                        text = Duration.parseIsoString(
+                                                            run.run?.times?.primary ?: ""
+                                                        ).toString(),
 
-                                                    color = textColor,
-                                                    textAlign = TextAlign.Center
-                                                )
-                                            }
-                                            Box(
-                                                modifier = Modifier
-                                                    .weight(1f)
-                                                    .fillMaxHeight(),
-                                                contentAlignment = Alignment.Center
-                                            ) {
-                                                System(
-                                                    system = run.run?.system,
-                                                    color = textColor,
-                                                    textAlign = TextAlign.Center
-                                                )
+                                                        color = textColor,
+                                                        textAlign = TextAlign.Center
+                                                    )
+                                                }
+                                                Box(
+                                                    modifier = Modifier
+                                                        .weight(1f)
+                                                        .fillMaxHeight(),
+                                                    contentAlignment = Alignment.Center
+                                                ) {
+                                                    System(
+                                                        system = run.run?.system,
+                                                        color = textColor,
+                                                        textAlign = TextAlign.Center
+                                                    )
+                                                }
                                             }
                                         }
                                     }
