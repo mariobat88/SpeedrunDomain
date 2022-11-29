@@ -11,8 +11,8 @@ data class VariableEntity(
     val id: String,
     @ColumnInfo(name = COLUMN_NAME)
     val name: String,
-    @ColumnInfo(name = COLUMN_CATEGORY)
-    val category: String,
+    @ColumnInfo(name = COLUMN_CATEGORY_ID)
+    val categoryId: String,
     @ColumnInfo(name = COLUMN_SCOPE)
     val scope: String,
     @ColumnInfo(name = COLUMN_MANDATORY)
@@ -28,7 +28,7 @@ data class VariableEntity(
         const val TABLE_NAME = "variable"
         const val COLUMN_ID = "${TABLE_NAME}_id"
         const val COLUMN_NAME = "${TABLE_NAME}_name"
-        const val COLUMN_CATEGORY = "${TABLE_NAME}_category"
+        const val COLUMN_CATEGORY_ID = "${TABLE_NAME}_categoryId"
         const val COLUMN_SCOPE = "${TABLE_NAME}_scope"
         const val COLUMN_MANDATORY = "${TABLE_NAME}_mandatory"
         const val COLUMN_USER_DEFINED = "${TABLE_NAME}_userDefined"

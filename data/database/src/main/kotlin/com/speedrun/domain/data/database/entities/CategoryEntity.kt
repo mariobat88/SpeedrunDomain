@@ -19,7 +19,7 @@ data class CategoryEntity(
     val type: RunTypeEnum,
     @ColumnInfo(name = COLUMN_RULES)
     val rules: String?,
-    @Embedded(prefix = PREFIX_PLAYERS)
+    @Embedded
     val players: Players,
     @ColumnInfo(name = COLUMN_MISCELLANEOUS)
     val miscellaneous: Boolean,
@@ -35,7 +35,6 @@ data class CategoryEntity(
         const val COLUMN_RULES = "${TABLE_NAME}_rules"
         const val COLUMN_MISCELLANEOUS = "${TABLE_NAME}_miscellaneous"
         const val COLUMN_GAME_ID = "${TABLE_NAME}_gameId"
-        const val PREFIX_PLAYERS = "${TABLE_NAME}_players"
     }
 
     data class Players(
@@ -45,8 +44,8 @@ data class CategoryEntity(
         val value: Int
     ) {
         companion object {
-            const val COLUMN_TYPE = "Type"
-            const val COLUMN_VALUE = "Value"
+            const val COLUMN_TYPE = "${TABLE_NAME}_player_type"
+            const val COLUMN_VALUE = "${TABLE_NAME}_player_value"
         }
     }
 }

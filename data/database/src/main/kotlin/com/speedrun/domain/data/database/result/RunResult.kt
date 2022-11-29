@@ -10,13 +10,13 @@ data class RunResult(
     @Relation(
         entity = GameEntity::class,
         entityColumn = GameEntity.COLUMN_ID,
-        parentColumn = RunEntity.COLUMN_GAME,
+        parentColumn = RunEntity.COLUMN_GAME_ID,
     )
     val game: GameEntity?,
     @Relation(
         entity = CategoryEntity::class,
         entityColumn = CategoryEntity.COLUMN_ID,
-        parentColumn = RunEntity.COLUMN_CATEGORY,
+        parentColumn = RunEntity.COLUMN_CATEGORY_ID,
     )
     val categoryResult: CategoryResult?,
     @Relation(

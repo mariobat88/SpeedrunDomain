@@ -8,7 +8,7 @@ fun VariableResult.toVariableModel(): VariableModel{
         VariableModel(
             id = id,
             name = name,
-            category = category,
+            category = categoryId,
             scope = scope,
             mandatory = mandatory,
             userDefined = userDefined,

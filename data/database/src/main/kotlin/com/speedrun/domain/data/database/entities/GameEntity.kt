@@ -32,18 +32,9 @@ data class GameEntity(
     @Embedded
     val ruleset: Ruleset,
     val romhack: Boolean,
-    //val gametypes: List<String>,
-    //val platforms: List<String>,
-    //val regions: List<String>,
-    //val genres: List<String>,
-    //val engines: List<String>,
-    //val developers: List<String>,
-    //val publishers: List<String>,
-    //val moderators: Map<String, String>,
     val created: String?,
     @Embedded
     val assets: Assets?,
-    //val links: List<LinkModel>
 ) {
     companion object {
         const val TABLE_NAME = "game"
@@ -69,38 +60,53 @@ data class GameEntity(
         val emulatorsAllowed: Boolean
     ) {
         companion object {
-            const val COLUMN_SHOW_MILLISECONDS = "showMilliseconds"
-            const val COLUMN_REQUIRE_VERIFICATION = "requireVerification"
-            const val COLUMN_REQUIRE_VIDEO = "requireVideo"
-            const val COLUMN_DEFAULT_TIME = "defaultTime"
-            const val COLUMN_EMULATORS_ALLOWED = "emulatorsAllowed"
+            const val COLUMN_SHOW_MILLISECONDS = "${TABLE_NAME}_ruleset_showMilliseconds"
+            const val COLUMN_REQUIRE_VERIFICATION = "${TABLE_NAME}_ruleset_requireVerification"
+            const val COLUMN_REQUIRE_VIDEO = "${TABLE_NAME}_ruleset_requireVideo"
+            const val COLUMN_DEFAULT_TIME = "${TABLE_NAME}_ruleset_defaultTime"
+            const val COLUMN_EMULATORS_ALLOWED = "${TABLE_NAME}_ruleset_emulatorsAllowed"
         }
     }
 
     data class Assets(
-        @ColumnInfo(name = "logo")
+        @ColumnInfo(name = COLUMN_LOGO)
         val logo: String?,
-        @ColumnInfo(name = "coverTiny")
+        @ColumnInfo(name = COLUMN_COVER_TINY)
         val coverTiny: String?,
-        @ColumnInfo(name = "coverSmall")
+        @ColumnInfo(name = COLUMN_COVER_SMALL)
         val coverSmall: String?,
-        @ColumnInfo(name = "coverMedium")
+        @ColumnInfo(name = COLUMN_COVER_MEDIUM)
         val coverMedium: String?,
-        @ColumnInfo(name = "coverLarge")
+        @ColumnInfo(name = COLUMN_COVER_LARGE)
         val coverLarge: String?,
-        @ColumnInfo(name = "icon")
+        @ColumnInfo(name = COLUMN_ICON)
         val icon: String?,
-        @ColumnInfo(name = "trophy1st")
+        @ColumnInfo(name = COLUMN_TROPHY_1ST)
         val trophy1st: String?,
-        @ColumnInfo(name = "trophy2nd")
+        @ColumnInfo(name = COLUMN_TROPHY_2ND)
         val trophy2nd: String?,
-        @ColumnInfo(name = "trophy3rd")
+        @ColumnInfo(name = COLUMN_TROPHY_3RD)
         val trophy3rd: String?,
-        @ColumnInfo(name = "trophy4th")
+        @ColumnInfo(name = COLUMN_TROPHY_4TH)
         val trophy4th: String?,
-        @ColumnInfo(name = "background")
+        @ColumnInfo(name = COLUMN_BACKGROUND)
         val background: String?,
-        @ColumnInfo(name = "foreground")
+        @ColumnInfo(name = COLUMN_FOREGROUND)
         val foreground: String?
-    )
+    ) {
+        companion object {
+            const val COLUMN_LOGO = "${TABLE_NAME}_asset_logo"
+            const val COLUMN_COVER_TINY = "${TABLE_NAME}_asset_coverTiny"
+            const val COLUMN_COVER_SMALL = "${TABLE_NAME}_asset_coverSmall"
+            const val COLUMN_COVER_MEDIUM = "${TABLE_NAME}_asset_coverMedium"
+            const val COLUMN_COVER_LARGE = "${TABLE_NAME}_asset_coverLarge"
+            const val COLUMN_ICON = "${TABLE_NAME}_asset_icon"
+            const val COLUMN_TROPHY_1ST = "${TABLE_NAME}_asset_trophy1st"
+            const val COLUMN_TROPHY_2ND = "${TABLE_NAME}_asset_trophy2nd"
+            const val COLUMN_TROPHY_3RD = "${TABLE_NAME}_asset_trophy3rd"
+            const val COLUMN_TROPHY_4TH = "${TABLE_NAME}_asset_trophy4th"
+            const val COLUMN_BACKGROUND = "${TABLE_NAME}_asset_background"
+            const val COLUMN_FOREGROUND = "${TABLE_NAME}_asset_foreground"
+        }
+    }
 }

@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.Flow
 abstract class LeaderboardDao : BaseDao<LeaderboardEntity>() {
 
     @Transaction
-    @Query("SELECT * FROM ${LeaderboardEntity.TABLE_NAME} WHERE ${LeaderboardEntity.COLUMN_GAME} = :gameId AND ${LeaderboardEntity.COLUMN_CATEGORY} = :categoryId")
+    @Query("SELECT * FROM ${LeaderboardEntity.TABLE_NAME} WHERE ${LeaderboardEntity.COLUMN_GAME_ID} = :gameId AND ${LeaderboardEntity.COLUMN_CATEGORY_ID} = :categoryId")
     abstract fun getLeaderboard(
         gameId: String,
         categoryId: String

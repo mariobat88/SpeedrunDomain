@@ -65,9 +65,9 @@ private fun RunEntity.System.toModel(
 fun FlatRunResponse.toRunEntity() = RunEntity(
     id = id,
     weblink = weblink,
-    game = game,
+    gameId = game,
     level = level,
-    category = category,
+    categoryId = category,
     //videos = videos?.toModel(),
     comment = comment,
     status = status.toEntity(),

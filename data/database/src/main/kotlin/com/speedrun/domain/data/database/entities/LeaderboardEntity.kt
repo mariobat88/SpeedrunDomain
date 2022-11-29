@@ -12,10 +12,10 @@ data class LeaderboardEntity(
     val id: String,
     @ColumnInfo(name = COLUMN_WEBLINK)
     val weblink: String,
-    @ColumnInfo(name = COLUMN_GAME)
-    val game: String,
-    @ColumnInfo(name = COLUMN_CATEGORY)
-    val category: String,
+    @ColumnInfo(name = COLUMN_GAME_ID)
+    val gameId: String,
+    @ColumnInfo(name = COLUMN_CATEGORY_ID)
+    val categoryId: String,
     @ColumnInfo(name = COLUMN_LEVEL)
     val level: String?,
     @ColumnInfo(name = COLUMN_PLATFORM)
@@ -33,8 +33,8 @@ data class LeaderboardEntity(
         const val TABLE_NAME = "leaderboard"
         const val COLUMN_ID = "${TABLE_NAME}_id"
         const val COLUMN_WEBLINK = "${TABLE_NAME}_weblink"
-        const val COLUMN_GAME = "${TABLE_NAME}_game"
-        const val COLUMN_CATEGORY = "${TABLE_NAME}_category"
+        const val COLUMN_GAME_ID = "${TABLE_NAME}_gameId"
+        const val COLUMN_CATEGORY_ID = "${TABLE_NAME}_categoryId"
         const val COLUMN_LEVEL = "${TABLE_NAME}_level"
         const val COLUMN_PLATFORM = "${TABLE_NAME}_platform"
         const val COLUMN_REGION = "${TABLE_NAME}_region"

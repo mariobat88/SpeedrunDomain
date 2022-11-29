@@ -12,12 +12,12 @@ data class RunEntity(
     val id: String,
     @ColumnInfo(name = COLUMN_WEBLINK)
     val weblink: String,
-    @ColumnInfo(name = COLUMN_GAME)
-    val game: String,
+    @ColumnInfo(name = COLUMN_GAME_ID)
+    val gameId: String,
     @ColumnInfo(name = COLUMN_LEVEL)
     val level: String?,
-    @ColumnInfo(name = COLUMN_CATEGORY)
-    val category: String,
+    @ColumnInfo(name = COLUMN_CATEGORY_ID)
+    val categoryId: String,
     @ColumnInfo(name = COLUMN_COMMENT)
     val comment: String?,
     @Embedded
@@ -30,16 +30,14 @@ data class RunEntity(
     val times: Times,
     @Embedded
     val system: System,
-    //val splits: Any?,
-    //val links: List<LinkResponse>
 ) {
     companion object {
         const val TABLE_NAME = "run"
         const val COLUMN_ID = "${TABLE_NAME}_id"
         const val COLUMN_WEBLINK = "${TABLE_NAME}_weblink"
-        const val COLUMN_GAME = "${TABLE_NAME}_game"
+        const val COLUMN_GAME_ID = "${TABLE_NAME}_gameId"
         const val COLUMN_LEVEL = "${TABLE_NAME}_level"
-        const val COLUMN_CATEGORY = "${TABLE_NAME}_category"
+        const val COLUMN_CATEGORY_ID = "${TABLE_NAME}_categoryId"
         const val COLUMN_COMMENT = "${TABLE_NAME}_comment"
         const val COLUMN_DATE = "${TABLE_NAME}_date"
         const val COLUMN_SUBMITTED = "${TABLE_NAME}_submitted"

@@ -6,7 +6,7 @@ import com.speedrun.domain.networking.api.leaderboards.VariablesResponse
 fun VariablesResponse.toVariableEntity() = VariableEntity(
     id = id,
     name = name,
-    category = category,
+    categoryId = category,
     scope = scope.type,
     mandatory = mandatory,
     userDefined = userDefined,

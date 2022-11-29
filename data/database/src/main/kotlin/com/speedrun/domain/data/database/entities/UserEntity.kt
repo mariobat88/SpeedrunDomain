@@ -20,11 +20,11 @@ data class UserEntity(
     @PrimaryKey
     @ColumnInfo(name = COLUMN_ID)
     val id: String,
-    @Embedded(prefix = PREFIX_NAMES)
+    @Embedded
     val names: Names,
     @ColumnInfo(name = COLUMN_WEBLINK)
     val weblink: String,
-    @Embedded(prefix = PREFIX_NAME_STYLE)
+    @Embedded
     val nameStyle: NameStyle,
     @ColumnInfo(name = COLUMN_ROLE)
     val role: String,
@@ -64,8 +64,6 @@ data class UserEntity(
         const val COLUMN_ICON = "${TABLE_NAME}_icon"
         const val COLUMN_SUPPORTER_ICON = "${TABLE_NAME}_supporterIcon"
         const val COLUMN_IMAGE = "${TABLE_NAME}_image"
-        const val PREFIX_NAMES = "${TABLE_NAME}_name"
-        const val PREFIX_NAME_STYLE = "${TABLE_NAME}_nameStyle"
     }
 
     data class Names(
@@ -75,8 +73,8 @@ data class UserEntity(
         val japanese: String?
     ) {
         companion object {
-            const val COLUMN_INTERNATION = "International"
-            const val COLUMN_JAPANESE = "Japanese"
+            const val COLUMN_INTERNATION = "${TABLE_NAME}_name_international"
+            const val COLUMN_JAPANESE = "${TABLE_NAME}_name_japanese"
         }
     }
 
@@ -91,10 +89,10 @@ data class UserEntity(
         val colorTo: Color?
     ) {
         companion object {
-            const val COLUMN_STYLE = "Style"
-            const val PREFIX_COLOR = "Color"
-            const val PREFIX_COLOR_FROM = "ColorFrom"
-            const val PREFIX_COLOR_TO = "ColorTo"
+            const val COLUMN_STYLE = "${TABLE_NAME}_nameStyle_style"
+            const val PREFIX_COLOR = "${TABLE_NAME}_nameStyle_color"
+            const val PREFIX_COLOR_FROM = "${TABLE_NAME}_nameStyle_colorFrom"
+            const val PREFIX_COLOR_TO = "${TABLE_NAME}_nameStyle_colorTo"
         }
 
         data class Color(
