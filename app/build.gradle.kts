@@ -69,6 +69,7 @@ dependencies {
     implementation(projects.feature.dashboard)
     implementation(projects.feature.game)
     implementation(projects.feature.leaderboards)
+    implementation(projects.feature.player)
     implementation(projects.feature.run)
     implementation(projects.networking.core)
 

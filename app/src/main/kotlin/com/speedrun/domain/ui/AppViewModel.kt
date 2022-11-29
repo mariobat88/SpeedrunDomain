@@ -11,6 +11,7 @@ import com.speedrun.domain.core.framework.navigation.StateNavigator
 import com.speedrun.domain.core.framework.navigation.StateNavigatorImpl
 import com.speedrun.domain.feature.game.navigation.GameNavigation
 import com.speedrun.domain.feature.leaderboards.navigation.LeaderboardsNavigation
+import com.speedrun.domain.feature.player.navigation.PlayerNavigation
 import com.speedrun.domain.feature.run.navigation.RunNavigation
 import com.speedrun.domain.navigation.AppNavigator
 import dagger.assisted.Assisted
@@ -75,5 +76,9 @@ class AppViewModel @AssistedInject constructor(
 
     override fun navigateToRunScreen(runId: String) {
         stateNavigator.navigateToRoute(RunNavigation(runId))
+    }
+
+    override fun navigateToPlayerScreen(playerId: String) {
+        stateNavigator.navigateToRoute(PlayerNavigation(playerId))
     }
 }

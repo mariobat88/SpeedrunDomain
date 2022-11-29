@@ -15,14 +15,28 @@ import com.speedrun.domain.data.repo.players.model.PlayerModel
 import com.speedrun.domain.core.ui.R as UIResources
 import com.speedrun.domain.kit.player.R as PlayerKitResources
 
+
 @Composable
 fun UserRow(
     player: PlayerModel.UserModel,
+    modifier: Modifier = Modifier,
 ) {
-    Row(
+    BaseUserRow(
+        player = player,
         modifier = Modifier
             .fillMaxWidth()
-            .height(dimensionResource(PlayerKitResources.dimen.player_row_height)),
+            .height(dimensionResource(PlayerKitResources.dimen.player_row_height))
+            .then(modifier),
+    )
+}
+
+@Composable
+private fun BaseUserRow(
+    player: PlayerModel.UserModel,
+    modifier: Modifier = Modifier,
+) {
+    Row(
+        modifier = modifier,
         horizontalArrangement = Arrangement.SpaceBetween,
     ) {
         PlayerImage(

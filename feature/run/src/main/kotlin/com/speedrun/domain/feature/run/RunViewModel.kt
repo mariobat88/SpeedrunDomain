@@ -12,6 +12,7 @@ import com.speedrun.domain.core.wrapper.dispatchers.DispatcherProvider
 import com.speedrun.domain.data.repo.leaderboards.LeaderboardsRepository
 import com.speedrun.domain.data.repo.leaderboards.model.LeaderboardPlaceModel
 import com.speedrun.domain.data.repo.players.PlayersRepository
+import com.speedrun.domain.data.repo.players.model.PlayerModel
 import com.speedrun.domain.feature.run.navigation.RunNavigation
 import com.speedrun.domain.feature.run.navigation.RunNavigator
 import dagger.assisted.Assisted
@@ -117,11 +118,17 @@ class RunViewModel @AssistedInject constructor(
                         playersRepository.refreshPlayer(examiner)
                         playersRepository.observePlayer(examiner)
                     }.asAsync()
+                    .filterIsInstance<Success<PlayerModel.UserModel>>()
                     .collect { examinerAsync ->
                         _viewState.update { it.copy(examinerAsync = examinerAsync) }
                     }
 
             }
         }
+    }
+
+    override suspend fun bind(intents: Flow<Intent>): Flow<Any> {
+        return intents.filterIsInstance<Intent.PlayerClicked>()
+            .onEach { runNavigator.navigateToPlayerScreen(it.playerId) }
     }
 }

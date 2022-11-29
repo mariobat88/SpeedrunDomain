@@ -3,6 +3,7 @@ package com.speedrun.domain.feature.run
 import android.widget.FrameLayout
 import androidx.activity.ComponentActivity
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
@@ -171,7 +172,15 @@ internal fun RunScreen(
                         run?.players?.forEach { player ->
                             when (player) {
                                 is PlayerModel.UserModel -> {
-                                    UserRow(player)
+                                    UserRow(
+                                        player = player,
+                                        modifier = Modifier.clickable {
+                                            intentChannel.tryEmit(
+                                                Intent.PlayerClicked(
+                                                    player.id
+                                                )
+                                            )
+                                        })
                                 }
                                 is PlayerModel.GuestModel -> {
 

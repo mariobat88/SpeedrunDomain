@@ -9,6 +9,7 @@ import com.speedrun.domain.dashboard.navigation.DashboardNavigation
 import com.speedrun.domain.dashboard.navigation.dashboardNavigation
 import com.speedrun.domain.feature.game.navigation.gameNavigation
 import com.speedrun.domain.feature.leaderboards.navigation.leaderboardsNavigation
+import com.speedrun.domain.feature.player.navigation.playerNavigation
 import com.speedrun.domain.feature.run.navigation.runNavigation
 
 @Composable
@@ -24,7 +25,7 @@ fun <T> AppNavigation(
         gameNavigation(mainNavigator)
         leaderboardsNavigation(mainNavigator)
         runNavigation(mainNavigator)
-
+        playerNavigation(mainNavigator)
     }
     Navigation(navController, mainNavigator)
 }
