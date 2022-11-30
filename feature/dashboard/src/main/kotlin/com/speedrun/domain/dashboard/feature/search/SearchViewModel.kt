@@ -14,8 +14,8 @@ import androidx.paging.cachedIn
 import com.speedrun.domain.core.framework.SpeedrunViewModel
 import com.speedrun.domain.core.paging.SpeedrunPagingSource
 import com.speedrun.domain.dashboard.feature.search.navigation.SearchNavigator
-import com.speedrun.domain.data.repo.games.GamesRepository
-import com.speedrun.domain.data.repo.players.PlayersRepository
+import com.speedrun.domain.repo.games.GamesRepository
+import com.speedrun.domain.repo.players.PlayersRepository
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject

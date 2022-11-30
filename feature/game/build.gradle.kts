@@ -4,9 +4,7 @@ plugins {
 
 dependencies{
     implementation(libs.coil)
-    implementation(projects.data.repo.developers)
-    implementation(projects.data.repo.games)
-    implementation(projects.data.repo.publishers)
+    implementation(projects.data.repo)
     implementation(projects.kit.run)
     implementation(projects.core.utils)
 }

@@ -9,12 +9,12 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.speedrun.domain.core.framework.SpeedrunViewModel
 import com.speedrun.domain.core.framework.async.Success
 import com.speedrun.domain.core.wrapper.dispatchers.DispatcherProvider
-import com.speedrun.domain.data.repo.leaderboards.LeaderboardsRepository
-import com.speedrun.domain.data.repo.leaderboards.model.LeaderboardPlaceModel
-import com.speedrun.domain.data.repo.players.PlayersRepository
-import com.speedrun.domain.data.repo.players.model.PlayerModel
 import com.speedrun.domain.feature.run.navigation.RunNavigation
 import com.speedrun.domain.feature.run.navigation.RunNavigator
+import com.speedrun.domain.repo.leaderboards.LeaderboardsRepository
+import com.speedrun.domain.repo.leaderboards.model.LeaderboardPlaceModel
+import com.speedrun.domain.repo.players.PlayersRepository
+import com.speedrun.domain.repo.players.model.PlayerModel
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -32,7 +32,7 @@ class RunViewModel @AssistedInject constructor(
     @Assisted("runNavigator") private val runNavigator: RunNavigator,
     private val leaderboardsRepository: LeaderboardsRepository,
     private val playersRepository: PlayersRepository,
-    private val dispatcherProvider: DispatcherProvider,
+    dispatcherProvider: DispatcherProvider,
 ) : SpeedrunViewModel<ViewState, Intent, Unit>(
     viewState = ViewState()
 ) {

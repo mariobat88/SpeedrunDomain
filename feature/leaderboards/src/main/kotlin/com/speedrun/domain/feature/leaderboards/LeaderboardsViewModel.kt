@@ -9,10 +9,10 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.speedrun.data.common.enums.RunTypeEnum
 import com.speedrun.domain.core.framework.SpeedrunViewModel
 import com.speedrun.domain.core.wrapper.dispatchers.DispatcherProvider
-import com.speedrun.domain.data.repo.categories.CategoriesRepository
-import com.speedrun.domain.data.repo.leaderboards.LeaderboardsRepository
 import com.speedrun.domain.feature.leaderboards.navigation.LeaderboardNavigator
 import com.speedrun.domain.feature.leaderboards.navigation.LeaderboardsNavigation
+import com.speedrun.domain.repo.categories.CategoriesRepository
+import com.speedrun.domain.repo.leaderboards.LeaderboardsRepository
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject

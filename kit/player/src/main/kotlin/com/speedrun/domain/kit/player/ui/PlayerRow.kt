@@ -11,7 +11,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.speedrun.domain.data.repo.players.model.PlayerModel
+import com.speedrun.domain.repo.players.model.PlayerModel
 import com.speedrun.domain.core.ui.R as UIResources
 import com.speedrun.domain.kit.player.R as PlayerKitResources
 

@@ -4,5 +4,5 @@ plugins {
 
 dependencies{
     api(libs.androidx.paging.pagingCompose)
-    api(projects.data.pagination)
+    api(projects.data.repo)
 }

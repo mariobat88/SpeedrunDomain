@@ -2,7 +2,7 @@ package com.speedrun.domain.feature.player
 
 import com.speedrun.domain.core.framework.async.Async
 import com.speedrun.domain.core.framework.async.Loading
-import com.speedrun.domain.data.repo.players.model.PlayerModel
+import com.speedrun.domain.repo.players.model.PlayerModel
 
 sealed class Intent
 

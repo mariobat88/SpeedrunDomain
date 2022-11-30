@@ -9,12 +9,12 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.speedrun.domain.core.framework.SpeedrunViewModel
 import com.speedrun.domain.core.framework.async.Success
 import com.speedrun.domain.core.wrapper.dispatchers.DispatcherProvider
-import com.speedrun.domain.data.repo.developers.DevelopersRepository
-import com.speedrun.domain.data.repo.games.GamesRepository
-import com.speedrun.domain.data.repo.games.model.GameModel
-import com.speedrun.domain.data.repo.publishers.PublishersRepository
 import com.speedrun.domain.feature.game.navigation.GameNavigation
 import com.speedrun.domain.feature.game.navigation.GameNavigator
+import com.speedrun.domain.repo.developers.DevelopersRepository
+import com.speedrun.domain.repo.games.GamesRepository
+import com.speedrun.domain.repo.games.model.GameModel
+import com.speedrun.domain.repo.publishers.PublishersRepository
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject

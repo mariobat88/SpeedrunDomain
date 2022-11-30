@@ -3,5 +3,6 @@ plugins {
 }
 
 dependencies{
+    implementation(projects.data.repo)
     implementation(projects.kit.player)
 }

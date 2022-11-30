@@ -8,5 +8,5 @@ dependencies {
     implementation(libs.coil)
     implementation(projects.core.designsystem)
     implementation(projects.core.ui)
-    api(projects.data.repo.runs)
+    implementation(projects.data.repo)
 }

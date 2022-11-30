@@ -24,12 +24,12 @@ import com.speedrun.domain.core.framework.Screen
 import com.speedrun.domain.core.framework.async.Loading
 import com.speedrun.domain.core.framework.async.Success
 import com.speedrun.domain.core.ui.SpeedrunScreen
-import com.speedrun.domain.data.repo.players.model.PlayerModel
 import com.speedrun.domain.feature.run.navigation.RunNavigator
 import com.speedrun.domain.kit.player.ui.PlayerImage
 import com.speedrun.domain.kit.player.ui.PlayerName
 import com.speedrun.domain.kit.player.ui.UserRow
 import com.speedrun.domain.kit.run.ui.System
+import com.speedrun.domain.repo.players.model.PlayerModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlin.time.Duration
 import com.speedrun.domain.core.designsystem.R as DesignSystemResources

@@ -9,7 +9,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.TextUnit
-import com.speedrun.domain.data.repo.players.model.PlayerModel
+import com.speedrun.domain.repo.players.model.PlayerModel
 
 @OptIn(ExperimentalTextApi::class)
 @Composable

@@ -1,11 +1,11 @@
 package com.speedrun.domain.networking.core.di
 
 import android.app.Application
+import com.speedrun.domain.api.players.models.PlayerType
+import com.speedrun.domain.api.players.models.PolymorphicPlayerResponse
 import com.speedrun.domain.core.annotations.ApiUrl
 import com.speedrun.domain.core.annotations.AppVersionName
 import com.speedrun.domain.core.annotations.DebugBuild
-import com.speedrun.domain.networking.api.players.PlayerType
-import com.speedrun.domain.networking.api.players.PolymorphicPlayerResponse
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.adapters.PolymorphicJsonAdapterFactory

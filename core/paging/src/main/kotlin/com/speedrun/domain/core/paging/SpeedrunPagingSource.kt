@@ -2,7 +2,7 @@ package com.speedrun.domain.core.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.speedrun.domain.data.pagination.PaginationModel
+import com.speedrun.domain.repo.pagination.model.PaginationModel
 
 class SpeedrunPagingSource<T : Any>(
     private val loadPage: suspend (offset: Int, max: Int) -> PaginationModel<T>,

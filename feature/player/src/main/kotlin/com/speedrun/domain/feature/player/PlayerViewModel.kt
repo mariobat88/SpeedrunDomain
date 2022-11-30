@@ -8,9 +8,9 @@ import androidx.lifecycle.viewmodel.CreationExtras
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.speedrun.domain.core.framework.SpeedrunViewModel
 import com.speedrun.domain.core.wrapper.dispatchers.DispatcherProvider
-import com.speedrun.domain.data.repo.players.PlayersRepository
 import com.speedrun.domain.feature.player.navigation.PlayerNavigation
 import com.speedrun.domain.feature.player.navigation.PlayerNavigator
+import com.speedrun.domain.repo.players.PlayersRepository
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject

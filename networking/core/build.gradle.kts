@@ -12,6 +12,6 @@ dependencies {
     implementation(libs.retrofit.converterMoshi)
     implementation(projects.core.annotations)
     implementation(projects.data.common)
-    implementation(projects.networking.api.players)
+    implementation(projects.networking.api)
     kapt(libs.moshi.kotlinCodegen)
 }

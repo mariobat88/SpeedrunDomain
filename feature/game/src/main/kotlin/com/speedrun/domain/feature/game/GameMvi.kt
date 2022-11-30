@@ -2,9 +2,9 @@ package com.speedrun.domain.feature.game
 
 import com.speedrun.domain.core.framework.async.Async
 import com.speedrun.domain.core.framework.async.Uninitialized
-import com.speedrun.domain.data.repo.developers.model.DeveloperModel
-import com.speedrun.domain.data.repo.games.model.GameModel
-import com.speedrun.domain.data.repo.publishers.model.PublisherModel
+import com.speedrun.domain.repo.developers.model.DeveloperModel
+import com.speedrun.domain.repo.games.model.GameModel
+import com.speedrun.domain.repo.publishers.model.PublisherModel
 
 sealed class Intent{
     object BackClicked : Intent()
