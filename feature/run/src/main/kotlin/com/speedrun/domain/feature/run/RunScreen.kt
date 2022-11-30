@@ -25,6 +25,7 @@ import com.speedrun.domain.core.framework.async.Loading
 import com.speedrun.domain.core.framework.async.Success
 import com.speedrun.domain.core.ui.SpeedrunScreen
 import com.speedrun.domain.feature.run.navigation.RunNavigator
+import com.speedrun.domain.kit.leaderboard.Place
 import com.speedrun.domain.kit.player.ui.PlayerImage
 import com.speedrun.domain.kit.player.ui.PlayerName
 import com.speedrun.domain.kit.player.ui.UserRow
@@ -150,22 +151,10 @@ internal fun RunScreen(
                                             )
                                         )
                                     )
-                                    Text(
-                                        text = stringResource(
-                                            RunResources.string.place,
-                                            toOrdinal(leaderboardPlace.place)
-                                        ),
-                                        color = MaterialTheme.colorScheme.onBackground
-                                    )
+                                    Place(leaderboardPlace.place)
                                 }
                             } else {
-                                Text(
-                                    text = stringResource(
-                                        RunResources.string.place,
-                                        toOrdinal(leaderboardPlace.place)
-                                    ),
-                                    color = MaterialTheme.colorScheme.onBackground
-                                )
+                                Place(leaderboardPlace.place)
                             }
                         }
                         Spacer(modifier = Modifier.height(dimensionResource(DesignSystemResources.dimen.medium_spacing)))
@@ -337,14 +326,5 @@ internal fun RunScreen(
                 }
             }
         }
-    }
-}
-
-fun toOrdinal(number: Int): String {
-    return when (number % 10) {
-        1 -> "${number}st"
-        2 -> "${number}nd"
-        3 -> "${number}rd"
-        else -> "${number}th"
     }
 }

@@ -7,6 +7,7 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.coil)
     implementation(projects.data.repo)
+    implementation(projects.kit.leaderboard)
     implementation(projects.kit.player)
     implementation(projects.kit.run)
 }

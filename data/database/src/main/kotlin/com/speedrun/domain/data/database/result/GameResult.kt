@@ -12,7 +12,11 @@ data class GameResult(
         entity = RunTimeEntity::class,
         entityColumn = RunTimeEntity.COLUMN_ID,
         parentColumn = GameEntity.COLUMN_ID,
-        associateBy = Junction(GameRunTimeEntity::class)
+        associateBy = Junction(
+            value = GameRunTimeEntity::class,
+            parentColumn = GameRunTimeEntity.COLUMN_GAME_ID,
+            entityColumn = GameRunTimeEntity.COLUMN_RUN_TIME_ID,
+        )
     )
     val runTimes: List<RunTimeEntity>?,
     @Relation(

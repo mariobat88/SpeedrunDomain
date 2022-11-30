@@ -1,7 +1,6 @@
 package com.speedrun.domain.repo.games.model
 
 import com.speedrun.data.common.enums.RunTimeEnum
-import com.speedrun.domain.repo.common.model.LinkModel
 
 data class GameModel(
     val id: String,
@@ -25,7 +24,6 @@ data class GameModel(
     val moderators: Map<String, String>,
     val created: String?,
     val assets: Assets?,
-    val links: List<LinkModel>
 ) {
     data class Names(
         val international: String,

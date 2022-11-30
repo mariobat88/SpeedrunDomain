@@ -4,7 +4,6 @@ import com.speedrun.data.common.enums.RunTimeEnum
 import com.speedrun.domain.api.games.models.GameResponse
 import com.speedrun.domain.api.pagination.models.PaginationResponse
 import com.speedrun.domain.data.database.entities.GameEntity
-import com.speedrun.domain.datasource.common.mapper.toModel
 import com.speedrun.domain.datasource.pagination.mapper.toModel
 import com.speedrun.domain.repo.games.model.GameModel
 import com.speedrun.domain.repo.pagination.model.PaginationModel
@@ -82,7 +81,6 @@ fun GameResponse.toModel() = GameModel(
     moderators = moderators,
     created = created,
     assets = assets.toModel(),
-    links = links.map { it.toModel() },
 )
 
 fun GameResponse.Names.toModel() = GameModel.Names(
@@ -137,7 +135,6 @@ fun GameEntity.toModel() = GameModel(
     moderators = emptyMap(),
     created = created,
     assets = assets?.toGameEntity(),
-    links = emptyList(),
 )
 
 fun GameEntity.Names.toGameEntity() = GameModel.Names(

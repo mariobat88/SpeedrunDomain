@@ -26,11 +26,16 @@ class PlayersRepositoryImpl @Inject constructor(
     private val userLocationDao = speedrunDatabase.userLocationDao()
 
     override suspend fun refreshPlayer(playerId: String) = withContext(dispatcherProvider.io()) {
-        val player = playersApiService.getPlayer(playerId)
-        val playerEntity = player.userResponse.toPlayerEntity()
-        val userEntity = player.userResponse.toUserEntity()
+        val response = playersApiService.getPlayer(playerId)
+        val playerEntity = response.userResponse.toPlayerEntity()
+        val userEntity = response.userResponse.toUserEntity()
         playerDao.upsert(playerEntity)
         userDao.upsert(userEntity)
+    }
+
+    override suspend fun refreshUserPersonalBests(playerId: String)  = withContext(dispatcherProvider.io()) {
+        val response = playersApiService.getUserPersonalBests(playerId)
+                //val runPlaces = response.data.map { it. }
     }
 
     override suspend fun searchPlayers(

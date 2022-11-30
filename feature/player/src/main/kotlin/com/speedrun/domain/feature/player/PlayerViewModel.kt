@@ -18,6 +18,8 @@ import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.android.EntryPointAccessors
 import dagger.hilt.android.components.ActivityComponent
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -78,7 +80,13 @@ class PlayerViewModel @AssistedInject constructor(
     init {
         viewModelScope.launch(dispatcherProvider.main()) {
             launch {
-                playersRepository.refreshPlayer(playerId)
+                listOf(
+                    async { playersRepository.refreshPlayer(playerId) },
+                    async { playersRepository.refreshUserPersonalBests(playerId) },
+                ).awaitAll()
+            }
+
+            launch {
                 playersRepository.observePlayer(playerId)
                     .asAsync()
                     .collect { playerAsync ->

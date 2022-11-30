@@ -1,7 +1,7 @@
 package com.speedrun.domain.api.runs.models
 
 import com.speedrun.domain.api.common.LinkResponse
-import com.speedrun.domain.api.games.models.DataGameResponse
+import com.speedrun.domain.api.games.models.GameDataResponse
 import com.speedrun.domain.api.players.models.PolymorphicPlayerResponse
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
@@ -10,13 +10,13 @@ import com.squareup.moshi.JsonClass
 data class RunResponse(
     @Json(name = "id") val id: String,
     @Json(name = "weblink") val weblink: String,
-    @Json(name = "game") val game: DataGameResponse,
+    @Json(name = "game") val game: GameDataResponse?,
     @Json(name = "level") val level: String?,
     @Json(name = "category") val category: String,
     @Json(name = "videos") val videos: VideosResponse?,
     @Json(name = "comment") val comment: String?,
     @Json(name = "status") val status: StatusResponse,
-    @Json(name = "players") val players: Players,
+    @Json(name = "players") val players: Players?,
     @Json(name = "date") val date: String?,
     @Json(name = "submitted") val submitted: String?,
     @Json(name = "times") val times: TimesResponse,

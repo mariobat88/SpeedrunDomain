@@ -15,7 +15,7 @@ data class RunModel(
     val videos: List<String>,
     val comment: String?,
     val status: Status,
-    val players: List<PlayerModel>?,
+    val players: List<PlayerModel>,
     val date: String?,
     val submitted: String?,
     val times: Times,

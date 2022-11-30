@@ -1,7 +1,6 @@
 package com.speedrun.domain.api.games.models
 
 import com.speedrun.data.common.enums.RunTimeEnum
-import com.speedrun.domain.api.common.LinkResponse
 import com.speedrun.domain.api.platforms.models.PlatformDataResponse
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
@@ -29,7 +28,6 @@ data class GameResponse(
     @Json(name = "moderators") val moderators: Map<String, String>,
     @Json(name = "created") val created: String?,
     @Json(name = "assets") val assets: Assets,
-    @Json(name = "links") val links: List<LinkResponse>
 ) {
     @JsonClass(generateAdapter = true)
     data class Names(

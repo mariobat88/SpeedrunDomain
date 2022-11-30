@@ -8,21 +8,23 @@ import com.speedrun.data.common.enums.RunTimeEnum
 @Entity(
     tableName = GameRunTimeEntity.TABLE_NAME,
     primaryKeys = [
-        GameEntity.COLUMN_ID,
-        RunTimeEntity.COLUMN_ID,
+        GameRunTimeEntity.COLUMN_GAME_ID,
+        GameRunTimeEntity.COLUMN_RUN_TIME_ID,
     ],
     indices = [
-        Index(GameEntity.COLUMN_ID),
-        Index(RunTimeEntity.COLUMN_ID)
+        Index(GameRunTimeEntity.COLUMN_GAME_ID),
+        Index(GameRunTimeEntity.COLUMN_RUN_TIME_ID)
     ]
 )
 data class GameRunTimeEntity(
-    @ColumnInfo(name = GameEntity.COLUMN_ID)
+    @ColumnInfo(name = COLUMN_GAME_ID)
     val gameId: String,
-    @ColumnInfo(name = RunTimeEntity.COLUMN_ID)
+    @ColumnInfo(name = COLUMN_RUN_TIME_ID)
     val runTimeEnum: RunTimeEnum,
 ) {
     companion object {
         const val TABLE_NAME = "gameRunTime"
+        const val COLUMN_GAME_ID = "${TABLE_NAME}_gameId"
+        const val COLUMN_RUN_TIME_ID = "${TABLE_NAME}_runTimeId"
     }
 }

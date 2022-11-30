@@ -3,12 +3,11 @@ package com.speedrun.domain.data.database.entities
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.speedrun.domain.data.database.entities.VariableValueEntity.Companion.COLUMN_VALUE_ID
 
 @Entity(tableName = ValueEntity.TABLE_NAME)
 data class ValueEntity(
     @PrimaryKey
-    @ColumnInfo(name = COLUMN_VALUE_ID)
+    @ColumnInfo(name = COLUMN_ID)
     val id: String,
     @ColumnInfo(name = COLUMN_LABEL)
     val label: String,

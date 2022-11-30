@@ -15,8 +15,9 @@ import com.speedrun.domain.data.database.entities.*
         GameRunTimeEntity::class,
         GuestEntity::class,
         LeaderboardEntity::class,
-        LeaderboardPlaceEntity::class,
+        LeaderboardRunEntity::class,
         LocationEntity::class,
+        PlaceEntity::class,
         PlatformEntity::class,
         PlayerEntity::class,
         PublisherEntity::class,
@@ -43,6 +44,7 @@ abstract class SpeedrunDatabase : RoomDatabase() {
     abstract fun leaderboardDao(): LeaderboardDao
     abstract fun leaderboardPlaceDao(): LeaderboardPlaceDao
     abstract fun locationDao(): LocationDao
+    abstract fun placeDao(): PlaceDao
     abstract fun platformDao(): PlatformDao
     abstract fun playerDao(): PlayerDao
     abstract fun publisherDao(): PublisherDao

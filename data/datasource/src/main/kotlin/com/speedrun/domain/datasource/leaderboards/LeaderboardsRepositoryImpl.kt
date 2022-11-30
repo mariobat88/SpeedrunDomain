@@ -32,6 +32,7 @@ class LeaderboardsRepositoryImpl @Inject constructor(
     private val guestDao = speedrunDatabase.guestDao()
     private val leaderboardDao = speedrunDatabase.leaderboardDao()
     private val leaderboardPlaceDao = speedrunDatabase.leaderboardPlaceDao()
+    private val placeDao = speedrunDatabase.placeDao()
     private val playerDao = speedrunDatabase.playerDao()
     private val runDao = speedrunDatabase.runDao()
     private val runPlayerDao = speedrunDatabase.runPlayerDao()
@@ -46,6 +47,7 @@ class LeaderboardsRepositoryImpl @Inject constructor(
         val response = leaderboardsApiService.getLeaderboard(gameId, categoryId)
 
         val leaderboardEntities = response.data.toLeaderboardEntity()
+        val placeEntities = response.data.runs.map { it.toPlaceEntity() }
         val leaderboardPlaceEntities = response.data.runs.map { it.toLeaderboardPlaceEntity(response.data.createId()) }
         val userPlayerEntities = response.data.players.data.filterIsInstance<PolymorphicPlayerResponse.UserResponse>().map { it.toPlayerEntity() }
         val guestPlayerEntities = response.data.players.data.filterIsInstance<PolymorphicPlayerResponse.GuestResponse>().map { it.toPlayerEntity() }
@@ -62,20 +64,21 @@ class LeaderboardsRepositoryImpl @Inject constructor(
         val valueEntities = response.data.variables.data.map { it.toValueEntities() }.flatten()
         val variableValueEntities = response.data.variables.data.map { it.toVariableValueEntity() }.flatten()
 
-        leaderboardDao.upsert(leaderboardEntities)
-        leaderboardPlaceDao.upsert(leaderboardPlaceEntities)
-        playerDao.upsert(playerEntities)
-        runPlayerDao.upsert(runPlayerEntities)
-        runValueDao.upsert(runValueEntities)
-        videoDao.upsert(runVideoEntities)
         categoryDao.upsert(runCategoryEntity)
-        variableDao.upsert(variableEntities)
-        valueDao.upsert(valueEntities)
-        variableValueDao.upsert(variableValueEntities)
-
+        leaderboardDao.upsert(leaderboardEntities)
+        placeDao.upsert(placeEntities)
+        runDao.upsert(runEntities)
+        videoDao.upsert(runVideoEntities)
+        playerDao.upsert(playerEntities)
         userDao.upsert(userEntities)
         guestDao.upsert(guestEntities)
-        runDao.upsert(runEntities)
+
+        leaderboardPlaceDao.upsert(leaderboardPlaceEntities)
+        runPlayerDao.upsert(runPlayerEntities)
+        runValueDao.upsert(runValueEntities)
+        valueDao.upsert(valueEntities)
+        variableDao.upsert(variableEntities)
+        variableValueDao.upsert(variableValueEntities)
     }
 
     override suspend fun observeLeaderboard(gameId: String, categoryId: String): Flow<LeaderboardModel> = withContext(dispatcherProvider.io()) {
@@ -83,6 +86,6 @@ class LeaderboardsRepositoryImpl @Inject constructor(
     }
 
     override suspend fun observeLeaderboardPlace(runId: String): Flow<LeaderboardPlaceModel> = withContext(dispatcherProvider.io()) {
-        leaderboardDao.getLeaderboardPlace(runId).map { it.leaderboardPlaceEntity.toLeaderboardPlaceModel(it.runResult) }
+        leaderboardDao.getLeaderboardPlace(runId).map { it.leaderboardRunEntity.toLeaderboardPlaceModel(it.runResult, it.placeEntity) }
     }
 }

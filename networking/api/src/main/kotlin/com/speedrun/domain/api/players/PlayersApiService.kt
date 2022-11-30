@@ -1,6 +1,7 @@
 package com.speedrun.domain.api.players
 
 import com.speedrun.domain.api.pagination.models.PaginationResponse
+import com.speedrun.domain.api.players.models.PersonalBestsDataListResponse
 import com.speedrun.domain.api.players.models.PolymorphicPlayerResponse
 import com.speedrun.domain.api.players.models.UserDataResponse
 import retrofit2.http.GET
@@ -21,4 +22,9 @@ interface PlayersApiService {
     suspend fun getPlayer(
         @Path("playerId") playerId: String,
     ): UserDataResponse
+
+    @GET("users/{playerId}/personal-bests?embed=game")
+    suspend fun getUserPersonalBests(
+        @Path("playerId") playerId: String,
+    ): PersonalBestsDataListResponse
 }

@@ -26,6 +26,5 @@ fun GameResult.toGameModel(): GameModel {
         moderators = emptyMap(),
         created = gameEntity.created,
         assets = gameEntity.assets?.toGameEntity(),
-        links = emptyList(),
     )
 }
