@@ -84,7 +84,7 @@ class LeaderboardsViewModel @AssistedInject constructor(
                 categoriesRepository.observeCategoriesByGame(gameId)
                     .map { it.filter { it.type == RunTypeEnum.PER_GAME } }
                     .asAsync()
-                    .collect{ categoriesAsync ->
+                    .collect { categoriesAsync ->
                         reduce {
                             it.copy(
                                 categoriesAsync = categoriesAsync
@@ -110,8 +110,13 @@ class LeaderboardsViewModel @AssistedInject constructor(
                     }
 
                     viewModelScope.launch {
-                        leaderboardsRepository.observeLeaderboard(gameId, category.id).asAsync()
-                            //.map { it()?.runs?.sortedBy { it.place } }
+                        leaderboardsRepository.observeLeaderboard(gameId, category.id)
+                            .map {
+                                it.copy(
+                                    runs = it.runs.sortedBy { it.place }
+                                )
+                            }
+                            .asAsync()
                             .collect { leaderboardAsync ->
                                 leaderboardsMap[intent.index] = leaderboardAsync
 
