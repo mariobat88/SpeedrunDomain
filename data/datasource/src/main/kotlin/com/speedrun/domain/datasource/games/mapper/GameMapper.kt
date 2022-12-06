@@ -13,9 +13,9 @@ fun PaginationResponse<GameResponse>.toModel() = PaginationModel(
     pagination = pagination.toModel()
 )
 
-fun GameResponse.toGameEntity() = GameEntity(
+fun GameResponse.toEntity() = GameEntity(
     id = id,
-    names = names.toGameEntity(),
+    names = names.toEntity(),
     boostReceived = boostReceived,
     boostDistinctDonors = boostDistinctDonors,
     abbreviation = abbreviation,
@@ -23,40 +23,12 @@ fun GameResponse.toGameEntity() = GameEntity(
     discord = discord,
     released = released,
     releaseDate = releaseDate,
-    ruleset = ruleset.toGameEntity(),
+    ruleset = ruleset.toEntity(),
     romhack = romhack,
     created = created,
-    assets = assets.toGameEntity(),
+    assets = assets.toEntity(),
 )
 
-private fun GameResponse.Names.toGameEntity() = GameEntity.Names(
-    international = international,
-    japanese = japanese,
-    twitch = twitch,
-)
-
-private fun GameResponse.Ruleset.toGameEntity() = GameEntity.Ruleset(
-    showMilliseconds = showMilliseconds,
-    requireVerification = requireVerification,
-    requireVideo = requireVideo,
-    defaultTime = defaultTime,
-    emulatorsAllowed = emulatorsAllowed,
-)
-
-fun GameResponse.Assets.toGameEntity() = GameEntity.Assets(
-    logo = logo.uri,
-    coverTiny = coverTiny.uri,
-    coverSmall = coverSmall.uri,
-    coverMedium = coverMedium.uri,
-    coverLarge = coverLarge.uri,
-    icon = icon.uri,
-    trophy1st = trophy1st.uri,
-    trophy2nd = trophy2nd.uri,
-    trophy3rd = trophy3rd.uri,
-    trophy4th = trophy4th.uri,
-    background = background.uri,
-    foreground = foreground.uri,
-)
 
 fun GameResponse.toModel() = GameModel(
     id = id,
@@ -83,39 +55,9 @@ fun GameResponse.toModel() = GameModel(
     assets = assets.toModel(),
 )
 
-fun GameResponse.Names.toModel() = GameModel.Names(
-    international = international,
-    japanese = japanese,
-    twitch = twitch,
-)
-
-fun GameResponse.Ruleset.toModel() = GameModel.Ruleset(
-    showMilliseconds = showMilliseconds,
-    requireVerification = requireVerification,
-    requireVideo = requireVideo,
-    runTimes = runTimes,
-    defaultTime = defaultTime,
-    emulatorsAllowed = emulatorsAllowed,
-)
-
-fun GameResponse.Assets.toModel() = GameModel.Assets(
-    logo = logo.uri,
-    coverTiny = coverTiny.uri,
-    coverSmall = coverSmall.uri,
-    coverMedium = coverMedium.uri,
-    coverLarge = coverLarge.uri,
-    icon = icon.uri,
-    trophy1st = trophy1st.uri,
-    trophy2nd = trophy2nd.uri,
-    trophy3rd = trophy3rd.uri,
-    trophy4th = trophy4th.uri,
-    background = background.uri,
-    foreground = foreground.uri,
-)
-
 fun GameEntity.toModel() = GameModel(
     id = id,
-    names = names.toGameEntity(),
+    names = names.toEntity(),
     boostReceived = boostReceived,
     boostDistinctDonors = boostDistinctDonors,
     abbreviation = abbreviation,
@@ -123,7 +65,7 @@ fun GameEntity.toModel() = GameModel(
     discord = discord,
     released = released,
     releaseDate = releaseDate,
-    ruleset = ruleset.toGameEntity(),
+    ruleset = ruleset.toEntity(),
     romhack = romhack,
     gametypes = emptyList(),
     platforms = emptyList(),
@@ -134,16 +76,16 @@ fun GameEntity.toModel() = GameModel(
     publishers = emptyList(),
     moderators = emptyMap(),
     created = created,
-    assets = assets?.toGameEntity(),
+    assets = assets?.toEntity(),
 )
 
-fun GameEntity.Names.toGameEntity() = GameModel.Names(
+fun GameEntity.Names.toEntity() = GameModel.Names(
     international = international,
     japanese = japanese,
     twitch = twitch,
 )
 
-fun GameEntity.Ruleset.toGameEntity(
+fun GameEntity.Ruleset.toEntity(
     runTimes: List<RunTimeEnum>? = null,
 ) = GameModel.Ruleset(
     showMilliseconds = showMilliseconds,
@@ -154,7 +96,7 @@ fun GameEntity.Ruleset.toGameEntity(
     emulatorsAllowed = emulatorsAllowed,
 )
 
-fun GameEntity.Assets.toGameEntity() = GameModel.Assets(
+fun GameEntity.Assets.toEntity() = GameModel.Assets(
     logo = logo,
     coverTiny = coverTiny,
     coverSmall = coverSmall,

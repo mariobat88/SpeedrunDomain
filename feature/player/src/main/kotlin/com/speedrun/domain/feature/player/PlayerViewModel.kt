@@ -20,6 +20,8 @@ import dagger.hilt.android.EntryPointAccessors
 import dagger.hilt.android.components.ActivityComponent
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -93,6 +95,19 @@ class PlayerViewModel @AssistedInject constructor(
                         _viewState.update {
                             it.copy(
                                 playerAsync = playerAsync
+                            )
+                        }
+                    }
+            }
+
+            launch {
+                playersRepository.observePlayerPersonalBests(playerId)
+                    .map { it.sortedByDescending { it.runModel.date }.groupBy { it.runModel.game } }
+                    .asAsync()
+                    .collect { runPositionsAsync ->
+                        _viewState.update {
+                            it.copy(
+                                runPositionsAsync = runPositionsAsync
                             )
                         }
                     }

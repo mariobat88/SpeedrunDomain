@@ -23,7 +23,7 @@ interface PlayersApiService {
         @Path("playerId") playerId: String,
     ): UserDataResponse
 
-    @GET("users/{playerId}/personal-bests?embed=game")
+    @GET("users/{playerId}/personal-bests?embed=game,category")
     suspend fun getUserPersonalBests(
         @Path("playerId") playerId: String,
     ): PersonalBestsDataListResponse

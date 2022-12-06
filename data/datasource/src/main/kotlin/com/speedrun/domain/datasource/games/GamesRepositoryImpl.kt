@@ -41,7 +41,7 @@ class GamesRepositoryImpl @Inject constructor(
             .map { it.toRunTimeEntity() }
             .toList()
 
-        val gameEntities = searchedGames.data.map { it.toGameEntity() }
+        val gameEntities = searchedGames.data.map { it.toEntity() }
 
         val gameRunTimeEntities = searchedGames.data.map { it.toGameRunTimeEntity() }.flatten()
         val gameDeveloperEntities = searchedGames.data.map { it.toGameDeveloperEntity() }.flatten()

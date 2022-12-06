@@ -1,11 +1,10 @@
 package com.speedrun.domain.api.games.models
 
-import com.speedrun.domain.api.platforms.models.PlatformDataResponse
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class GameResponse(
+data class FlatGameResponse(
     @Json(name = "id") val id: String,
     @Json(name = "names") val names: Names,
     @Json(name = "boostReceived") val boostReceived: Int,
@@ -18,7 +17,7 @@ data class GameResponse(
     @Json(name = "ruleset") val ruleset: Ruleset,
     @Json(name = "romhack") val romhack: Boolean,
     @Json(name = "gametypes") val gametypes: List<String>,
-    @Json(name = "platforms") val platforms: PlatformDataResponse,
+    @Json(name = "platforms") val platforms: List<String>,
     @Json(name = "regions") val regions: List<String>,
     @Json(name = "genres") val genres: List<String>,
     @Json(name = "engines") val engines: List<String>,

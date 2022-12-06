@@ -55,6 +55,6 @@ fun LeaderboardEntity.toLeaderboardModel(
     emulators = emulators,
     videoOnly = videoOnly,
     timing = timing,
-    runs = leaderboardPlacesResult.map { it.leaderboardRunEntity.toLeaderboardPlaceModel(it.runResult, it.placeEntity) },
+    runs = leaderboardPlacesResult.map { toLeaderboardPlaceModel(it.runResult, it.placeEntity) },
     links = emptyList(),
 )

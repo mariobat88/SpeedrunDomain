@@ -18,7 +18,7 @@ data class RunPlayerEntity(
 ) {
     companion object {
         const val TABLE_NAME = "runPlayers"
-        const val COLUMN_RUN_ID = RunEntity.COLUMN_ID
-        const val COLUMN_PLAYER_ID = PlayerEntity.COLUMN_ID
+        const val COLUMN_RUN_ID = "${TABLE_NAME}_runId"
+        const val COLUMN_PLAYER_ID = "${TABLE_NAME}_playerId"
     }
 }

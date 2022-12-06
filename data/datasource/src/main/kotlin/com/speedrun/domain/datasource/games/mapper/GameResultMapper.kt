@@ -6,7 +6,7 @@ import com.speedrun.domain.repo.games.model.GameModel
 fun GameResult.toGameModel(): GameModel {
     return GameModel(
         id = gameEntity.id,
-        names = gameEntity.names.toGameEntity(),
+        names = gameEntity.names.toEntity(),
         boostReceived = gameEntity.boostReceived,
         boostDistinctDonors = gameEntity.boostDistinctDonors,
         abbreviation = gameEntity.abbreviation,
@@ -14,7 +14,7 @@ fun GameResult.toGameModel(): GameModel {
         discord = gameEntity.discord,
         released = gameEntity.released,
         releaseDate = gameEntity.releaseDate,
-        ruleset = gameEntity.ruleset.toGameEntity(runTimes?.map { it.toRunTimeEnum() }),
+        ruleset = gameEntity.ruleset.toEntity(runTimes?.map { it.toRunTimeEnum() }),
         romhack = gameEntity.romhack,
         gametypes = emptyList(),
         platforms = emptyList(),
@@ -25,6 +25,6 @@ fun GameResult.toGameModel(): GameModel {
         publishers = publishers?.map { it.publisherId },
         moderators = emptyMap(),
         created = gameEntity.created,
-        assets = gameEntity.assets?.toGameEntity(),
+        assets = gameEntity.assets?.toEntity(),
     )
 }

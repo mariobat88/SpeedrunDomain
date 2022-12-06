@@ -86,6 +86,9 @@ class LeaderboardsRepositoryImpl @Inject constructor(
     }
 
     override suspend fun observeLeaderboardPlace(runId: String): Flow<LeaderboardPlaceModel> = withContext(dispatcherProvider.io()) {
-        leaderboardDao.getLeaderboardPlace(runId).map { it.leaderboardRunEntity.toLeaderboardPlaceModel(it.runResult, it.placeEntity) }
+        leaderboardDao.getLeaderboardPlace(runId).map { toLeaderboardPlaceModel(
+            it.runResult,
+            it.placeEntity
+        ) }
     }
 }
