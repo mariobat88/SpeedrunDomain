@@ -10,3 +10,6 @@ annotation class AppVersionName
 
 @Qualifier
 annotation class DebugBuild
+
+@Qualifier
+annotation class YoutubeApiKey

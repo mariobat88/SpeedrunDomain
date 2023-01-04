@@ -6,6 +6,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.*
 import androidx.lifecycle.viewmodel.CreationExtras
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.speedrun.domain.core.annotations.YoutubeApiKey
 import com.speedrun.domain.core.framework.SpeedrunViewModel
 import com.speedrun.domain.core.framework.async.Success
 import com.speedrun.domain.core.wrapper.dispatchers.DispatcherProvider
@@ -30,11 +31,12 @@ import java.util.*
 class RunViewModel @AssistedInject constructor(
     @Assisted("savedStateHandle") private val savedStateHandle: SavedStateHandle,
     @Assisted("runNavigator") private val runNavigator: RunNavigator,
+    @YoutubeApiKey private val youtubeApiKey: String,
     private val leaderboardsRepository: LeaderboardsRepository,
     private val playersRepository: PlayersRepository,
     dispatcherProvider: DispatcherProvider,
 ) : SpeedrunViewModel<ViewState, Intent, Unit>(
-    viewState = ViewState()
+    viewState = ViewState(youtubeApiKey = youtubeApiKey)
 ) {
 
     @EntryPoint

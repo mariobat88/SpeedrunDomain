@@ -11,6 +11,7 @@
 # Gradle files
 .gradle
 local.properties
+config.properties
 
 # Build folders
 build/

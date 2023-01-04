@@ -2,9 +2,7 @@ package com.speedrun.domain.di
 
 import android.app.Application
 import com.speedrun.domain.BuildConfig
-import com.speedrun.domain.core.annotations.ApiUrl
-import com.speedrun.domain.core.annotations.AppVersionName
-import com.speedrun.domain.core.annotations.DebugBuild
+import com.speedrun.domain.core.annotations.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -28,4 +26,8 @@ class AppModule {
     @Provides
     @ApiUrl
     fun provideApiUrl(): String = BuildConfig.API_URL
+
+    @Provides
+    @YoutubeApiKey
+    fun provideYoutubeApiKey(): String = BuildConfig.YOUTUBE_API_KEY
 }

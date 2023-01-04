@@ -10,6 +10,7 @@ sealed class Intent {
 }
 
 data class ViewState(
+    val youtubeApiKey: String,
     val leaderboardPlaceAsync: Async<LeaderboardPlaceModel> = Loading(),
     val examinerAsync: Async<PlayerModel.UserModel?> = Loading(),
     val verifyDate: String? = null

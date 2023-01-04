@@ -1,9 +1,19 @@
 import com.speedrun.domain.app
+import java.util.*
 
 plugins {
     id("speedrun.domain.android.application.compose")
     id("dagger.hilt.android.plugin")
     kotlin("kapt")
+}
+
+fun configuration(name: String): String? {
+    if (project.rootProject.file("config.properties").exists()) {
+        val properties = Properties()
+        properties.load(project.rootProject.file("config.properties").inputStream())
+        return properties.getProperty(name)
+    }
+    return null
 }
 
 android {
@@ -14,6 +24,8 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    val youtubeApiKey = configuration("YOUTUBE_API_KEY") ?: ""
+
     buildTypes {
         release {
             isMinifyEnabled = true
@@ -23,11 +35,13 @@ android {
             )
 
             buildConfigField("String", "API_URL", "\"https://www.speedrun.com/api/v1/\"")
+            buildConfigField("String", "YOUTUBE_API_KEY", youtubeApiKey)
         }
         debug {
             isDebuggable = true
 
             buildConfigField("String", "API_URL", "\"https://www.speedrun.com/api/v1/\"")
+            buildConfigField("String", "YOUTUBE_API_KEY", youtubeApiKey)
         }
     }
 }

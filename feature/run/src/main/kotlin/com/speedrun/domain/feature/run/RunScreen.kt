@@ -3,6 +3,8 @@ package com.speedrun.domain.feature.run
 import android.widget.FrameLayout
 import androidx.activity.ComponentActivity
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.expandHorizontally
+import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Divider
@@ -82,7 +84,7 @@ internal fun RunScreen(
                             }
                             val fragment = YouTubePlayerFragment.newInstance().apply {
                                 initialize(
-                                    "AIzaSyCqa4Q0knwNdrjEepfENk-6ALgsofBDU2Y",
+                                    viewState.youtubeApiKey,
                                     object : YouTubePlayer.OnInitializedListener {
                                         override fun onInitializationSuccess(
                                             provider: YouTubePlayer.Provider?,
